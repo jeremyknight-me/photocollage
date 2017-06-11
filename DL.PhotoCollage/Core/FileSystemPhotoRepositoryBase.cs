@@ -1,7 +1,8 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
-using System.Threading.Tasks;
+using System.Linq;
 
 namespace DL.PhotoCollage.Core
 {
@@ -42,20 +43,13 @@ namespace DL.PhotoCollage.Core
 
         private void LoadPathsFromFileSystem()
         {
-            var paths = new ConcurrentBag<string>();
-            IEnumerable<string> photoFileExtensions = new List<string> { "*.jpg", "*.jpeg", "*.png" };
-
-            Parallel.ForEach(
-                photoFileExtensions,
-                extension =>
-                {
-                    foreach (string path in Directory.EnumerateFiles(this.RootDirectoryPath, extension, SearchOption.AllDirectories))
-                    {
-                        string shortPath = path.Replace(this.RootDirectoryPath, string.Empty).TrimStart(new[] {'\\'});
-                        paths.Add(shortPath);
-                    }
-                });
-
+            var extensions = new HashSet<string> { ".jpg", ".jpeg", ".png" };
+            var length = this.RootDirectoryPath.Length;
+            var files = Directory.EnumerateFiles(this.RootDirectoryPath, "*", SearchOption.AllDirectories);
+            var paths =
+                from f in files
+                where extensions.Contains(Path.GetExtension(f), StringComparer.OrdinalIgnoreCase)
+                select f.Substring(length).TrimStart(new[] { '\\' });
             var orderedPaths = this.GetOrderedPaths(paths);
             this.LoadPhotoPathsIntoQueue(orderedPaths);
         }
