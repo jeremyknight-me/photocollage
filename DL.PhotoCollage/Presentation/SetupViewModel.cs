@@ -24,6 +24,11 @@ namespace DL.PhotoCollage.Presentation
                 ShowNewFolderButton = false
             };
 
+            if (!string.IsNullOrWhiteSpace(this.Configuration.Directory))
+            {
+                dialog.SelectedPath = this.Configuration.Directory;
+            }
+
             var result = dialog.ShowDialog();
 
             if (result == DialogResult.OK)
