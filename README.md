@@ -1,7 +1,7 @@
 # Photo Collage Screensaver
 Photo Collage Screensaver is a Windows screensaver written in .NET. It takes pictures from your computer and turns them into a beautiful collage screensaver.
 
-For installation and configuration instructions, please visit our Wiki.
+For installation and configuration instructions, please visit our [Wiki](../../wiki/home).
 
 **Links**
 * Facebook Page: https://www.facebook.com/PhotoCollageScreensaver
