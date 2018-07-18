@@ -8,8 +8,8 @@ Photo Collage Screensaver is a Windows screensaver written in .NET. It takes pic
 **Reviews, Articles, Etc**
 
 Tekzilla Daily Episode 1217 – 05/07/2012
-http://revision3.com/tzdaily/create-photo-collage-screensaver
-http://www.youtube.com/watch?v=Vy1nrIMdtpA
+* http://revision3.com/tzdaily/create-photo-collage-screensaver
+* http://www.youtube.com/watch?v=Vy1nrIMdtpA
 
 **Donate**
 
