@@ -12,7 +12,6 @@ namespace DL.PhotoCollage.Core
             this.MaximumSize = 500;
             this.NumberOfPhotos = 10;
             this.ShowPhotoBorder = true;
-            this.ShowPhotoDate = true;
             this.Speed = ScreensaverSpeed.Medium;
             this.UseVerboseLogging = false;
         }
@@ -28,8 +27,6 @@ namespace DL.PhotoCollage.Core
         public int NumberOfPhotos { get; set; }
 
         public bool ShowPhotoBorder { get; set; }
-
-        public bool ShowPhotoDate { get; set; }
 
         public ScreensaverSpeed Speed { get; set; }
 

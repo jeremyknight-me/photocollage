@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Photo Screensaver Settings" 
         Background="{StaticResource DarkGrayBrush}"
-        Height="365" Width="530" 
+        Height="340" Width="530" 
         WindowStartupLocation="CenterScreen" 
         ResizeMode="NoResize" 
         Loaded="Window_Loaded">
@@ -14,7 +14,6 @@
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -101,7 +100,7 @@
                   Margin="10, 0, 0, 0"
                   VerticalAlignment="Center" />
 
-        <Label Content="Border?"
+        <Label Content="Borders?"
                Target="{Binding ElementName=ShowBordersCheckBox}"
                Grid.Row="6"/>
         <CheckBox x:Name="ShowBordersCheckBox"
@@ -111,25 +110,10 @@
                   Margin="10, 0, 0, 0"
                   VerticalAlignment="Center" />
 
-        <Label Content="Phote Date?"
-               Target="{Binding ElementName=ShowPhotoDateCheckBox}"
-               Grid.Row="7"/>
-        <CheckBox x:Name="ShowPhotoDateCheckBox"
-                  IsChecked="{Binding Configuration.ShowPhotoDate}"
-                  Grid.Row="7" 
-                  Grid.Column="1" 
-                  Margin="10, 0, 0, 0"
-                  VerticalAlignment="Center" />
-        <Label Content="*Requires border"
-               Grid.Row="7"
-               Grid.Column="1"
-               HorizontalAlignment="Left"
-               Margin="25,0,0,0"/>
-
         <StackPanel Orientation="Horizontal" 
                     HorizontalAlignment="Right"
                     Margin="0, 5, 0, 0"
-                    Grid.Row="8" 
+                    Grid.Row="7" 
                     Grid.ColumnSpan="3">
             <Button x:Name="OkayButton"
                     Content="Okay" Click="OkayButton_Click" />
