@@ -11,7 +11,8 @@ namespace DL.PhotoCollage.Core
             this.IsRandom = true;
             this.MaximumSize = 500;
             this.NumberOfPhotos = 10;
-            this.ShowPhotoBorder = true;
+            this.PhotoBorderType = BorderType.Border;
+            //this.ShowPhotoDate = true;
             this.Speed = ScreensaverSpeed.Medium;
             this.UseVerboseLogging = false;
         }
@@ -26,7 +27,30 @@ namespace DL.PhotoCollage.Core
 
         public int NumberOfPhotos { get; set; }
 
-        public bool ShowPhotoBorder { get; set; }
+        public BorderType PhotoBorderType { get; set; }
+
+        public bool ShowPhotoBorder
+        {
+            get
+            {
+                switch (this.PhotoBorderType)
+                {
+                    case BorderType.None:
+                        return false;
+                    case BorderType.Border:
+                    case BorderType.BorderHeader:
+                    case BorderType.BorderFooter:
+                    default:
+                        return true;
+                }
+            }
+            set
+            {
+                this.PhotoBorderType = value ? BorderType.Border : BorderType.None;
+            }
+        }
+
+        //public bool ShowPhotoDate { get; set; }
 
         public ScreensaverSpeed Speed { get; set; }
 

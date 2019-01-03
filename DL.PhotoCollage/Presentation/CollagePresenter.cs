@@ -12,8 +12,6 @@ namespace DL.PhotoCollage.Presentation
     {
         private readonly object threadLock = new object();
 
-        private readonly ScreensaverConfiguration configuration;
-
         private readonly Random random;
 
         private readonly List<ICollageView> views;
@@ -32,19 +30,16 @@ namespace DL.PhotoCollage.Presentation
             this.views = new List<ICollageView>();
             this.imageQueue = new ConcurrentQueue<ImageDisplayUserControl>();
             this.controller = controllerToUse;
-            this.configuration = configurationToUse;
+            this.Configuration = configurationToUse;
             this.photoRepository = this.MakePhotoRepository();
             this.currentViewIndex = 0;
         }
 
-        public ScreensaverConfiguration Configuration
-        {
-            get { return this.configuration; }
-        }
+        public ScreensaverConfiguration Configuration { get; }
 
         protected int MaxInQueue
         {
-            get { return this.configuration.NumberOfPhotos; }
+            get { return this.Configuration.NumberOfPhotos; }
         }
 
         public void StartAnimation()
@@ -59,7 +54,7 @@ namespace DL.PhotoCollage.Presentation
 
                 this.DisplayImageTimerTick(null, null);
 
-                var seconds = (int)this.configuration.Speed;
+                var seconds = (int)this.Configuration.Speed;
                 var timer = new DispatcherTimer { Interval = new TimeSpan(0, 0, seconds) };
                 timer.Tick += this.DisplayImageTimerTick;
                 timer.Start();
@@ -182,12 +177,12 @@ namespace DL.PhotoCollage.Presentation
 
         private IPhotoRepository MakePhotoRepository()
         {
-            if (this.configuration.IsRandom)
+            if (this.Configuration.IsRandom)
             {
-                return new RandomFileSystemPhotoRepository(this.configuration.Directory);
+                return new RandomFileSystemPhotoRepository(this.Configuration.Directory);
             }
 
-            return new OrderedFileSystemPhotoRepository(this.configuration.Directory);
+            return new OrderedFileSystemPhotoRepository(this.Configuration.Directory);
         }
     }
 }

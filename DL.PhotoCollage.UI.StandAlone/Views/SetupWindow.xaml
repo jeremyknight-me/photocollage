@@ -3,10 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Photo Collage" 
         Background="{StaticResource DarkGrayBrush}"
-        Height="345" Width="530" 
+        Height="365" Width="530" 
         WindowStartupLocation="CenterScreen" 
-        ResizeMode="NoResize" 
-        Loaded="Window_Loaded">
+        ResizeMode="NoResize">
     <Grid Margin="10">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="125" />
@@ -14,6 +13,7 @@
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -74,12 +74,10 @@
                Grid.Row="3" />
         <ComboBox x:Name="SpeedComboBox" 
                   Grid.Row="3"
-                  Grid.Column="1" SelectionChanged="SpeedComboBox_SelectionChanged">
-            <ComboBoxItem Content="Slow" />
-            <ComboBoxItem Content="Medium" />
-            <ComboBoxItem Content="Fast" />
-        </ComboBox>
-
+                  Grid.Column="1"
+                  ItemsSource="{Binding Path=SpeedOptions}"
+                  SelectedItem="{Binding Path=SelectedSpeed}" />
+        
         <Label Content="Random?"
                Target="{Binding ElementName=IsRandomCheckBox}"
                Grid.Row="4"/>
@@ -100,20 +98,36 @@
                   Margin="10, 0, 0, 0"
                   VerticalAlignment="Center" />
 
-        <Label Content="Borders?"
+        <Label Content="Border?"
                Target="{Binding ElementName=ShowBordersCheckBox}"
                Grid.Row="6"/>
-        <CheckBox x:Name="ShowBordersCheckBox"
-                  IsChecked="{Binding Configuration.ShowPhotoBorder}"
+        <ComboBox x:Name="BorderComboBox" 
                   Grid.Row="6" 
+                  Grid.Column="1"
+                  ItemsSource="{Binding Path=BorderOptions}"
+                  DisplayMemberPath="Value"
+                  SelectedValuePath="Key"
+                  SelectedItem="{Binding Path=SelectedBorderType}" />
+
+        <Label Content="Phote Date?" Visibility="Hidden"
+               Target="{Binding ElementName=ShowPhotoDateCheckBox}"
+               Grid.Row="7"/>
+        <CheckBox x:Name="ShowPhotoDateCheckBox" Visibility="Hidden"
+                  IsChecked="{Binding Configuration.ShowPhotoDate}"
+                  Grid.Row="7" 
                   Grid.Column="1" 
                   Margin="10, 0, 0, 0"
                   VerticalAlignment="Center" />
+        <Label Content="*Requires border" Visibility="Hidden"
+               Grid.Row="7"
+               Grid.Column="1"
+               HorizontalAlignment="Left"
+               Margin="25,0,0,0"/>
 
         <StackPanel Orientation="Horizontal" 
                     HorizontalAlignment="Right"
                     Margin="0, 5, 0, 0"
-                    Grid.Row="7" 
+                    Grid.Row="8" 
                     Grid.ColumnSpan="3">
             <TextBlock Text="Press 'Enter' or 'Esc' to exit collage mode." 
                        TextAlignment="Left"
