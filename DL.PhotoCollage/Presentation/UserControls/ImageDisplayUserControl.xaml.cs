@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DL.PhotoCollage.Core;
+using System;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
@@ -55,23 +56,31 @@ namespace DL.PhotoCollage.Presentation.UserControls
         {
             try
             {
-                if (!this.presenter.Configuration.ShowPhotoBorder)
+                var borderType = this.presenter.Configuration.PhotoBorderType;
+                if (borderType == BorderType.None)
                 {
-                    SolidColorBrush mySolidColorBrush = new SolidColorBrush(Colors.Transparent);
-                    mySolidColorBrush.Opacity = 0;
-                    this.ImageDate.Background = mySolidColorBrush;
-                    this.InnerBorder.Background = mySolidColorBrush;
+                    this.MainBorder.BorderThickness = new Thickness(0);
+                    this.InnerBorder.BorderThickness = new Thickness(0);
                 }
-                else {
-                    if (this.presenter.Configuration.ShowPhotoDate)
+                else
+                {
+                    this.MainBorder.BorderThickness = new Thickness(10);
+                    this.InnerBorder.BorderThickness = new Thickness(1);
+
+                    if (borderType == BorderType.BorderHeader)
                     {
-                        this.ImageDate.Header = GetDate();
+                        this.HeaderTextBlock.Text = this.GetDate();
+                        this.HeaderTextBlock.Visibility = Visibility.Visible;
+                    }
+                    else if (borderType == BorderType.BorderFooter)
+                    {
+                        this.FooterTextBlock.Text = this.GetDate();
+                        this.FooterTextBlock.Visibility = Visibility.Visible;
                     }
                 }
 
                 this.MainImage.MaxHeight = this.presenter.Configuration.MaximumSize;
                 this.MainImage.MaxWidth = this.presenter.Configuration.MaximumSize;
-
                 this.RotateImageFrame();
                 this.LoadImage();
             }
@@ -83,29 +92,21 @@ namespace DL.PhotoCollage.Presentation.UserControls
 
         public string GetDate()
         {
-            string date = "";
-
-            using (FileStream fs = new FileStream(this.filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
+            using (var fs = new FileStream(this.filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
                 BitmapSource img = BitmapFrame.Create(fs);
-                BitmapMetadata md = (BitmapMetadata)img.Metadata;
-                if (!(md.DateTaken is null))
-                {
-                    date = Convert.ToDateTime(md.DateTaken).ToShortDateString();
-                }
-                else
-                {
-                    date = File.GetLastWriteTime(this.filePath).ToShortDateString();
-                }
+                var md = (BitmapMetadata)img.Metadata;
+                return !(md.DateTaken is null)
+                    ? Convert.ToDateTime(md.DateTaken).ToShortDateString()
+                    : File.GetLastWriteTime(this.filePath).ToShortDateString();
             }
-            return date;
         }
 
         private void RotateImageFrame()
         {
             int angle = this.presenter.GetRandomNumber(-maximumAngle, maximumAngle);
             var transform = new RotateTransform(angle);
-            this.MainBorder.RenderTransform = transform;
+            this.MainStackPanel.RenderTransform = transform;
         }
 
         private void LoadImage()

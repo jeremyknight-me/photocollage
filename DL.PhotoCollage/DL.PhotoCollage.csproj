@@ -47,6 +47,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\BorderType.cs" />
     <Compile Include="Core\FileSystemConfigurationRepository.cs" />
     <Compile Include="Core\FileSystemPhotoRepositoryBase.cs" />
     <Compile Include="Core\IConfigurationRepository.cs" />
