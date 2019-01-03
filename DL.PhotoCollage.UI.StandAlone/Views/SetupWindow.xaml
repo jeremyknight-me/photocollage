@@ -98,7 +98,7 @@
                   Margin="10, 0, 0, 0"
                   VerticalAlignment="Center" />
 
-        <Label Content="Border?"
+        <Label Content="Border:"
                Target="{Binding ElementName=ShowBordersCheckBox}"
                Grid.Row="6"/>
         <ComboBox x:Name="BorderComboBox" 
@@ -109,7 +109,8 @@
                   SelectedValuePath="Key"
                   SelectedItem="{Binding Path=SelectedBorderType}" />
 
-        <Label Content="Phote Date?" Visibility="Hidden"
+        <Label Content="Phote Date?" Visibility="Hidden" Grid.Row="7"/>
+        <!--<Label Content="Phote Date?" Visibility="Hidden"
                Target="{Binding ElementName=ShowPhotoDateCheckBox}"
                Grid.Row="7"/>
         <CheckBox x:Name="ShowPhotoDateCheckBox" Visibility="Hidden"
@@ -122,7 +123,7 @@
                Grid.Row="7"
                Grid.Column="1"
                HorizontalAlignment="Left"
-               Margin="25,0,0,0"/>
+               Margin="25,0,0,0"/>-->
 
         <StackPanel Orientation="Horizontal" 
                     HorizontalAlignment="Right"

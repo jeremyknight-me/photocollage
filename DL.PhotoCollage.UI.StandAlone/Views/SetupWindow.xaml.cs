@@ -27,6 +27,8 @@ namespace DL.PhotoCollage.UI.StandAlone.Views
 
         private void StartButton_Click(object sender, RoutedEventArgs e)
         {
+            //this.ViewModel.Save();
+
             var collagePresenter = this.controller.CollagePresenter;
 
             foreach (System.Windows.Forms.Screen screen in System.Windows.Forms.Screen.AllScreens)

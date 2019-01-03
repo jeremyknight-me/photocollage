@@ -28,28 +28,7 @@ namespace DL.PhotoCollage.Core
         public int NumberOfPhotos { get; set; }
 
         public BorderType PhotoBorderType { get; set; }
-
-        public bool ShowPhotoBorder
-        {
-            get
-            {
-                switch (this.PhotoBorderType)
-                {
-                    case BorderType.None:
-                        return false;
-                    case BorderType.Border:
-                    case BorderType.BorderHeader:
-                    case BorderType.BorderFooter:
-                    default:
-                        return true;
-                }
-            }
-            set
-            {
-                this.PhotoBorderType = value ? BorderType.Border : BorderType.None;
-            }
-        }
-
+          
         //public bool ShowPhotoDate { get; set; }
 
         public ScreensaverSpeed Speed { get; set; }

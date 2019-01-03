@@ -20,13 +20,10 @@ namespace DL.PhotoCollage.Presentation
         public ApplicationController(Application applicationToUse)
         {
             this.application = applicationToUse;
-
             string localDataDirectory = Path.Combine(
                 Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-                @"DigitalLagniappe/Screensavers/PhotoCollage");
-
+                @"DigitalLagniappe\Screensavers\PhotoCollage");
             this.logger = new TextLogger(localDataDirectory);
-
             this.configurationRepository = new FileSystemConfigurationRepository(localDataDirectory);
             this.configuration = configurationRepository.Load();
         }
@@ -47,7 +44,6 @@ namespace DL.PhotoCollage.Presentation
         public void HandleError(Exception exception, bool showMessage = false)
         {
             this.LogErrorMessage(exception);
-
             if (showMessage)
             {
                 this.DisplayErrorMessage(exception.Message);

@@ -113,26 +113,5 @@ namespace DL.PhotoCollage.Presentation
         {
             this.controller.SaveConfiguration();
         }
-
-        //public void SetScreensaverSpeed(string value)
-        //{
-        //    Func<string, ScreensaverSpeed> getScreensaverSpeedMethod = text =>
-        //    {
-        //        string loweredValue = text.ToLower();
-        //        switch (loweredValue)
-        //        {
-        //            case "slow":
-        //                return ScreensaverSpeed.Slow;
-        //            case "medium":
-        //                return ScreensaverSpeed.Medium;
-        //            case "fast":
-        //                return ScreensaverSpeed.Fast;
-        //            default:
-        //                throw new ArgumentOutOfRangeException();
-        //        }
-        //    };            
-            
-        //    this.Configuration.Speed = getScreensaverSpeedMethod(value);
-        //}
     }
 }
