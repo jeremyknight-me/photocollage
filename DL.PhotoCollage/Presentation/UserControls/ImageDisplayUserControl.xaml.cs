@@ -41,7 +41,7 @@ namespace DL.PhotoCollage.Presentation.UserControls
 
                 storyboard.Completed += delegate { onCompletedAction(this, view); };
 
-                Storyboard.SetTargetName(animation, this.MainBorder.Name);
+                Storyboard.SetTargetName(animation, this.MainStackPanel.Name);
                 Storyboard.SetTargetProperty(animation, new PropertyPath(OpacityProperty));
                 storyboard.Children.Add(animation);
                 storyboard.Begin(this);
