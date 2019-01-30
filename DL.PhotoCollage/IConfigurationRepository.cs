@@ -2,8 +2,8 @@
 {
     public interface IConfigurationRepository
     {
-        ScreensaverConfiguration Load();
+        IConfiguration Load();
 
-        void Save(ScreensaverConfiguration configuration);
+        void Save(IConfiguration configuration);
     }
 }

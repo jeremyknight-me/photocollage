@@ -16,7 +16,7 @@ namespace DL.PhotoCollage
             this.EnsureFileExists();
         }
 
-        public ScreensaverConfiguration Load()
+        public IConfiguration Load()
         {
             using (var fileStream = new FileStream(this.filePath, FileMode.Open, FileAccess.Read))
             {
@@ -25,7 +25,7 @@ namespace DL.PhotoCollage
             }
         }
 
-        public void Save(ScreensaverConfiguration configuration)
+        public void Save(IConfiguration configuration)
         {
             using (var writer = new StreamWriter(this.filePath))
             {

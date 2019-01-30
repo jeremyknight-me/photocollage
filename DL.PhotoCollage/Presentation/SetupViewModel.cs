@@ -26,7 +26,7 @@ namespace DL.PhotoCollage.Presentation
                 { ScreensaverSpeed.Slow, "Slow" }
             };
 
-        public SetupViewModel(ScreensaverConfiguration configurationToUse, ApplicationController controllerToUse)
+        public SetupViewModel(IConfiguration configurationToUse, ApplicationController controllerToUse)
         {
             this.BorderOptions = new ObservableCollection<KeyValuePair<string, string>>()
             {
@@ -47,7 +47,7 @@ namespace DL.PhotoCollage.Presentation
             this.controller = controllerToUse;
         }
 
-        public ScreensaverConfiguration Configuration { get; private set; }
+        public IConfiguration Configuration { get; private set; }
 
         public ObservableCollection<KeyValuePair<string, string>> BorderOptions { get; set; }
 

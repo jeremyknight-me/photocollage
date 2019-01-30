@@ -50,11 +50,13 @@
     <Compile Include="BorderType.cs" />
     <Compile Include="FileSystemConfigurationRepository.cs" />
     <Compile Include="FileSystemPhotoRepositoryBase.cs" />
+    <Compile Include="IConfiguration.cs" />
     <Compile Include="IConfigurationRepository.cs" />
     <Compile Include="ILogger.cs" />
     <Compile Include="IPhotoRepository.cs" />
     <Compile Include="NullLogger.cs" />
     <Compile Include="OrderedFileSystemPhotoRepository.cs" />
+    <Compile Include="PhotoRepositoryFactory.cs" />
     <Compile Include="RandomFileSystemPhotoRepository.cs" />
     <Compile Include="ScreensaverConfiguration.cs" />
     <Compile Include="ScreensaverSpeed.cs" />

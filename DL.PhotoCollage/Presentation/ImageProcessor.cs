@@ -8,13 +8,13 @@ namespace DL.PhotoCollage.Presentation
     {
         private readonly string imagePath;
 
-        private readonly ScreensaverConfiguration configuration;
+        private readonly IConfiguration configuration;
 
         private double dpiScale;
 
         private double maximumSizeDiu;
 
-        public ImageProcessor(string imagePathToUse, ScreensaverConfiguration configurationToUse)
+        public ImageProcessor(string imagePathToUse, IConfiguration configurationToUse)
         {
             this.imagePath = imagePathToUse;
             this.configuration = configurationToUse;

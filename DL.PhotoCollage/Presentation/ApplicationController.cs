@@ -8,7 +8,7 @@ namespace DL.PhotoCollage.Presentation
     {
         private readonly Application application;
 
-        private readonly ScreensaverConfiguration configuration;
+        private readonly IConfiguration configuration;
 
         private readonly IConfigurationRepository configurationRepository;
 

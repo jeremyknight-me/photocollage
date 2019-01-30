@@ -23,18 +23,18 @@ namespace DL.PhotoCollage.Presentation
 
         private int currentViewIndex;
 
-        public CollagePresenter(ApplicationController controllerToUse, ScreensaverConfiguration configurationToUse)
+        public CollagePresenter(ApplicationController controllerToUse, IConfiguration configurationToUse)
         {
             this.random = new Random();
             this.views = new List<ICollageView>();
             this.imageQueue = new ConcurrentQueue<ImageDisplayUserControl>();
             this.controller = controllerToUse;
             this.Configuration = configurationToUse;
-            this.photoRepository = this.MakePhotoRepository();
+            this.photoRepository = new PhotoRepositoryFactory(this.Configuration).Make();
             this.currentViewIndex = 0;
         }
 
-        public ScreensaverConfiguration Configuration { get; }
+        public IConfiguration Configuration { get; }
 
         protected int MaxInQueue
         {
@@ -172,16 +172,6 @@ namespace DL.PhotoCollage.Presentation
         {
             var positioner = new ImagePositioner(this, control, view);
             positioner.Position();
-        }
-
-        private IPhotoRepository MakePhotoRepository()
-        {
-            if (this.Configuration.IsRandom)
-            {
-                return new RandomFileSystemPhotoRepository(this.Configuration.Directory);
-            }
-
-            return new OrderedFileSystemPhotoRepository(this.Configuration.Directory);
         }
     }
 }
