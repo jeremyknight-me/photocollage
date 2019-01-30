@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace DL.PhotoCollage.Core
+namespace DL.PhotoCollage
 {
     public enum ScreensaverSpeed
     {

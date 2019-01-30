@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using DL.PhotoCollage.Core;
 
 namespace DL.PhotoCollage.Presentation
 {

@@ -2,7 +2,6 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Forms;
-using DL.PhotoCollage.Core;
 
 namespace DL.PhotoCollage.Presentation
 {

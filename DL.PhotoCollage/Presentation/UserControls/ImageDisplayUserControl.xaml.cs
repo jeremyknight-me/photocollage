@@ -1,5 +1,4 @@
-﻿using DL.PhotoCollage.Core;
-using System;
+﻿using System;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;

@@ -47,18 +47,18 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core\BorderType.cs" />
-    <Compile Include="Core\FileSystemConfigurationRepository.cs" />
-    <Compile Include="Core\FileSystemPhotoRepositoryBase.cs" />
-    <Compile Include="Core\IConfigurationRepository.cs" />
-    <Compile Include="Core\ILogger.cs" />
-    <Compile Include="Core\IPhotoRepository.cs" />
-    <Compile Include="Core\NullLogger.cs" />
-    <Compile Include="Core\OrderedFileSystemPhotoRepository.cs" />
-    <Compile Include="Core\RandomFileSystemPhotoRepository.cs" />
-    <Compile Include="Core\ScreensaverConfiguration.cs" />
-    <Compile Include="Core\ScreensaverSpeed.cs" />
-    <Compile Include="Core\TextLogger.cs" />
+    <Compile Include="BorderType.cs" />
+    <Compile Include="FileSystemConfigurationRepository.cs" />
+    <Compile Include="FileSystemPhotoRepositoryBase.cs" />
+    <Compile Include="IConfigurationRepository.cs" />
+    <Compile Include="ILogger.cs" />
+    <Compile Include="IPhotoRepository.cs" />
+    <Compile Include="NullLogger.cs" />
+    <Compile Include="OrderedFileSystemPhotoRepository.cs" />
+    <Compile Include="RandomFileSystemPhotoRepository.cs" />
+    <Compile Include="ScreensaverConfiguration.cs" />
+    <Compile Include="ScreensaverSpeed.cs" />
+    <Compile Include="TextLogger.cs" />
     <Compile Include="Presentation\CollagePresenter.cs" />
     <Compile Include="Presentation\ApplicationController.cs" />
     <Compile Include="Presentation\ICollageView.cs" />

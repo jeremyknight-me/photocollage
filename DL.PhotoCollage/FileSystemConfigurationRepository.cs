@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Xml.Serialization;
 
-namespace DL.PhotoCollage.Core
+namespace DL.PhotoCollage
 {
     public class FileSystemConfigurationRepository : IConfigurationRepository
     {

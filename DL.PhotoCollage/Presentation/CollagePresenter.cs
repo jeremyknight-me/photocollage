@@ -3,7 +3,6 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Threading;
-using DL.PhotoCollage.Core;
 using DL.PhotoCollage.Presentation.UserControls;
 
 namespace DL.PhotoCollage.Presentation

@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 
-namespace DL.PhotoCollage.Core
+namespace DL.PhotoCollage
 {
     public class TextLogger : ILogger
     {

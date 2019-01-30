@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace DL.PhotoCollage.Core
+namespace DL.PhotoCollage
 {
     public sealed class RandomFileSystemPhotoRepository : FileSystemPhotoRepositoryBase
     {
