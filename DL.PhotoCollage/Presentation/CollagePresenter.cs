@@ -107,9 +107,7 @@ namespace DL.PhotoCollage.Presentation
             try
             {
                 string path = this.photoRepository.NextPhotoFilePath;
-
                 ICollageView view = this.GetNextView();
-
                 var control = new ImageDisplayUserControl(path, this);
                 view.ImageCanvas.Children.Add(control);
                 this.imageQueue.Enqueue(control);
@@ -160,6 +158,7 @@ namespace DL.PhotoCollage.Presentation
                 if (view.ImageCanvas.Children.Contains(control))
                 {
                     view.ImageCanvas.Children.Remove(control);
+                    control.Dispose();
                 }
             }
             catch (Exception ex)

@@ -8,12 +8,10 @@ using System.Windows.Media.Imaging;
 
 namespace DL.PhotoCollage.Presentation.UserControls
 {
-    public partial class ImageDisplayUserControl : UserControl
+    public partial class ImageDisplayUserControl : UserControl, IDisposable
     {
         private const int maximumAngle = 15;
-
         private readonly string filePath;
-
         private readonly CollagePresenter presenter;
 
         public ImageDisplayUserControl(string path, CollagePresenter presenterToUse)
@@ -21,6 +19,7 @@ namespace DL.PhotoCollage.Presentation.UserControls
             this.filePath = path;
             this.presenter = presenterToUse;
             this.InitializeComponent();
+            this.Uid = Guid.NewGuid().ToString();
         }
 
         public void FadeOutImage(Action<ImageDisplayUserControl, ICollageView> onCompletedAction, ICollageView view)
@@ -29,17 +28,8 @@ namespace DL.PhotoCollage.Presentation.UserControls
             {
                 var storyboard = new Storyboard();
                 var duration = new TimeSpan(0, 0, 1);
-
-                var animation
-                    = new DoubleAnimation
-                    {
-                        From = 1.0,
-                        To = 0.0,
-                        Duration = new Duration(duration)
-                    };
-
+                var animation = new DoubleAnimation { From = 1.0, To = 0.0, Duration = new Duration(duration) };
                 storyboard.Completed += delegate { onCompletedAction(this, view); };
-
                 Storyboard.SetTargetName(animation, this.MainStackPanel.Name);
                 Storyboard.SetTargetProperty(animation, new PropertyPath(OpacityProperty));
                 storyboard.Children.Add(animation);
@@ -112,6 +102,12 @@ namespace DL.PhotoCollage.Presentation.UserControls
         {
             var processor = new ImageProcessor(this.filePath, this.presenter.Configuration);
             this.MainImage.Source = processor.GetImage();
+        }
+
+        public void Dispose()
+        {
+            this.MainImage.Source = null;
+            this.MainStackPanel = null;
         }
     }
 }
