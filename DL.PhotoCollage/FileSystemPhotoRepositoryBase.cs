@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace DL.PhotoCollage.Core
+namespace DL.PhotoCollage
 {
     public abstract class FileSystemPhotoRepositoryBase : IPhotoRepository
     {

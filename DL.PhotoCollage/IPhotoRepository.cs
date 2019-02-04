@@ -1,4 +1,4 @@
-﻿namespace DL.PhotoCollage.Core
+﻿namespace DL.PhotoCollage
 {
     public interface IPhotoRepository
     {

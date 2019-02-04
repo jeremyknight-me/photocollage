@@ -1,6 +1,5 @@
 ﻿using System.Windows;
 using System.Windows.Threading;
-using DL.PhotoCollage.Core;
 using DL.PhotoCollage.Presentation;
 using DL.PhotoCollage.UI.Screensaver.Views;
 

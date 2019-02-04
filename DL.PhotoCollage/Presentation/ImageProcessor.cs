@@ -1,21 +1,17 @@
 ﻿using System;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using DL.PhotoCollage.Core;
 
 namespace DL.PhotoCollage.Presentation
 {
     internal class ImageProcessor
     {
         private readonly string imagePath;
-
-        private readonly ScreensaverConfiguration configuration;
-
+        private readonly IConfiguration configuration;
         private double dpiScale;
-
         private double maximumSizeDiu;
 
-        public ImageProcessor(string imagePathToUse, ScreensaverConfiguration configurationToUse)
+        public ImageProcessor(string imagePathToUse, IConfiguration configurationToUse)
         {
             this.imagePath = imagePathToUse;
             this.configuration = configurationToUse;

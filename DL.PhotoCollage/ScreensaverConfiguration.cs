@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace DL.PhotoCollage.Core
+namespace DL.PhotoCollage
 {
-    public class ScreensaverConfiguration
+    public class ScreensaverConfiguration : IConfiguration
     {
         public ScreensaverConfiguration()
         {

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Windows;
-using DL.PhotoCollage.Core;
 
 namespace DL.PhotoCollage.Presentation
 {
@@ -9,7 +8,7 @@ namespace DL.PhotoCollage.Presentation
     {
         private readonly Application application;
 
-        private readonly ScreensaverConfiguration configuration;
+        private readonly IConfiguration configuration;
 
         private readonly IConfigurationRepository configurationRepository;
 
@@ -28,13 +27,7 @@ namespace DL.PhotoCollage.Presentation
             this.configuration = configurationRepository.Load();
         }
 
-        public CollagePresenter CollagePresenter
-        {
-            get
-            {
-                return this.collagePresenter ?? (this.collagePresenter = new CollagePresenter(this, this.configuration));
-            }
-        }
+        public CollagePresenter CollagePresenter => this.collagePresenter ?? (this.collagePresenter = new CollagePresenter(this, this.configuration));
 
         public void DisplayErrorMessage(string message)
         {

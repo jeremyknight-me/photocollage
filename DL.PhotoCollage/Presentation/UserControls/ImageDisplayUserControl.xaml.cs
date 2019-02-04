@@ -1,5 +1,4 @@
-﻿using DL.PhotoCollage.Core;
-using System;
+﻿using System;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
@@ -9,12 +8,10 @@ using System.Windows.Media.Imaging;
 
 namespace DL.PhotoCollage.Presentation.UserControls
 {
-    public partial class ImageDisplayUserControl : UserControl
+    public partial class ImageDisplayUserControl : UserControl, IDisposable
     {
         private const int maximumAngle = 15;
-
         private readonly string filePath;
-
         private readonly CollagePresenter presenter;
 
         public ImageDisplayUserControl(string path, CollagePresenter presenterToUse)
@@ -22,25 +19,17 @@ namespace DL.PhotoCollage.Presentation.UserControls
             this.filePath = path;
             this.presenter = presenterToUse;
             this.InitializeComponent();
+            this.Uid = Guid.NewGuid().ToString();
         }
 
-        public void FadeOutImage(Action<ImageDisplayUserControl, ICollageView> onCompletedAction, ICollageView view)
+        public void FadeOutImage(Action<ImageDisplayUserControl> onCompletedAction)
         {
             try
             {
                 var storyboard = new Storyboard();
                 var duration = new TimeSpan(0, 0, 1);
-
-                var animation
-                    = new DoubleAnimation
-                    {
-                        From = 1.0,
-                        To = 0.0,
-                        Duration = new Duration(duration)
-                    };
-
-                storyboard.Completed += delegate { onCompletedAction(this, view); };
-
+                var animation = new DoubleAnimation { From = 1.0, To = 0.0, Duration = new Duration(duration) };
+                storyboard.Completed += delegate { onCompletedAction(this); };
                 Storyboard.SetTargetName(animation, this.MainStackPanel.Name);
                 Storyboard.SetTargetProperty(animation, new PropertyPath(OpacityProperty));
                 storyboard.Children.Add(animation);
@@ -94,10 +83,11 @@ namespace DL.PhotoCollage.Presentation.UserControls
         {
             using (var fs = new FileStream(this.filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
-                BitmapSource img = BitmapFrame.Create(fs);
-                var md = (BitmapMetadata)img.Metadata;
-                return !(md.DateTaken is null)
-                    ? Convert.ToDateTime(md.DateTaken).ToShortDateString()
+                var options = BitmapCreateOptions.DelayCreation | BitmapCreateOptions.IgnoreColorProfile | BitmapCreateOptions.IgnoreImageCache;
+                BitmapSource image = BitmapFrame.Create(fs, options, BitmapCacheOption.None);
+                var metadata = (BitmapMetadata)image.Metadata;
+                return !(metadata.DateTaken is null)
+                    ? Convert.ToDateTime(metadata.DateTaken).ToShortDateString()
                     : File.GetLastWriteTime(this.filePath).ToShortDateString();
             }
         }
@@ -113,6 +103,12 @@ namespace DL.PhotoCollage.Presentation.UserControls
         {
             var processor = new ImageProcessor(this.filePath, this.presenter.Configuration);
             this.MainImage.Source = processor.GetImage();
+        }
+
+        public void Dispose()
+        {
+            this.MainImage.Source = null;
+            this.MainStackPanel = null;
         }
     }
 }
