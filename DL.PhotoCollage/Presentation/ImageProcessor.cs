@@ -7,11 +7,8 @@ namespace DL.PhotoCollage.Presentation
     internal class ImageProcessor
     {
         private readonly string imagePath;
-
         private readonly IConfiguration configuration;
-
         private double dpiScale;
-
         private double maximumSizeDiu;
 
         public ImageProcessor(string imagePathToUse, IConfiguration configurationToUse)

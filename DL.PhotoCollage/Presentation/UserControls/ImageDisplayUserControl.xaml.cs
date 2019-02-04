@@ -22,14 +22,14 @@ namespace DL.PhotoCollage.Presentation.UserControls
             this.Uid = Guid.NewGuid().ToString();
         }
 
-        public void FadeOutImage(Action<ImageDisplayUserControl, ICollageView> onCompletedAction, ICollageView view)
+        public void FadeOutImage(Action<ImageDisplayUserControl> onCompletedAction)
         {
             try
             {
                 var storyboard = new Storyboard();
                 var duration = new TimeSpan(0, 0, 1);
                 var animation = new DoubleAnimation { From = 1.0, To = 0.0, Duration = new Duration(duration) };
-                storyboard.Completed += delegate { onCompletedAction(this, view); };
+                storyboard.Completed += delegate { onCompletedAction(this); };
                 Storyboard.SetTargetName(animation, this.MainStackPanel.Name);
                 Storyboard.SetTargetProperty(animation, new PropertyPath(OpacityProperty));
                 storyboard.Children.Add(animation);
@@ -83,10 +83,11 @@ namespace DL.PhotoCollage.Presentation.UserControls
         {
             using (var fs = new FileStream(this.filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
-                BitmapSource img = BitmapFrame.Create(fs);
-                var md = (BitmapMetadata)img.Metadata;
-                return !(md.DateTaken is null)
-                    ? Convert.ToDateTime(md.DateTaken).ToShortDateString()
+                var options = BitmapCreateOptions.DelayCreation | BitmapCreateOptions.IgnoreColorProfile | BitmapCreateOptions.IgnoreImageCache;
+                BitmapSource image = BitmapFrame.Create(fs, options, BitmapCacheOption.None);
+                var metadata = (BitmapMetadata)image.Metadata;
+                return !(metadata.DateTaken is null)
+                    ? Convert.ToDateTime(metadata.DateTaken).ToShortDateString()
                     : File.GetLastWriteTime(this.filePath).ToShortDateString();
             }
         }

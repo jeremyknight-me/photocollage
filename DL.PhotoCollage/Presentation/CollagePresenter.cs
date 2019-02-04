@@ -10,18 +10,12 @@ namespace DL.PhotoCollage.Presentation
     public class CollagePresenter
     {
         private readonly object threadLock = new object();
-
         private readonly Random random;
-
         private readonly List<ICollageView> views;
-
         private readonly IPhotoRepository photoRepository;
-
         private readonly ConcurrentQueue<ImageDisplayUserControl> imageQueue;
-
         private readonly ApplicationController controller;
-
-        private int currentViewIndex;
+        private int displayViewIndex;
 
         public CollagePresenter(ApplicationController controllerToUse, IConfiguration configurationToUse)
         {
@@ -31,7 +25,7 @@ namespace DL.PhotoCollage.Presentation
             this.controller = controllerToUse;
             this.Configuration = configurationToUse;
             this.photoRepository = new PhotoRepositoryFactory(this.Configuration).Make();
-            this.currentViewIndex = 0;
+            this.displayViewIndex = -1;
         }
 
         public IConfiguration Configuration { get; }
@@ -96,9 +90,7 @@ namespace DL.PhotoCollage.Presentation
             window.Top = windowLocation.Top;
             window.Width = windowLocation.Width;
             window.Height = windowLocation.Height;
-
             window.Show();
-
             this.views.Add(window);
         }
 
@@ -107,14 +99,14 @@ namespace DL.PhotoCollage.Presentation
             try
             {
                 string path = this.photoRepository.NextPhotoFilePath;
-                ICollageView view = this.GetNextView();
+                ICollageView view = this.GetNextDisplayView();
                 var control = new ImageDisplayUserControl(path, this);
                 view.ImageCanvas.Children.Add(control);
                 this.imageQueue.Enqueue(control);
 
                 if (this.imageQueue.Count > this.MaxInQueue)
                 {
-                    this.RemoveImageFromQueue(view);
+                    this.RemoveImageFromQueue();
                 }
 
                 this.SetUserControlPosition(control, view);
@@ -126,39 +118,40 @@ namespace DL.PhotoCollage.Presentation
             }
         }
 
-        private ICollageView GetNextView()
+        private ICollageView GetNextDisplayView()
         {
-            int length = this.views.Count;
-            int nextIndex = this.currentViewIndex + 1;
-            
-            if (nextIndex >= length)
+            int nextIndex = this.displayViewIndex + 1;
+            if (nextIndex >= this.views.Count)
             {
                 nextIndex = 0;
             }
 
-            this.currentViewIndex = nextIndex;
+            this.displayViewIndex = nextIndex;
             return this.views[nextIndex];
         }
 
-        private void RemoveImageFromQueue(ICollageView view)
+        private void RemoveImageFromQueue()
         {
             ImageDisplayUserControl control;
-
             if (this.imageQueue.TryDequeue(out control))
             {
-                Action<ImageDisplayUserControl, ICollageView> action = this.RemoveImageFromPanel;
-                control.FadeOutImage(action, view);
+                Action<ImageDisplayUserControl> action = this.RemoveImageFromPanel;
+                control.FadeOutImage(action);
             }
         }
 
-        private void RemoveImageFromPanel(ImageDisplayUserControl control, ICollageView view)
+        private void RemoveImageFromPanel(ImageDisplayUserControl control)
         {
             try
             {
-                if (view.ImageCanvas.Children.Contains(control))
+                foreach (var view in this.views)
                 {
-                    view.ImageCanvas.Children.Remove(control);
-                    control.Dispose();
+                    if (view.ImageCanvas.Children.Contains(control))
+                    {
+                        view.ImageCanvas.Children.Remove(control);
+                        control.Dispose();
+                        break;
+                    }
                 }
             }
             catch (Exception ex)
