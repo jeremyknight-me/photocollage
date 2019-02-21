@@ -7,15 +7,10 @@ namespace DL.PhotoCollage.Presentation
     internal class ImagePositioner
     {
         private readonly CollagePresenter presenter;
-
         private readonly UIElement control;
-
         private readonly int controlHeight;
-
         private readonly int controlWidth;
-
         private readonly int viewportHeight;
-
         private readonly int viewportWidth;
 
         public ImagePositioner(CollagePresenter presenterToUse, UIElement controlToPosition, ICollageView view)
