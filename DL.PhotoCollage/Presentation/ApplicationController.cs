@@ -7,13 +7,9 @@ namespace DL.PhotoCollage.Presentation
     public class ApplicationController
     {
         private readonly Application application;
-
         private readonly IConfiguration configuration;
-
         private readonly IConfigurationRepository configurationRepository;
-
         private readonly ILogger logger;
-
         private CollagePresenter collagePresenter;
 
         public ApplicationController(Application applicationToUse)

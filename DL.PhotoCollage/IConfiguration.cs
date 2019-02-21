@@ -7,8 +7,8 @@
         bool IsRandom { get; set; }
         int MaximumSize { get; set; }
         int NumberOfPhotos { get; set; }
+        double Opacity { get; set; }
         BorderType PhotoBorderType { get; set; }
-        //bool ShowPhotoDate { get; set; }
         ScreensaverSpeed Speed { get; set; }
         bool UseVerboseLogging { get; set; }
     }

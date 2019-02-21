@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Windows;
+using System.Windows.Media;
 using System.Windows.Threading;
 using DL.PhotoCollage.Presentation.UserControls;
 
@@ -85,11 +86,19 @@ namespace DL.PhotoCollage.Presentation
 
         public void SetupWindow<T>(T window, System.Windows.Forms.Screen screen) where T : Window, ICollageView
         {
+            var backgroundBrush = new SolidColorBrush
+            {
+                Opacity = this.Configuration.Opacity,
+                Color = Colors.Black
+            };
+            window.Background = backgroundBrush;
+
             System.Drawing.Rectangle windowLocation = screen.Bounds;
             window.Left = windowLocation.Left;
             window.Top = windowLocation.Top;
             window.Width = windowLocation.Width;
             window.Height = windowLocation.Height;
+
             window.Show();
             this.views.Add(window);
         }

@@ -109,21 +109,23 @@
                   SelectedValuePath="Key"
                   SelectedItem="{Binding Path=SelectedBorderType}" />
 
-        <Label Content="Phote Date?" Visibility="Hidden" Grid.Row="7"/>
-        <!--<Label Content="Phote Date?" Visibility="Hidden"
-               Target="{Binding ElementName=ShowPhotoDateCheckBox}"
-               Grid.Row="7"/>
-        <CheckBox x:Name="ShowPhotoDateCheckBox" Visibility="Hidden"
-                  IsChecked="{Binding Configuration.ShowPhotoDate}"
-                  Grid.Row="7" 
-                  Grid.Column="1" 
-                  Margin="10, 0, 0, 0"
-                  VerticalAlignment="Center" />
-        <Label Content="*Requires border" Visibility="Hidden"
-               Grid.Row="7"
-               Grid.Column="1"
-               HorizontalAlignment="Left"
-               Margin="25,0,0,0"/>-->
+        <Label Content="Number of Photos:" 
+               Target="{Binding ElementName=opacitySlider}"
+               Grid.Row="7" />
+        <Slider x:Name="opacitySlider" 
+                Grid.Row="7"
+                Grid.Column="1" 
+                Value="{Binding SelectedOpacity}"
+                Minimum="0" 
+                Maximum="100"
+                IsSnapToTickEnabled="True" 
+                TickFrequency="5" />
+        <TextBlock x:Name="opacityTextBlock"
+                   Grid.Row="7"
+                   Grid.Column="2"
+                   Text="{Binding SelectedOpacity}"
+                   Foreground="White"
+                   Padding="5, 5, 5, 5" />
 
         <StackPanel Orientation="Horizontal" 
                     HorizontalAlignment="Right"

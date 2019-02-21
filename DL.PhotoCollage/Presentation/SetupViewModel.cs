@@ -66,6 +66,18 @@ namespace DL.PhotoCollage.Presentation
             }
         }
 
+        public double SelectedOpacity
+        {
+            get
+            {
+                return this.Configuration.Opacity * 100.0;
+            }
+            set
+            {
+                this.Configuration.Opacity = value / 100.0;
+            }
+        }
+
         public string SelectedSpeed
         {
             get
