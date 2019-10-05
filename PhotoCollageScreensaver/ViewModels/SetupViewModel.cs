@@ -1,12 +1,16 @@
-﻿using PhotoCollageScreensaver.Enums;
+﻿using PhotoCollageScreensaver.Commands;
+using PhotoCollageScreensaver.Enums;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Windows.Forms;
+using System.Windows.Input;
 
 namespace PhotoCollageScreensaver.ViewModels
 {
-    public class SetupViewModel
+    public class SetupViewModel : INotifyPropertyChanged
     {
         private readonly ApplicationController controller;
 
@@ -26,7 +30,7 @@ namespace PhotoCollageScreensaver.ViewModels
                 { ScreensaverSpeed.Medium, ScreensaverSpeedNames.Medium },
                 { ScreensaverSpeed.Slow, ScreensaverSpeedNames.Slow }
             };
-
+        
         public SetupViewModel(Configuration config, ApplicationController controllerToUse)
         {
             this.BorderOptions = new ObservableCollection<KeyValuePair<string, string>>()
@@ -46,12 +50,30 @@ namespace PhotoCollageScreensaver.ViewModels
 
             this.Config = config;
             this.controller = controllerToUse;
+
+            this.PreviewCommand = new RelayCommand((obj) => this.controller.StartScreensaver());
+            this.OkCommand = new RelayCommand(obj => {
+                this.controller.SaveConfiguration();
+                this.controller.Shutdown();
+            });
+            this.SaveCommand = new RelayCommand(obj => this.controller.SaveConfiguration());
+            this.CancelCommand = new RelayCommand(obj => this.controller.Shutdown());
+            this.SelectDirectoryCommand = new RelayCommand(obj =>
+            {
+                this.RequestDirectoryFromUser();
+            });
         }
 
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public ICommand PreviewCommand { get; private set; }
+        public ICommand OkCommand { get; private set; }
+        public ICommand SaveCommand { get; private set; }
+        public ICommand CancelCommand { get; private set; }
+        public ICommand SelectDirectoryCommand { get; private set; }
+
         public Configuration Config { get; private set; }
-
         public ObservableCollection<KeyValuePair<string, string>> BorderOptions { get; set; }
-
         public ObservableCollection<string> SpeedOptions { get; set; }
 
         public KeyValuePair<string, string> SelectedBorderType
@@ -61,6 +83,19 @@ namespace PhotoCollageScreensaver.ViewModels
             {
                 var pair = this.borderTypePairs.Single(x => x.Value.Key == value.Key);
                 this.Config.PhotoBorderType = pair.Key;
+            }
+        }
+
+        public string SelectedDirectory
+        {
+            get => this.Config.Directory;
+            set
+            {
+                if (value != this.Config.Directory)
+                {
+                    this.Config.Directory = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
 
@@ -80,38 +115,44 @@ namespace PhotoCollageScreensaver.ViewModels
             }
         }
 
-        public void RequestDirectoryFromUser()
+        private void RequestDirectoryFromUser()
         {
             var dialog = new FolderBrowserDialog
             {
                 Description = "Select a folder",
                 ShowNewFolderButton = false
             };
-
             if (!string.IsNullOrWhiteSpace(this.Config.Directory))
             {
                 dialog.SelectedPath = this.Config.Directory;
             }
 
             var result = dialog.ShowDialog();
-
             if (result == DialogResult.OK)
             {
                 string path = dialog.SelectedPath;
                 if (!string.IsNullOrEmpty(path))
                 {
-                    this.Config.Directory = path;
+                    this.SelectedDirectory = path;
                 }
             }
             else if (result != DialogResult.Cancel)
             {
-                this.Config.Directory = string.Empty;
+                this.SelectedDirectory = string.Empty;
             }
         }
 
         public void Save()
         {
             this.controller.SaveConfiguration();
+        }
+
+        // This method is called by the Set accessor of each property.  
+        // The CallerMemberName attribute that is applied to the optional propertyName  
+        // parameter causes the property name of the caller to be substituted as an argument.  
+        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
