@@ -15,7 +15,7 @@ namespace PhotoCollageScreensaver
                 commandArg = e.Args[0].ToLower().Trim().Substring(0, 2);
             }
 
-            this.controller = new ApplicationController(Current);
+            this.controller = new ApplicationController();
 
             switch (commandArg)
             {

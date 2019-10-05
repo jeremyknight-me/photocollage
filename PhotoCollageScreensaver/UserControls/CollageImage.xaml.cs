@@ -80,7 +80,7 @@ namespace PhotoCollageScreensaver.UserControls
             }
         }
 
-        public string GetDate()
+        private string GetDate()
         {
             using (var fs = new FileStream(this.filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
             {

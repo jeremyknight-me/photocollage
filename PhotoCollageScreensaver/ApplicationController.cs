@@ -3,7 +3,6 @@ using PhotoCollageScreensaver.Repositories;
 using PhotoCollageScreensaver.ViewModels;
 using PhotoCollageScreensaver.Views;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Windows;
 
@@ -11,15 +10,13 @@ namespace PhotoCollageScreensaver
 {
     public class ApplicationController
     {
-        private readonly Application application;
         private readonly Configuration configuration;
         private readonly IConfigurationRepository configurationRepository;
         private readonly ILogger logger;
         private CollagePresenter collagePresenter;
 
-        public ApplicationController(Application applicationToUse)
+        public ApplicationController()
         {
-            this.application = applicationToUse;
             string localDataDirectory = Path.Combine(
                 Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
                 @"DigitalLagniappe\Screensavers\PhotoCollage");
@@ -83,7 +80,7 @@ namespace PhotoCollageScreensaver
 
         public void Shutdown()
         {
-            this.application.Shutdown();
+            Application.Current.Shutdown();
         }
 
         private void LogErrorMessage(Exception exception)
