@@ -10,6 +10,7 @@ namespace PhotoCollageScreensaver
             this.Directory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
             this.IsGrayscale = false;
             this.IsRandom = true;
+            this.MaximumRotation = 15;
             this.MaximumSize = 500;
             this.NumberOfPhotos = 10;
             this.Opacity = 1.0;
@@ -21,6 +22,7 @@ namespace PhotoCollageScreensaver
         public string Directory { get; set; }
         public bool IsGrayscale { get; set; }
         public bool IsRandom { get; set; }
+        public int MaximumRotation { get; set; }
         public int MaximumSize { get; set; }
         public int NumberOfPhotos { get; set; }
         public double Opacity { get; set; }

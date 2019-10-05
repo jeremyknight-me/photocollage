@@ -11,7 +11,6 @@ namespace PhotoCollageScreensaver.UserControls
 {
     public partial class CollageImage : UserControl, IDisposable
     {
-        private const int maximumAngle = 15;
         private readonly string filePath;
         private readonly CollagePresenter presenter;
 
@@ -95,6 +94,7 @@ namespace PhotoCollageScreensaver.UserControls
 
         private void RotateImageFrame()
         {
+            int maximumAngle = this.presenter.Configuration.MaximumRotation;
             int angle = this.presenter.GetRandomNumber(-maximumAngle, maximumAngle);
             var transform = new RotateTransform(angle);
             this.MainStackPanel.RenderTransform = transform;
