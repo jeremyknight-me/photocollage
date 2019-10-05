@@ -161,11 +161,7 @@
                    Foreground="White"
                    Padding="5, 5, 5, 5" />
 
-        <Button x:Name="PreviewButton"
-                Grid.Column="0"
-                Grid.Row="8"
-                Content="Preview"
-                Visibility="Hidden" />
+        <Button Grid.Row="8" Content="Preview" Click="PreviewButton_Click" />
         <StackPanel Orientation="Horizontal" 
                     HorizontalAlignment="Right"
                     Grid.Row="8" 

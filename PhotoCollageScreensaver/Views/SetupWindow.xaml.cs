@@ -40,5 +40,10 @@ namespace PhotoCollageScreensaver.Views
         {
             this.Close();
         }
+
+        private void PreviewButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.controller.StartScreensaver();
+        }
     }
 }
