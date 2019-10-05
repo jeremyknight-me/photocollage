@@ -1,5 +1,4 @@
-﻿using PhotoCollageScreensaver.ViewModels;
-using System.Windows;
+﻿using System.Windows;
 
 namespace PhotoCollageScreensaver.Views
 {
@@ -12,11 +11,6 @@ namespace PhotoCollageScreensaver.Views
             this.controller = controllerToUse;
             this.DataContext = this.controller.MakeSetupViewModel();
             this.InitializeComponent();
-        }
-
-        public SetupViewModel ViewModel
-        {
-            get { return this.DataContext as SetupViewModel; }
         }
     }
 }

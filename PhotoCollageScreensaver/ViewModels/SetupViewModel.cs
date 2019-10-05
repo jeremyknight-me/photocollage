@@ -57,7 +57,7 @@ namespace PhotoCollageScreensaver.ViewModels
                 this.controller.Shutdown();
             });
             this.SaveCommand = new RelayCommand(obj => this.controller.SaveConfiguration());
-            this.CancelCommand = new RelayCommand(obj => this.controller.Shutdown());
+            this.CancelCommand = new ShutdownCommand();
             this.SelectDirectoryCommand = new RelayCommand(obj =>
             {
                 this.RequestDirectoryFromUser();
