@@ -4,7 +4,10 @@ Photo Collage Screensaver is a Windows screensaver written in .NET. It takes pic
 For installation and configuration instructions, please visit our [Wiki](../../wiki/home).
 
 **Download**
-* Installer: [Release v2.0](../../releases/tag/v2.0)
+
+| Version | Installer |
+|---|---|
+| v2.0 | [Link](../../releases/tag/v2.0) |
 
 **Links**
 * Facebook Page: https://www.facebook.com/PhotoCollageScreensaver
