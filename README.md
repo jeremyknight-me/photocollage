@@ -13,7 +13,6 @@ For installation and configuration instructions, please visit our [Wiki](../../w
 **Reviews, Articles, Etc**
 
 Tekzilla Daily Episode 1217 – 05/07/2012
-* http://revision3.com/tzdaily/create-photo-collage-screensaver
 * http://www.youtube.com/watch?v=Vy1nrIMdtpA
 
 **Donate**
