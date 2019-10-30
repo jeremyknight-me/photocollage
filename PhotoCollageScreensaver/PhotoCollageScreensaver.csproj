@@ -8,6 +8,8 @@
         <Authors>Jeremy Knight</Authors>
         <Company>Digital Lagniappe</Company>
         <PublishTrimmed>true</PublishTrimmed>
+        <PublishSingleFile>true</PublishSingleFile>
+        <RuntimeIdentifier>win-x64</RuntimeIdentifier>
     </PropertyGroup>
 
 </Project>
