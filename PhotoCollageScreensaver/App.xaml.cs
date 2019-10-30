@@ -16,7 +16,6 @@ namespace PhotoCollageScreensaver
             }
 
             this.controller = new ApplicationController();
-
             switch (commandArg)
             {
                 case "/p": // preview

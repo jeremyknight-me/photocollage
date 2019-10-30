@@ -19,9 +19,10 @@ namespace PhotoCollageScreensaver.Repositories
 
         public Configuration Load()
         {
-            string json = File.ReadAllText(this.filePath);
-            var config = JsonSerializer.Deserialize<Configuration>(json);
-            return config;
+            string contents = File.ReadAllText(this.filePath);
+            return contents.Trim().StartsWith("<?xml")
+                ? this.LoadFromXml(contents) // provides fallback for upgrades from older version
+                : this.LoadFromJson(contents);
         }
 
         public void Save(Configuration configuration)
@@ -30,6 +31,21 @@ namespace PhotoCollageScreensaver.Repositories
             options.WriteIndented = true;
             var json = JsonSerializer.Serialize(configuration, options);
             File.WriteAllText(this.filePath, json);
+        }
+
+        private Configuration LoadFromJson(string contents)
+        {
+            return JsonSerializer.Deserialize<Configuration>(contents);
+        }
+
+        private Configuration LoadFromXml(string contents)
+        {
+            contents = contents.Replace("ScreensaverConfiguration", "Configuration");
+            var serializer = new System.Xml.Serialization.XmlSerializer(typeof(Configuration));
+            using (TextReader reader = new StringReader(contents))
+            {
+                return serializer.Deserialize(reader) as Configuration;
+            }
         }
 
         private void EnsureDirectoryExists()
