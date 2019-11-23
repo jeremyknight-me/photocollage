@@ -94,7 +94,7 @@ namespace PhotoCollageScreensaver.ViewModels
                 if (value != this.Config.Directory)
                 {
                     this.Config.Directory = value;
-                    NotifyPropertyChanged();
+                    this.NotifyPropertyChanged();
                 }
             }
         }
@@ -102,7 +102,11 @@ namespace PhotoCollageScreensaver.ViewModels
         public double SelectedOpacity
         {
             get => this.Config.Opacity * 100.0;
-            set => this.Config.Opacity = value / 100.0;
+            set
+            {
+                this.Config.Opacity = value / 100.0;
+                this.NotifyPropertyChanged();
+            }
         }
 
         public string SelectedSpeed

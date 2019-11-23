@@ -18,30 +18,12 @@ namespace PhotoCollageScreensaver.Views
             this.InitializeComponent();
         }
 
-        public Canvas ImageCanvas
-        {
-            get { return this.MainCanvas; }
-        }
-
-        public double WindowActualHeight
-        {
-            get { return this.ActualHeight; }
-        }
-
-        public double WindowActualWidth
-        {
-            get { return this.ActualWidth; }
-        }
-
-        private void Window_KeyDown(object sender, KeyEventArgs e)
-        {
-            this.Shutdown();
-        }
-
-        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            this.Shutdown();
-        }
+        public Canvas ImageCanvas => this.MainCanvas;
+        public double WindowActualHeight => this.ActualHeight;
+        public double WindowActualWidth => this.ActualWidth;
+        private void Window_KeyDown(object sender, KeyEventArgs e) => this.controller.Shutdown();
+        private void Window_MouseDown(object sender, MouseButtonEventArgs e) => this.controller.Shutdown();
+        private void Window_TouchDown(object sender, TouchEventArgs e) => this.controller.Shutdown();
 
         private void Window_MouseMove(object sender, MouseEventArgs e)
         {
@@ -55,18 +37,8 @@ namespace PhotoCollageScreensaver.Views
             else if (Math.Abs(initialMousePosition.Value.X - position.X) > 10
                 || Math.Abs(initialMousePosition.Value.Y - position.Y) > 10)
             {
-                this.Shutdown();
+                this.controller.Shutdown();
             }
-        }
-
-        private void Window_TouchDown(object sender, TouchEventArgs e)
-        {
-            this.Shutdown();
-        }
-
-        private void Shutdown()
-        {
-            this.controller.Shutdown();
         }
     }
 }

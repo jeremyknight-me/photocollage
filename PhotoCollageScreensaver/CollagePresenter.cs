@@ -33,11 +33,6 @@ namespace PhotoCollageScreensaver
 
         public Configuration Configuration { get; }
 
-        public int MaxInQueue
-        {
-            get { return this.Configuration.NumberOfPhotos; }
-        }
-
         public void StartAnimation()
         {
             try
@@ -72,7 +67,6 @@ namespace PhotoCollageScreensaver
         public int GetRandomNumber(int min, int max)
         {
             int value;
-
             lock (this.threadLock)
             {
                 value = this.random.Next(min, max);
@@ -94,13 +88,11 @@ namespace PhotoCollageScreensaver
                 Color = Colors.Black
             };
             window.Background = backgroundBrush;
-
             System.Drawing.Rectangle windowLocation = screen.Bounds;
             window.Left = windowLocation.Left;
             window.Top = windowLocation.Top;
             window.Width = windowLocation.Width;
             window.Height = windowLocation.Height;
-
             window.Show();
             this.views.Add(window);
         }
@@ -115,7 +107,7 @@ namespace PhotoCollageScreensaver
                 view.ImageCanvas.Children.Add(control);
                 this.imageQueue.Enqueue(control);
 
-                if (this.imageQueue.Count > this.MaxInQueue)
+                if (this.imageQueue.Count > this.Configuration.NumberOfPhotos)
                 {
                     this.RemoveImageFromQueue();
                 }
@@ -143,8 +135,7 @@ namespace PhotoCollageScreensaver
 
         private void RemoveImageFromQueue()
         {
-            CollageImage control;
-            if (this.imageQueue.TryDequeue(out control))
+            if (this.imageQueue.TryDequeue(out CollageImage control))
             {
                 Action<CollageImage> action = this.RemoveImageFromPanel;
                 control.FadeOutImage(action);

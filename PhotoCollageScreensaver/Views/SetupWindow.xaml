@@ -155,7 +155,7 @@
         <TextBlock x:Name="opacityTextBlock"
                    Grid.Row="7"
                    Grid.Column="2"
-                   Text="{Binding SelectedOpacity}"
+                   Text="{Binding SelectedOpacity, StringFormat={}{0:###}}"
                    Foreground="White"
                    Padding="5, 5, 5, 5" />
 

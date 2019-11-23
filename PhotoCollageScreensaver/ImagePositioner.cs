@@ -21,7 +21,6 @@ namespace PhotoCollageScreensaver
             this.control.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
             this.controlWidth = Convert.ToInt32(this.control.DesiredSize.Width);
             this.controlHeight = Convert.ToInt32(this.control.DesiredSize.Height);
-
             this.viewportHeight = Convert.ToInt32(view.WindowActualHeight);
             this.viewportWidth = Convert.ToInt32(view.WindowActualWidth);
         }
