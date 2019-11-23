@@ -30,20 +30,20 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 ## Version 1.5.0 - 16 October 2013
 * Fixed bug with photo location randomization
 
-## Version 1.4.0
+## Version 1.4.0 - 13 February 2013
 * Added grayscale option.
 * Added option to turn off borders.
 * First release to include a desktop/stand-alone version.
 
-## Version 1.3.0
+## Version 1.3.0 - 21 February 2012
 * Added an installer (.exe setup file)!
 * More code optimization
 
-## Version 1.2.0
+## Version 1.2.0 - 29 December 2011
 * Added configuration setting for randomization of photos
 * Added setting for verbose logging. (Only accessible from configuration file.)
 * Began adding code to take advantage of multiple core processors (parallel programming).
   
-## Version 1.1.0
+## Version 1.1.0 - 22 December 2011
 * Fixed scaling issue on images that are not 96 dpi.
 * Fixed video memory issue.
