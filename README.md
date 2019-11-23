@@ -1,6 +1,3 @@
-**This project is now maintained by [@jeremyknight-me](https://github.com/jeremyknight-me/) at https://github.com/jeremyknight-me/photocollage.**
-
-
 # Photo Collage Screensaver
 Photo Collage Screensaver is a Windows screensaver written in .NET. It takes pictures from your computer and turns them into a beautiful collage screensaver.
 
@@ -19,3 +16,5 @@ Photo Collage Screensaver is a Windows screensaver written in .NET. It takes pic
 
 Tekzilla Daily Episode 1217 – 05/07/2012
 * http://www.youtube.com/watch?v=Vy1nrIMdtpA
+
+**This project was formally maintained by [@digital-lagniappe](https://github.com/digital-lagniappe/) at https://github.com/digital-lagniappe.**
