@@ -18,16 +18,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 * Removed requirement for user to install .NET.
 * Removed stand alone desktop version. 
 
-## [Version 2.1.0](../../releases/tag/v2.1)
+## [Version 2.1.0](../../releases/tag/v2.1) - 19 July 2018
 * Updated .NET to 4.7.1
 * Updated file system code to speed up startup
 
-## [Version 2.0.0](../../releases/tag/v2.0)
+## [Version 2.0.0](../../releases/tag/v2.0) - 8 January 2014
 * Completely re-written in .NET 4.5
 * Added multiple monitor support
 * Changed from file dialog to folder dialog for folder selection
 
-## Version 1.5.0
+## Version 1.5.0 - 16 October 2013
 * Fixed bug with photo location randomization
 
 ## Version 1.4.0
