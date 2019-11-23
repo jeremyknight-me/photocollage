@@ -3,6 +3,6 @@
     internal interface IPhotoRepository
     {
         bool HasPhotos { get; }
-        string NextPhotoFilePath { get; }
+        string GetNextPhotoFilePath();
     }
 }

@@ -16,21 +16,13 @@ namespace PhotoCollageScreensaver.Repositories
             this.LoadPathsFromFileSystem();
         }
 
-        public bool HasPhotos
-        {
-            get { return !this.PhotoFilePaths.IsEmpty; }
-        }
+        public bool HasPhotos => !this.PhotoFilePaths.IsEmpty;
 
-        public string NextPhotoFilePath
-        {
-            get { return this.GetNextPhotoFilePath(); }
-        }
+        public abstract string GetNextPhotoFilePath();
 
         protected ConcurrentQueue<string> PhotoFilePaths { get; private set; }
 
         protected string RootDirectoryPath { get; private set; }
-
-        protected abstract string GetNextPhotoFilePath();
 
         protected abstract IEnumerable<string> GetOrderedPaths(IEnumerable<string> paths);
 

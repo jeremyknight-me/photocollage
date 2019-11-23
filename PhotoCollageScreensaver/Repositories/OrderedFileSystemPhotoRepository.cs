@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 
 namespace PhotoCollageScreensaver.Repositories
 {
@@ -11,10 +10,9 @@ namespace PhotoCollageScreensaver.Repositories
         {
         }
 
-        protected override string GetNextPhotoFilePath()
+        public override string GetNextPhotoFilePath()
         {
             string path;
-
             if (!this.PhotoFilePaths.TryDequeue(out path))
             {
                 this.PhotoFilePaths.TryDequeue(out path);
@@ -26,7 +24,7 @@ namespace PhotoCollageScreensaver.Repositories
 
         protected override IEnumerable<string> GetOrderedPaths(IEnumerable<string> paths)
         {
-            return paths.OrderBy(x => x);
+            return paths;
         }
     }
 }

@@ -101,7 +101,7 @@ namespace PhotoCollageScreensaver
         {
             try
             {
-                string path = this.photoRepository.NextPhotoFilePath;
+                string path = this.photoRepository.GetNextPhotoFilePath();
                 ICollageView view = this.GetNextDisplayView();
                 var control = new CollageImage(path, this);
                 view.ImageCanvas.Children.Add(control);

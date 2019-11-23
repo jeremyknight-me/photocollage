@@ -8,7 +8,6 @@ namespace PhotoCollageScreensaver.Repositories
     internal sealed class RandomFileSystemPhotoRepository : FileSystemPhotoRepositoryBase
     {
         private readonly List<string> displayedPhotos;
-
         private readonly object threadLock = new object();
 
         public RandomFileSystemPhotoRepository(string path)
@@ -17,10 +16,9 @@ namespace PhotoCollageScreensaver.Repositories
             this.displayedPhotos = new List<string>();
         }
 
-        protected override string GetNextPhotoFilePath()
+        public override string GetNextPhotoFilePath()
         {
             string path;
-
             if (!this.PhotoFilePaths.TryDequeue(out path))
             {
                 this.ReloadPhotoQueue();
