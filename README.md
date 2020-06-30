@@ -10,6 +10,15 @@ _This project was formally maintained by [@digital-lagniappe](https://github.com
 | v3.0 | Coming Soon |
 | v2.0 | [Link](../../releases/tag/v2.0) |
 
+### Features
+* File types supported include: JPG, JPEG, and PNG.
+* Display your photos from any location
+* Display your photos in order or randomized
+* Display your photos across multiple monitors
+* Control the number of photos displayed at once
+* Control the speed your photos rotate
+* And for advanced users, set the maximum size of of your photos (default size is 500 pixels)
+
 ### Links
 * Facebook Page: https://www.facebook.com/PhotoCollageScreensaver
 * Video of Screensaver Running: https://www.youtube.com/watch?v=AWpOxp9_PDo
