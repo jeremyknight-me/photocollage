@@ -2,14 +2,18 @@
 
     <PropertyGroup>
         <OutputType>WinExe</OutputType>
-        <TargetFramework>netcoreapp3.0</TargetFramework>
+        <TargetFramework>net5.0-windows</TargetFramework>
         <UseWindowsForms>true</UseWindowsForms>
         <UseWPF>true</UseWPF>
         <Authors>Jeremy Knight</Authors>
-        <Company>Digital Lagniappe</Company>
+        <Company></Company>
         <PublishTrimmed>true</PublishTrimmed>
         <PublishSingleFile>true</PublishSingleFile>
         <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+        <Description>Photo Collage Screensaver is a Windows screensaver written in .NET. It takes pictures from your computer and turns them into a beautiful collage screensaver.</Description>
+        <RepositoryUrl>https://github.com/jeremyknight-me/photocollage</RepositoryUrl>
+        <PackageProjectUrl>https://github.com/jeremyknight-me/photocollage</PackageProjectUrl>
+        <Version>3.0.0</Version>
     </PropertyGroup>
 
 </Project>

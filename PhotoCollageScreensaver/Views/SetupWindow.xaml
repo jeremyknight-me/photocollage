@@ -6,7 +6,7 @@
         mc:Ignorable="d"
         Title="Photo Screensaver Settings" 
         Background="{StaticResource DarkGrayBrush}"
-        Height="365" Width="530" 
+        Height="365" Width="510" 
         WindowStartupLocation="CenterScreen" 
         ResizeMode="NoResize">
     <Window.Resources>
@@ -17,7 +17,6 @@
             <Setter Property="Foreground" Value="Black" />
         </Style>
         <Style TargetType="{x:Type Label}">
-            <Setter Property="FontWeight" Value="Bold" />
             <Setter Property="FontSize" Value="14" />
             <Setter Property="HorizontalAlignment" Value="Right" />
             <Setter Property="Foreground" Value="White" />
@@ -25,10 +24,11 @@
         <Style TargetType="{x:Type TextBox}">
             <Setter Property="FontWeight" Value="Normal" />
             <Setter Property="FontSize" Value="14" />
-            <Setter Property="Margin" Value="2" />
+            <Setter Property="Margin" Value="5" />
         </Style>
         <Style TargetType="{x:Type ComboBox}">
             <Setter Property="FontSize" Value="14" />
+            <Setter Property="Margin" Value="2" />
         </Style>
         <Style TargetType="{x:Type TextBlock}">
             <Setter Property="FontWeight" Value="Normal" />
@@ -38,9 +38,9 @@
             <Setter Property="Margin" Value="5" />
         </Style>
     </Window.Resources>
-    <Grid Margin="10">
+    <Grid Margin="10, 5, 0, 0">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="125" />
+            <ColumnDefinition Width="100" />
             <ColumnDefinition Width="300" />
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
@@ -58,11 +58,11 @@
 
         <Canvas Grid.ColumnSpan="3" 
                 Height="50"
-                Margin="0, 0, 0, 15">
+                Margin="0, 0, 0, 5">
             <TextBlock Text="Photo Collage Screensaver"
                        FontSize="20"
                        Foreground="White" />
-            <TextBlock Text="by Digital Lagniappe"
+            <TextBlock Text="by Jeremy Knight"
                        Canvas.Left="5"
                        Canvas.Top="24"
                        Foreground="White" />
