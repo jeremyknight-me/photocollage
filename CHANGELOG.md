@@ -12,7 +12,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 * Added ability to run screensaver from desktop.
 * Added preview button to option screen to allow desktop viewing. 
 ### Changed
-* Upgraded to .NET Core 3. 
+* Upgraded to .NET 5. 
 * Changed configuration file to use JSON.
 ### Removed
 * Removed requirement for user to install .NET.
