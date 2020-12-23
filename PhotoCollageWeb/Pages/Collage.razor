@@ -15,4 +15,11 @@
             <PhotoFrame Image="image" />
         }
     }
+    @if (this.removedImages.Any())
+    {
+        foreach (var image in this.removedImages)
+        {
+            <PhotoFrame Image="image" IsRemoved="true" />
+        }
+    }
 </div>
