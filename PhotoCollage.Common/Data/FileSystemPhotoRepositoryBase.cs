@@ -1,11 +1,11 @@
-﻿using PhotoCollageScreensaver.Contracts;
-using System;
+﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 
-namespace PhotoCollageScreensaver.Repositories
+namespace PhotoCollage.Common.Data
 {
     internal abstract class FileSystemPhotoRepositoryBase : IPhotoRepository
     {
@@ -36,15 +36,38 @@ namespace PhotoCollageScreensaver.Repositories
 
         private void LoadPathsFromFileSystem()
         {
-            var extensions = new HashSet<string> { ".jpg", ".jpeg", ".png" };
-            var length = this.RootDirectoryPath.Length;
             var files = Directory.EnumerateFiles(this.RootDirectoryPath, "*", SearchOption.AllDirectories);
-            var paths =
-                from f in files
-                where extensions.Contains(Path.GetExtension(f), StringComparer.OrdinalIgnoreCase)
-                select f.Substring(length).TrimStart(new[] { '\\' });
+            var paths = this.GetPathsWithExtension(files);
             var orderedPaths = this.GetOrderedPaths(paths);
             this.LoadPhotoPathsIntoQueue(orderedPaths);
+        }
+
+        private IEnumerable<string> GetPathsWithExtension(IEnumerable<string> files)
+        {
+            var extensions = new HashSet<string> { ".jpg", ".jpeg", ".png" };
+            var length = this.RootDirectoryPath.Length;
+            var paths = new ConcurrentQueue<string>();
+            var exceptions = new ConcurrentQueue<Exception>();
+            Parallel.ForEach(files, file =>
+            {
+                try
+                {
+                    var fileExtension = Path.GetExtension(file);
+                    if (extensions.Contains(fileExtension, StringComparer.OrdinalIgnoreCase))
+                    {
+                        var path = file.Remove(0, length).TrimStart(new[] { '\\' });
+                        paths.Enqueue(path);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    exceptions.Enqueue(ex);
+                }
+            });
+
+            return exceptions.IsEmpty
+                ? paths
+                : throw new AggregateException(exceptions);
         }
     }
 }

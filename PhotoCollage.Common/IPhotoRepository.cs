@@ -1,6 +1,6 @@
-﻿namespace PhotoCollageScreensaver.Contracts
+﻿namespace PhotoCollage.Common
 {
-    internal interface IPhotoRepository
+    public interface IPhotoRepository
     {
         bool HasPhotos { get; }
         string GetNextPhotoFilePath();

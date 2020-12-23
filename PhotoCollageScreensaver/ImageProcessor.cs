@@ -1,17 +1,18 @@
 ﻿using System;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using PhotoCollage.Common;
 
 namespace PhotoCollageScreensaver
 {
     internal class ImageProcessor
     {
         private readonly string imagePath;
-        private readonly Configuration configuration;
+        private readonly CollageSettings configuration;
         private double dpiScale;
         private double maximumSizeDiu;
 
-        public ImageProcessor(string imagePathToUse, Configuration configurationToUse)
+        public ImageProcessor(string imagePathToUse, CollageSettings configurationToUse)
         {
             this.imagePath = imagePathToUse;
             this.configuration = configurationToUse;
@@ -20,7 +21,7 @@ namespace PhotoCollageScreensaver
         public ImageSource GetImage()
         {
             BitmapSource rawImage = this.GetRawImage();
-            BitmapSource sourceImage = this.configuration.IsGrayscale
+            var sourceImage = this.configuration.IsGrayscale
                 ? this.GetGrayscaleImage(rawImage)
                 : rawImage;
 
@@ -29,7 +30,7 @@ namespace PhotoCollageScreensaver
 
             if (this.DoesImageNeedScaling(sourceImage.Height, sourceImage.Width))
             {
-                double scale = sourceImage.Height > sourceImage.Width
+                var scale = sourceImage.Height > sourceImage.Width
                     ? this.GetPortraitScale(sourceImage.Height)
                     : this.GetLandscapeScale(sourceImage.Width);
                 return this.GetScaledImage(sourceImage, scale);
@@ -59,12 +60,9 @@ namespace PhotoCollageScreensaver
             return image;
         }
 
-        private bool DoesImageNeedScaling(double height, double width)
-        {
-            return height > this.maximumSizeDiu
+        private bool DoesImageNeedScaling(double height, double width) => height > this.maximumSizeDiu
                 || width > this.maximumSizeDiu
                 || this.dpiScale > 1;
-        }
 
         private TransformedBitmap GetScaledImage(BitmapSource original, double scale)
         {
@@ -73,14 +71,8 @@ namespace PhotoCollageScreensaver
             return new TransformedBitmap(original, transform);
         }
 
-        private double GetLandscapeScale(double width)
-        {
-            return (this.maximumSizeDiu / width) * this.dpiScale;
-        }
+        private double GetLandscapeScale(double width) => (this.maximumSizeDiu / width) * this.dpiScale;
 
-        private double GetPortraitScale(double height)
-        {
-            return (this.maximumSizeDiu / height) * this.dpiScale;
-        }
+        private double GetPortraitScale(double height) => (this.maximumSizeDiu / height) * this.dpiScale;
     }
 }

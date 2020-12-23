@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 
-namespace PhotoCollageScreensaver.Repositories
+namespace PhotoCollage.Common.Data
 {
     internal sealed class OrderedFileSystemPhotoRepository : FileSystemPhotoRepositoryBase
     {
@@ -12,8 +12,7 @@ namespace PhotoCollageScreensaver.Repositories
 
         public override string GetNextPhotoFilePath()
         {
-            string path;
-            if (!this.PhotoFilePaths.TryDequeue(out path))
+            if (!this.PhotoFilePaths.TryDequeue(out var path))
             {
                 this.PhotoFilePaths.TryDequeue(out path);
             }
@@ -22,9 +21,6 @@ namespace PhotoCollageScreensaver.Repositories
             return Path.Combine(this.RootDirectoryPath, path);
         }
 
-        protected override IEnumerable<string> GetOrderedPaths(IEnumerable<string> paths)
-        {
-            return paths;
-        }
+        protected override IEnumerable<string> GetOrderedPaths(IEnumerable<string> paths) => paths;
     }
 }

@@ -1,5 +1,6 @@
-﻿using PhotoCollageScreensaver.Contracts;
-using PhotoCollageScreensaver.Repositories;
+﻿using PhotoCollage.Common;
+using PhotoCollage.Common.Data;
+using PhotoCollageScreensaver.Contracts;
 using PhotoCollageScreensaver.UserControls;
 using System;
 using System.Collections.Concurrent;
@@ -20,7 +21,7 @@ namespace PhotoCollageScreensaver
         private readonly ApplicationController controller;
         private int displayViewIndex;
 
-        public CollagePresenter(ApplicationController controllerToUse, Configuration configurationToUse)
+        public CollagePresenter(ApplicationController controllerToUse, CollageSettings configurationToUse)
         {
             this.random = new Random();
             this.views = new List<ICollageView>();
@@ -31,7 +32,7 @@ namespace PhotoCollageScreensaver
             this.displayViewIndex = -1;
         }
 
-        public Configuration Configuration { get; }
+        public CollageSettings Configuration { get; }
 
         public void StartAnimation()
         {
@@ -75,10 +76,7 @@ namespace PhotoCollageScreensaver
             return value;
         }
 
-        public void HandleError(Exception ex, bool showMessage = false)
-        {
-            this.controller.HandleError(ex, showMessage);
-        }
+        public void HandleError(Exception ex, bool showMessage = false) => this.controller.HandleError(ex, showMessage);
 
         public void SetupWindow<T>(T window, System.Windows.Forms.Screen screen) where T : Window, ICollageView
         {
@@ -88,7 +86,7 @@ namespace PhotoCollageScreensaver
                 Color = Colors.Black
             };
             window.Background = backgroundBrush;
-            System.Drawing.Rectangle windowLocation = screen.Bounds;
+            var windowLocation = screen.Bounds;
             window.Left = windowLocation.Left;
             window.Top = windowLocation.Top;
             window.Width = windowLocation.Width;
@@ -101,8 +99,8 @@ namespace PhotoCollageScreensaver
         {
             try
             {
-                string path = this.photoRepository.GetNextPhotoFilePath();
-                ICollageView view = this.GetNextDisplayView();
+                var path = this.photoRepository.GetNextPhotoFilePath();
+                var view = this.GetNextDisplayView();
                 var control = new CollageImage(path, this);
                 view.ImageCanvas.Children.Add(control);
                 this.imageQueue.Enqueue(control);
@@ -123,7 +121,7 @@ namespace PhotoCollageScreensaver
 
         private ICollageView GetNextDisplayView()
         {
-            int nextIndex = this.displayViewIndex + 1;
+            var nextIndex = this.displayViewIndex + 1;
             if (nextIndex >= this.views.Count)
             {
                 nextIndex = 0;
@@ -135,7 +133,7 @@ namespace PhotoCollageScreensaver
 
         private void RemoveImageFromQueue()
         {
-            if (this.imageQueue.TryDequeue(out CollageImage control))
+            if (this.imageQueue.TryDequeue(out var control))
             {
                 Action<CollageImage> action = this.RemoveImageFromPanel;
                 control.FadeOutImage(action);

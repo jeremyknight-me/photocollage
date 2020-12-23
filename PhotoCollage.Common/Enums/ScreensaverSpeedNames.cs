@@ -1,6 +1,6 @@
-﻿namespace PhotoCollageScreensaver.Enums
+﻿namespace PhotoCollage.Common.Enums
 {
-    internal static class ScreensaverSpeedNames
+    public static class ScreensaverSpeedNames
     {
         public const string Slow = "Slow";
         public const string Medium = "Medium";

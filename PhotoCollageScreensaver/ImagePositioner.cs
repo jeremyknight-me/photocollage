@@ -33,28 +33,28 @@ namespace PhotoCollageScreensaver
 
         private void SetHorizontalPosition()
         {
-            int position = this.presenter.GetRandomNumber(0, this.viewportWidth);
-            int max = this.viewportWidth - this.controlWidth;
+            var position = this.presenter.GetRandomNumber(0, this.viewportWidth);
+            var max = this.viewportWidth - this.controlWidth;
 
             if (position > max)
             {
                 position = max;
             }
 
-            Canvas.SetLeft(control, position);
+            Canvas.SetLeft(this.control, position);
         }
 
         private void SetVerticalPosition()
         {
-            int position = this.presenter.GetRandomNumber(0, this.viewportHeight);
-            int max = this.viewportHeight - this.controlHeight;
+            var position = this.presenter.GetRandomNumber(0, this.viewportHeight);
+            var max = this.viewportHeight - this.controlHeight;
 
             if (position > max)
             {
                 position = max;
             }
 
-            Canvas.SetTop(control, position);
+            Canvas.SetTop(this.control, position);
         }
     }
 }
