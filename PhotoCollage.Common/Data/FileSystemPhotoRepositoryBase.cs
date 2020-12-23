@@ -36,9 +36,16 @@ namespace PhotoCollage.Common.Data
 
         private void LoadPathsFromFileSystem()
         {
+            var files = Directory.EnumerateFiles(this.RootDirectoryPath, "*", SearchOption.AllDirectories);
+            var paths = this.GetPathsWithExtension(files);
+            var orderedPaths = this.GetOrderedPaths(paths);
+            this.LoadPhotoPathsIntoQueue(orderedPaths);
+        }
+
+        private IEnumerable<string> GetPathsWithExtension(IEnumerable<string> files)
+        {
             var extensions = new HashSet<string> { ".jpg", ".jpeg", ".png" };
             var length = this.RootDirectoryPath.Length;
-            var files = Directory.EnumerateFiles(this.RootDirectoryPath, "*", SearchOption.AllDirectories);
             var paths = new ConcurrentQueue<string>();
             var exceptions = new ConcurrentQueue<Exception>();
             Parallel.ForEach(files, file =>
@@ -58,17 +65,9 @@ namespace PhotoCollage.Common.Data
                 }
             });
 
-            if (!exceptions.IsEmpty)
-            {
-                throw new AggregateException(exceptions);
-            }
-
-            //var paths =
-            //    from f in files
-            //    where extensions.Contains(Path.GetExtension(f), StringComparer.OrdinalIgnoreCase)
-            //    select f.Remove(0, length).TrimStart(new[] { '\\' });
-            var orderedPaths = this.GetOrderedPaths(paths);
-            this.LoadPhotoPathsIntoQueue(orderedPaths);
+            return exceptions.IsEmpty
+                ? paths
+                : throw new AggregateException(exceptions);
         }
     }
 }

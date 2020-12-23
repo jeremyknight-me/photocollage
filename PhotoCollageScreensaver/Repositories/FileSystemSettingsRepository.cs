@@ -19,7 +19,7 @@ namespace PhotoCollageScreensaver.Repositories
 
         public CollageSettings Load()
         {
-            string contents = File.ReadAllText(this.filePath);
+            var contents = File.ReadAllText(this.filePath);
             return contents.Trim().StartsWith("<?xml")
                 ? this.LoadFromXml(contents) // provides fallback for upgrades from older version
                 : this.LoadFromJson(contents);
@@ -41,10 +41,8 @@ namespace PhotoCollageScreensaver.Repositories
         {
             contents = contents.Replace("ScreensaverConfiguration", "Configuration");
             var serializer = new System.Xml.Serialization.XmlSerializer(typeof(CollageSettings));
-            using (TextReader reader = new StringReader(contents))
-            {
-                return serializer.Deserialize(reader) as CollageSettings;
-            }
+            using TextReader reader = new StringReader(contents);
+            return serializer.Deserialize(reader) as CollageSettings;
         }
 
         private void EnsureDirectoryExists()
