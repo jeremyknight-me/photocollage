@@ -1,4 +1,4 @@
-﻿using PhotoCollageScreensaver.Enums;
+﻿using PhotoCollage.Common.Enums;
 using System;
 using System.IO;
 using System.Windows;

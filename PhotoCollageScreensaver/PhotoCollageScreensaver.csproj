@@ -16,4 +16,8 @@
         <Version>3.0.0</Version>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\PhotoCollage.Common\PhotoCollage.Common.csproj" />
+    </ItemGroup>
+
 </Project>

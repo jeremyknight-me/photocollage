@@ -1,5 +1,6 @@
-﻿using PhotoCollageScreensaver.Commands;
-using PhotoCollageScreensaver.Enums;
+﻿using PhotoCollage.Common;
+using PhotoCollage.Common.Enums;
+using PhotoCollageScreensaver.Commands;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -31,7 +32,7 @@ namespace PhotoCollageScreensaver.ViewModels
                 { ScreensaverSpeed.Slow, ScreensaverSpeedNames.Slow }
             };
         
-        public SetupViewModel(Configuration config, ApplicationController controllerToUse)
+        public SetupViewModel(CollageSettings config, ApplicationController controllerToUse)
         {
             this.BorderOptions = new ObservableCollection<KeyValuePair<string, string>>()
             {
@@ -72,7 +73,7 @@ namespace PhotoCollageScreensaver.ViewModels
         public ICommand CancelCommand { get; private set; }
         public ICommand SelectDirectoryCommand { get; private set; }
 
-        public Configuration Config { get; private set; }
+        public CollageSettings Config { get; private set; }
         public ObservableCollection<KeyValuePair<string, string>> BorderOptions { get; set; }
         public ObservableCollection<string> SpeedOptions { get; set; }
 

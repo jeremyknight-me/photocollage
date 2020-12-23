@@ -1,5 +1,6 @@
-﻿using PhotoCollageScreensaver.Contracts;
-using PhotoCollageScreensaver.Repositories;
+﻿using PhotoCollage.Common;
+using PhotoCollage.Common.Data;
+using PhotoCollageScreensaver.Contracts;
 using PhotoCollageScreensaver.UserControls;
 using System;
 using System.Collections.Concurrent;
@@ -20,7 +21,7 @@ namespace PhotoCollageScreensaver
         private readonly ApplicationController controller;
         private int displayViewIndex;
 
-        public CollagePresenter(ApplicationController controllerToUse, Configuration configurationToUse)
+        public CollagePresenter(ApplicationController controllerToUse, CollageSettings configurationToUse)
         {
             this.random = new Random();
             this.views = new List<ICollageView>();
@@ -31,7 +32,7 @@ namespace PhotoCollageScreensaver
             this.displayViewIndex = -1;
         }
 
-        public Configuration Configuration { get; }
+        public CollageSettings Configuration { get; }
 
         public void StartAnimation()
         {

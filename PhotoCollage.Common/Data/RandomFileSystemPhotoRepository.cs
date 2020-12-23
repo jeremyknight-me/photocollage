@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace PhotoCollageScreensaver.Repositories
+namespace PhotoCollage.Common.Data
 {
     internal sealed class RandomFileSystemPhotoRepository : FileSystemPhotoRepositoryBase
     {
@@ -18,8 +18,7 @@ namespace PhotoCollageScreensaver.Repositories
 
         public override string GetNextPhotoFilePath()
         {
-            string path;
-            if (!this.PhotoFilePaths.TryDequeue(out path))
+            if (!this.PhotoFilePaths.TryDequeue(out var path))
             {
                 this.ReloadPhotoQueue();
                 this.PhotoFilePaths.TryDequeue(out path);
@@ -33,10 +32,7 @@ namespace PhotoCollageScreensaver.Repositories
             return Path.Combine(this.RootDirectoryPath, path);
         }
 
-        protected override IEnumerable<string> GetOrderedPaths(IEnumerable<string> paths)
-        {
-            return RandomizePaths(paths);
-        }
+        protected override IEnumerable<string> GetOrderedPaths(IEnumerable<string> paths) => RandomizePaths(paths);
 
         private static IEnumerable<string> RandomizePaths(IEnumerable<string> paths)
         {
@@ -48,7 +44,7 @@ namespace PhotoCollageScreensaver.Repositories
         {
             lock (this.threadLock)
             {
-                IEnumerable<string> photosToQueue = RandomizePaths(this.displayedPhotos);
+                var photosToQueue = RandomizePaths(this.displayedPhotos);
                 this.LoadPhotoPathsIntoQueue(photosToQueue);
                 this.displayedPhotos.Clear();
             }

@@ -1,6 +1,6 @@
-﻿namespace PhotoCollageScreensaver.Enums
+﻿namespace PhotoCollage.Common.Enums
 {
-    internal static class BorderTypeNames
+    public static class BorderTypeNames
     {
         public const string None = "None";
         public const string Border = "Border";

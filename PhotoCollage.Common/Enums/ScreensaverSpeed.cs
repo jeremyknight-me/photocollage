@@ -1,4 +1,4 @@
-﻿namespace PhotoCollageScreensaver.Enums
+﻿namespace PhotoCollage.Common.Enums
 {
     public enum ScreensaverSpeed
     {

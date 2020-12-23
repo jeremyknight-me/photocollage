@@ -1,4 +1,5 @@
-﻿using PhotoCollageScreensaver.Contracts;
+﻿using PhotoCollage.Common;
+using PhotoCollageScreensaver.Contracts;
 using PhotoCollageScreensaver.Repositories;
 using PhotoCollageScreensaver.ViewModels;
 using PhotoCollageScreensaver.Views;
@@ -10,8 +11,8 @@ namespace PhotoCollageScreensaver
 {
     public class ApplicationController
     {
-        private readonly Configuration configuration;
-        private readonly IConfigurationRepository configurationRepository;
+        private readonly CollageSettings configuration;
+        private readonly ISettingsRepository configurationRepository;
         private readonly ILogger logger;
         private CollagePresenter collagePresenter;
 
@@ -21,7 +22,7 @@ namespace PhotoCollageScreensaver
                 Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
                 @"DigitalLagniappe\Screensavers\PhotoCollage");
             this.logger = new TextLogger(localDataDirectory);
-            this.configurationRepository = new FileSystemConfigurationRepository(localDataDirectory);
+            this.configurationRepository = new FileSystemSettingsRepository(localDataDirectory);
             this.configuration = configurationRepository.Load();
         }
 

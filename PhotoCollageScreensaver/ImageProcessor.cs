@@ -1,17 +1,18 @@
 ﻿using System;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using PhotoCollage.Common;
 
 namespace PhotoCollageScreensaver
 {
     internal class ImageProcessor
     {
         private readonly string imagePath;
-        private readonly Configuration configuration;
+        private readonly CollageSettings configuration;
         private double dpiScale;
         private double maximumSizeDiu;
 
-        public ImageProcessor(string imagePathToUse, Configuration configurationToUse)
+        public ImageProcessor(string imagePathToUse, CollageSettings configurationToUse)
         {
             this.imagePath = imagePathToUse;
             this.configuration = configurationToUse;
