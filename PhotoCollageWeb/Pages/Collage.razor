@@ -4,7 +4,9 @@
 <div id="collage-wrapper">
     @if (!this.images.Any())
     {
-        <div style="color: #fff;">loading...</div>
+        <div style="position: absolute; text-align: center; top: 20vh; width: 100vw;">
+            <img src="/img/loading.gif" />
+        </div>
     }
     else
     {
