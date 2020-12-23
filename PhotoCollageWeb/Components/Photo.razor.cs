@@ -10,7 +10,6 @@ namespace PhotoCollageWeb.Components
         [Parameter] public ImageData Image { get; set; }
         [Inject] protected IOptions<CollageSettings> Options { get; set; }
         protected CollageSettings Settings => this.Options.Value;
-
         protected string CssClasses => string.Empty;
 
         protected string CssStyles
@@ -27,11 +26,6 @@ namespace PhotoCollageWeb.Components
 
                 return styles;
             }
-        }
-
-        protected override void OnInitialized()
-        {
-            base.OnInitialized();
         }
     }
 }
