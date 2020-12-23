@@ -8,7 +8,7 @@ namespace PhotoCollageWeb.Components
 {
     public partial class PhotoFrame
     {
-        [Parameter] public ImageData Image { get; set; }
+        [Parameter] public PhotoData Image { get; set; }
         [Parameter] public bool IsRemoved { get; set; } = false;
         [Inject] protected IOptions<CollageSettings> Options { get; set; }
         protected CollageSettings Settings => this.Options.Value;

@@ -7,9 +7,8 @@ namespace PhotoCollageWeb.Components
 {
     public partial class Photo
     {
-        [Parameter] public ImageData Image { get; set; }
+        [Parameter] public PhotoData Image { get; set; }
         [Inject] protected IOptions<CollageSettings> Options { get; set; }
         protected CollageSettings Settings => this.Options.Value;
-        protected string CssClasses => string.Empty;
     }
 }

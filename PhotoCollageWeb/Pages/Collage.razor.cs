@@ -12,8 +12,8 @@ namespace PhotoCollageWeb.Pages
 {
     public partial class Collage : IDisposable
     {
-        private readonly Queue<ImageData> images = new Queue<ImageData>();
-        private readonly Queue<ImageData> removedImages = new Queue<ImageData>();
+        private readonly Queue<PhotoData> images = new Queue<PhotoData>();
+        private readonly Queue<PhotoData> removedImages = new Queue<PhotoData>();
         private int count = 0;
         private IPhotoRepository photoRepository;
         private Timer timer;
@@ -46,7 +46,7 @@ namespace PhotoCollageWeb.Pages
                 var path = this.photoRepository.GetNextPhotoFilePath();
                 var extension = System.IO.Path.GetExtension(path);
                 var bytes = System.IO.File.ReadAllBytes(path);
-                var image = new ImageData(++this.count, this.Settings)
+                var image = new PhotoData(++this.count, this.Settings)
                 {
                     Extension = extension,
                     Data = Convert.ToBase64String(bytes)

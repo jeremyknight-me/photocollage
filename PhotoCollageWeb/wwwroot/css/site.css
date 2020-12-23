@@ -51,9 +51,9 @@ html, body {
         animation-fill-mode: forwards;
     }
 
-.photo-frame img {
-    border: 1px solid #ccc;
-}
+    .photo-frame img {
+        border: 1px solid #ccc;
+    }
 
 @keyframes removedFadeOut {
     from { opacity: inherit; }

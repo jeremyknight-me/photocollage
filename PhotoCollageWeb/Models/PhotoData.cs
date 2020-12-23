@@ -5,13 +5,13 @@ using PhotoCollage.Common;
 
 namespace PhotoCollageWeb.Models
 {
-    public class ImageData
+    public class PhotoData
     {
         private readonly int index;
         private readonly IDictionary<string, string> displayStyles;
         private readonly IDictionary<string, string> positionStyles;
 
-        public ImageData(int count, CollageSettings settings)
+        public PhotoData(int count, CollageSettings settings)
         {
             this.index = count;
             this.Key = Guid.NewGuid();
