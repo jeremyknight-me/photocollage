@@ -13,6 +13,7 @@ namespace PhotoCollageWeb.Pages
     public partial class Collage : IDisposable
     {
         private readonly Queue<ImageData> images = new Queue<ImageData>();
+        private readonly Queue<ImageData> removedImages = new Queue<ImageData>();
         private int count = 0;
         private IPhotoRepository photoRepository;
         private Timer timer;
@@ -45,9 +46,8 @@ namespace PhotoCollageWeb.Pages
                 var path = this.photoRepository.GetNextPhotoFilePath();
                 var extension = System.IO.Path.GetExtension(path);
                 var bytes = System.IO.File.ReadAllBytes(path);
-                var image = new ImageData(this.Settings.MaximumRotation)
+                var image = new ImageData(++this.count, this.Settings)
                 {
-                    Count = ++this.count,
                     Extension = extension,
                     Data = Convert.ToBase64String(bytes)
                 };
@@ -55,7 +55,13 @@ namespace PhotoCollageWeb.Pages
 
                 if (this.images.Count > this.Settings.NumberOfPhotos)
                 {
-                    _ = this.images.Dequeue();
+                    var removed = this.images.Dequeue();
+                    this.removedImages.Enqueue(removed);
+                }
+
+                if (this.removedImages.Count > 1)
+                {
+                    _ = this.removedImages.Dequeue();
                 }
             }
             this.TryStartTimer();
