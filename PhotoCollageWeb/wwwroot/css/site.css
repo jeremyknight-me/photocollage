@@ -40,14 +40,24 @@ html, body {
     position: absolute;
 }
 
-.bordered {
-    background-color: #eee;
-    filter: drop-shadow(0 0 0.75rem #333);
-    padding: 0.8em;
-}
+    .photo-frame.bordered {
+        background-color: #eee;
+        filter: drop-shadow(0 0 0.75rem #333);
+        padding: 0.8em;
+    }
+
+    .photo-frame.removed {
+        animation: removedFadeOut ease 3s;
+        animation-fill-mode: forwards;
+    }
 
 .photo-frame img {
     border: 1px solid #ccc;
+}
+
+@keyframes removedFadeOut {
+    from { opacity: inherit; }
+    to { opacity: 0; }
 }
 
 /* -- Blazor Styles ----- */

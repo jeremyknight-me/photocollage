@@ -45,7 +45,7 @@ namespace PhotoCollageWeb.Pages
                 var path = this.photoRepository.GetNextPhotoFilePath();
                 var extension = System.IO.Path.GetExtension(path);
                 var bytes = System.IO.File.ReadAllBytes(path);
-                var image = new ImageData
+                var image = new ImageData(this.Settings.MaximumRotation)
                 {
                     Count = ++this.count,
                     Extension = extension,
