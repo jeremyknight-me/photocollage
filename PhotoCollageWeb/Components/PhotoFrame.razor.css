@@ -1,9 +1,0 @@
-﻿.photo-frame {
-    position: absolute;
-}
-
-.bordered {
-    background-color: #eee;
-    filter: drop-shadow(0 0 0.75rem #333);
-    padding: 0.8em;
-}

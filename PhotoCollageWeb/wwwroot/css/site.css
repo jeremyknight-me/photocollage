@@ -6,6 +6,33 @@ html, body {
     width: 100%;
 }
 
+/* -- Photo Frame Styles ----- */
+
+#collage-wrapper {
+    background-color: #222;
+    height: 100vh;
+    position: absolute;
+    overflow: hidden;
+    width: 100vw;
+    z-index: 0;
+}
+
+.photo-frame {
+    position: absolute;
+}
+
+.bordered {
+    background-color: #eee;
+    filter: drop-shadow(0 0 0.75rem #333);
+    padding: 0.8em;
+}
+
+.photo-frame img {
+    border: 1px solid #222;
+}
+
+/* -- Blazor Styles ----- */
+
 #blazor-error-ui {
     background: lightyellow;
     bottom: 0;
