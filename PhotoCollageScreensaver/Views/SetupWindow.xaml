@@ -91,7 +91,7 @@
                 Grid.Column="1" 
                 Value="{Binding Config.NumberOfPhotos}"
                 Minimum="5" 
-                Maximum="30"
+                Maximum="100"
                 IsSnapToTickEnabled="True" 
                 TickFrequency="5" />
         <TextBlock x:Name="numberOfPhotosTextBlock"
