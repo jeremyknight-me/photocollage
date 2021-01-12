@@ -78,7 +78,7 @@ namespace PhotoCollageScreensaver
 
         public void HandleError(Exception ex, bool showMessage = false) => this.controller.HandleError(ex, showMessage);
 
-        public void SetupWindow<T>(T window, System.Windows.Forms.Screen screen) where T : Window, ICollageView
+        public void SetupWindow<T>(T window, Monitors.Screen screen) where T : Window, ICollageView
         {
             var backgroundBrush = new SolidColorBrush
             {
@@ -86,11 +86,10 @@ namespace PhotoCollageScreensaver
                 Color = Colors.Black
             };
             window.Background = backgroundBrush;
-            var windowLocation = screen.Bounds;
-            window.Left = windowLocation.Left;
-            window.Top = windowLocation.Top;
-            window.Width = windowLocation.Width;
-            window.Height = windowLocation.Height;
+            window.Left = screen.Left;
+            window.Top = screen.Top;
+            window.Width = screen.Width;
+            window.Height = screen.Height;
             window.Show();
             this.views.Add(window);
         }

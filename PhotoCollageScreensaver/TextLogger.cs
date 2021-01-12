@@ -16,13 +16,13 @@ namespace PhotoCollageScreensaver
 
         public void Log(string message)
         {
-            string fullPath = this.GetFullFilePath();
+            var fullPath = this.FullFilePath;
             File.AppendAllText(fullPath, this.GetLogEntry(message));
         }
 
         public void Log(string message, string stackTrace)
         {
-            string fullPath = this.GetFullFilePath();
+            var fullPath = this.FullFilePath;
             var lines = new List<string>()
             {
                 this.GetLogEntry(message),
@@ -34,18 +34,12 @@ namespace PhotoCollageScreensaver
 
         private string GetLogEntry(string message)
         {
-            string date = DateTime.Now.ToString();
+            var date = DateTime.Now.ToString();
             return string.Concat(date, "  ==>  ", message);
         }
 
-        private string GetFileName()
-        {
-            return "log-" + DateTime.Today.ToString("yyyy-MM-dd") + ".txt";
-        }
+        private string GetFileName() => "log-" + DateTime.Today.ToString("yyyy-MM-dd") + ".txt";
 
-        private string GetFullFilePath()
-        {
-            return Path.Combine(this.directory, GetFileName());
-        }
+        private string FullFilePath => Path.Combine(this.directory, this.GetFileName());
     }
 }
