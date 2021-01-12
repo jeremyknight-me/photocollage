@@ -29,7 +29,7 @@ namespace PhotoCollageScreensaver
         public void StartScreensaver()
         {
             var collagePresenter = this.CollagePresenter;
-            foreach (var screen in System.Windows.Forms.Screen.AllScreens)
+            foreach (var screen in Monitors.Monitor.GetScreens())
             {
                 var collageWindow = new CollageWindow(this);
                 collagePresenter.SetupWindow(collageWindow, screen);
