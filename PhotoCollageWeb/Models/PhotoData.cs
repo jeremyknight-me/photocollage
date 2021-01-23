@@ -12,6 +12,7 @@ namespace PhotoCollageWeb.Models
         public PhotoData(int count, CollageSettings settings)
         {
             this.index = count;
+            this.IsRemoved = false;
             this.Key = Guid.NewGuid();
             this.DisplayCssStyles = this.CombineStyles(this.InitializeDisplayStyles(settings));
             this.PositionCssStyles = this.CombineStyles(this.InitializePositionStyles(settings));
@@ -22,6 +23,7 @@ namespace PhotoCollageWeb.Models
         public string Extension { get; init; }
         public string DisplayCssStyles { get; }
         public string PositionCssStyles { get; }
+        public bool IsRemoved { get; internal set; }
 
         private string CombineStyles(IDictionary<string, string> styles) => string.Join(";", styles.OrderBy(x => x.Key).Select(x => $"{x.Key}:{x.Value}"));
 

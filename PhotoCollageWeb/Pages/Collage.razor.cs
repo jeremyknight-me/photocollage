@@ -13,7 +13,6 @@ namespace PhotoCollageWeb.Pages
     public partial class Collage : IDisposable
     {
         private readonly Queue<PhotoData> images = new Queue<PhotoData>();
-        private readonly Queue<PhotoData> removedImages = new Queue<PhotoData>();
         private int count = 0;
         private IPhotoRepository photoRepository;
         private Timer timer;
@@ -32,6 +31,8 @@ namespace PhotoCollageWeb.Pages
             if (firstRender)
             {
                 this.InitializeCollage();
+                this.ShowNextPhoto();
+                this.StateHasChanged();
                 this.TryStartTimer();
             }
 
@@ -41,29 +42,7 @@ namespace PhotoCollageWeb.Pages
         private async void OnTimerInterval(object sender, ElapsedEventArgs e)
         {
             this.TryStopTimer();
-            if (this.photoRepository.HasPhotos)
-            {
-                var path = this.photoRepository.GetNextPhotoFilePath();
-                var extension = System.IO.Path.GetExtension(path);
-                var bytes = System.IO.File.ReadAllBytes(path);
-                var image = new PhotoData(++this.count, this.Settings)
-                {
-                    Extension = extension,
-                    Data = Convert.ToBase64String(bytes)
-                };
-                this.images.Enqueue(image);
-
-                if (this.images.Count > this.Settings.NumberOfPhotos)
-                {
-                    var removed = this.images.Dequeue();
-                    this.removedImages.Enqueue(removed);
-                }
-
-                if (this.removedImages.Count > 1)
-                {
-                    _ = this.removedImages.Dequeue();
-                }
-            }
+            this.ShowNextPhoto();
             this.TryStartTimer();
             await this.InvokeAsync(() => this.StateHasChanged());
         }
@@ -80,11 +59,38 @@ namespace PhotoCollageWeb.Pages
             this.timer.Elapsed += this.OnTimerInterval;
         }
 
+        private void ShowNextPhoto()
+        {
+            if (this.photoRepository.HasPhotos)
+            {
+                var path = this.photoRepository.GetNextPhotoFilePath();
+                var extension = System.IO.Path.GetExtension(path);
+                var bytes = System.IO.File.ReadAllBytes(path);
+                var image = new PhotoData(++this.count, this.Settings)
+                {
+                    Extension = extension,
+                    Data = Convert.ToBase64String(bytes)
+                };
+                this.images.Enqueue(image);
+
+                if (this.images.Count > (this.Settings.NumberOfPhotos + 1))
+                {
+                    _ = this.images.Dequeue();
+                }
+
+                if (this.images.Count > this.Settings.NumberOfPhotos)
+                {
+                    var faded = this.images.Peek();
+                    faded.IsRemoved = true;
+                }
+            }
+        }
+
         private void TryStartTimer()
         {
             if (this.timer != null)
             {
-                this.timer.Enabled = true;
+                this.timer.Start();
             }
         }
 
@@ -92,7 +98,7 @@ namespace PhotoCollageWeb.Pages
         {
             if (this.timer != null)
             {
-                this.timer.Enabled = false;
+                this.timer.Stop();
             }
         }
     }
