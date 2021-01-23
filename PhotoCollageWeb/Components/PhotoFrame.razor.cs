@@ -8,12 +8,22 @@ namespace PhotoCollageWeb.Components
 {
     public partial class PhotoFrame
     {
+        //private bool shouldRender = true;
+        //private bool previousIsRemoved = false;
+
         [Parameter] public PhotoData Image { get; set; }
-        [Parameter] public bool IsRemoved { get; set; } = false;
         [Inject] protected IOptions<CollageSettings> Options { get; set; }
         protected CollageSettings Settings => this.Options.Value;
 
         protected string CssClasses => "photo-frame" + this.GetBorderClasses() + this.GetRemovedClasses();
+
+        //protected override void OnParametersSet()
+        //{
+        //    this.shouldRender = this.previousIsRemoved != this.Image.IsRemoved;
+        //    this.previousIsRemoved = this.Image.IsRemoved;
+        //}
+
+        //protected override bool ShouldRender() => this.Image.IsRemoved;
 
         private string GetBorderClasses() => this.Settings.PhotoBorderType switch
         {
@@ -23,6 +33,6 @@ namespace PhotoCollageWeb.Components
             _ => string.Empty,
         };
 
-        private string GetRemovedClasses() => this.IsRemoved ? " removed" : string.Empty;
+        private string GetRemovedClasses() => this.Image.IsRemoved ? " removed" : string.Empty;
     }
 }
