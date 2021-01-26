@@ -3,6 +3,8 @@ Photo Collage Screensaver is a Windows screensaver written in .NET. It takes pic
 
 _This project was formally maintained by [@digital-lagniappe](https://github.com/digital-lagniappe/)._
 
+[![buy me a coffee button](https://img.shields.io/badge/buy%20me%20a%20coffee-donate-yellowgreen)](https://ko-fi.com/jeremyknight) ![GitHub last commit](https://img.shields.io/github/last-commit/jeremyknight-me/photocollage?color=red)
+
 ### Download
 
 | Version | Installer |
