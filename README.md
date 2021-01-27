@@ -46,7 +46,7 @@ _Photo Coming Soon_
 
 Video of Configuring Photo Collage Screensaver: https://www.youtube.com/watch?v=2Sb3hSy9ECE
 
-## What People Saying About Photo Collage Screensaver
+## What People Are Saying About Photo Collage Screensaver
 
 ### Reviews and Articles
 
