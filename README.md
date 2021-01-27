@@ -25,11 +25,6 @@ _This project was formally maintained by [@digital-lagniappe](https://github.com
 * Facebook Page: https://www.facebook.com/PhotoCollageScreensaver
 * Video of Screensaver Running: https://www.youtube.com/watch?v=AWpOxp9_PDo
 
-### Reviews, Articles, Etc
-
-Tekzilla Daily Episode 1217 – 05/07/2012
-* http://www.youtube.com/watch?v=Vy1nrIMdtpA
-
 ## Installing Photo Collage Screensaver
 
 As of v1.3, Photo Collage Screensaver does have an installer that you can download. If you prefer to install with just the scr file, here are the installation instructions:
@@ -50,3 +45,14 @@ Once installed, you can configure the screensaver in Control Panel -> Personaliz
 _Photo Coming Soon_
 
 Video of Configuring Photo Collage Screensaver: https://www.youtube.com/watch?v=2Sb3hSy9ECE
+
+## What People Saying About Photo Collage Screensaver
+
+### Reviews and Articles
+
+Tekzilla Daily Episode 1217 – 05/07/2012
+* http://www.youtube.com/watch?v=Vy1nrIMdtpA
+
+### Testimonials
+
+> This is a fantastic screensaver and the borders add an artistic touch that no other product comes close to. - Doug H.
