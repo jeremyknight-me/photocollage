@@ -46,8 +46,7 @@ Video of Configuring Photo Collage Screensaver: https://www.youtube.com/watch?v=
 
 ### Reviews and Articles
 
-Tekzilla Daily Episode 1217 – 05/07/2012
-* http://www.youtube.com/watch?v=Vy1nrIMdtpA
+* [Tekzilla Daily Episode 1217 – 05/07/2012](http://www.youtube.com/watch?v=Vy1nrIMdtpA)
 
 ### Testimonials
 
