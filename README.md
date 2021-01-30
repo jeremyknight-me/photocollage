@@ -7,10 +7,11 @@ _This project was formally maintained by [@digital-lagniappe](https://github.com
 
 ### Download
 
-| Version | Installer |
-|---|---|
-| v3.0 | In Progress |
-| [v2.0](../../releases/tag/v2.0) | Available |
+| Version | Installer | Requirements |
+|---|---|---|
+| v3.0 | In Progress | .NET 5.0+ |
+| [v2.0](../../releases/tag/v2.0) | Available | .NET Framework 4.5+ |
+| v1.0 | v1.3+ | .NET Framework 4.0+ |
 
 ### Features
 * File types supported include: JPG, JPEG, and PNG.
@@ -27,16 +28,11 @@ _This project was formally maintained by [@digital-lagniappe](https://github.com
 
 ## Installing Photo Collage Screensaver
 
-As of v1.3, Photo Collage Screensaver does have an installer that you can download. If you prefer to install with just the scr file, here are the installation instructions:
+To install, place the scr file in the OS dependent location below:
 
 In Windows:
 * 32-bit, place the .scr and .dll files in the "C:/Windows/System32/" directory.
 * 64-bit, place the .scr and .dll files in the "C:/Windows/SysWOW64/" directory.
-
-Requirements
-* Version 3.x: No requirements. Stand alone application.
-* Version 2.x: .NET Framework 4.5
-* Version 1.x and below: .NET Framework 4.0
 
 ## Configuring Photo Collage Screensaver
 
