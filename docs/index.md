@@ -1,37 +1,54 @@
-## Welcome to GitHub Pages
+# Photo Collage Screensaver
+Photo Collage Screensaver is a Windows screensaver written in .NET. It takes pictures from your computer and turns them into a beautiful collage screensaver.
 
-You can use the [editor on GitHub](https://github.com/jeremyknight-me/photocollage/edit/master/docs/index.md) to maintain and preview the content for your website in Markdown files.
+_This project was formally maintained by [@digital-lagniappe](https://github.com/digital-lagniappe/)._
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+[![buy me a coffee button](https://img.shields.io/badge/buy%20me%20a%20coffee-donate-yellowgreen)](https://ko-fi.com/jeremyknight) ![GitHub last commit](https://img.shields.io/github/last-commit/jeremyknight-me/photocollage?color=red)
 
-### Markdown
+### Download
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+| Version | Installer | Requirements |
+|---|---|---|
+| [v3.0.0](../../releases/tag/v3.0.0) | In Progress | .NET 5.0+ |
+| [v2.0.0](../../releases/tag/v2.0) | Available | .NET Framework 4.5+ |
+| v1.0.0 | NA | .NET Framework 4.0+ |
 
-```markdown
-Syntax highlighted code block
+### Features
+* File types supported include: JPG, JPEG, and PNG.
+* Display your photos from any location
+* Display your photos in order or randomized
+* Display your photos across multiple monitors
+* Control the number of photos displayed at once
+* Control the speed your photos rotate
+* And for advanced users, set the maximum size of of your photos (default size is 500 pixels)
 
-# Header 1
-## Header 2
-### Header 3
+### Links
+* Facebook Page: https://www.facebook.com/PhotoCollageScreensaver
+* Video of Screensaver Running: https://www.youtube.com/watch?v=AWpOxp9_PDo
 
-- Bulleted
-- List
+## Installing Photo Collage Screensaver
 
-1. Numbered
-2. List
+To install, place the scr file in the OS dependent location below:
 
-**Bold** and _Italic_ and `Code` text
+In Windows:
+* 32-bit, place the .scr and .dll files in the "C:/Windows/System32/" directory.
+* 64-bit, place the .scr and .dll files in the "C:/Windows/SysWOW64/" directory.
 
-[Link](url) and ![Image](src)
-```
+## Configuring Photo Collage Screensaver
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+Once installed, you can configure the screensaver in Control Panel -> Personalization -> Screen Saver. Below is a screenshot of the window that is displayed when you click “Settings.” in Screen Saver Settings. It allows you to configure the directory that your photos are located, the maximum number of photos to display at one time, and the speed in which new photos are shown.
 
-### Jekyll Themes
+_Photo Coming Soon_
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/jeremyknight-me/photocollage/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+Video of Configuring Photo Collage Screensaver: https://www.youtube.com/watch?v=2Sb3hSy9ECE
 
-### Support or Contact
+## What People Are Saying About Photo Collage Screensaver
 
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+### Reviews and Articles
+
+Tekzilla Daily Episode 1217 – 05/07/2012
+* http://www.youtube.com/watch?v=Vy1nrIMdtpA
+
+### Testimonials
+
+> This is a fantastic screensaver and the borders add an artistic touch that no other product comes close to. - Doug H.
