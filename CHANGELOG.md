@@ -16,7 +16,6 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 * Changed configuration file to use JSON.
 * Changed maximum number of photos to 100 on slider.
 ### Removed
-* Removed requirement for user to install .NET.
 * Removed stand alone desktop version. 
 
 ## [Version 2.1.0](../../releases/tag/v2.1) - 19 July 2018
