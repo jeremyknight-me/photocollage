@@ -9,8 +9,8 @@ _This project was formally maintained by [@digital-lagniappe](https://github.com
 
 | Version | Installer |
 |---|---|
-| v3.0 | Coming Soon |
-| v2.0 | [Link](../../releases/tag/v2.0) |
+| v3.0 | In Progress |
+| [v2.0](../../releases/tag/v2.0) | Available |
 
 ### Features
 * File types supported include: JPG, JPEG, and PNG.
