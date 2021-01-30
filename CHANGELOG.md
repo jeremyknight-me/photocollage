@@ -8,12 +8,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 ## Unreleased (Version 3.0.0)
 ### Added
 * Added option for background transparency slider.
-* Added option for maximum rotation. 
-* Added ability to run screensaver from desktop.
+* Added option for maximum photo size.
+* Added option for maximum rotation (no UI). 
 * Added preview button to option screen to allow desktop viewing. 
 ### Changed
 * Upgraded to .NET 5. 
 * Changed configuration file to use JSON.
+* Changed maximum number of photos to 100 on slider.
 ### Removed
 * Removed requirement for user to install .NET.
 * Removed stand alone desktop version. 
