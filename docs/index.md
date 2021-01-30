@@ -9,8 +9,8 @@ _This project was formally maintained by [@digital-lagniappe](https://github.com
 
 | Version | Installer | Requirements |
 |---|---|---|
-| [v3.0.0](../../releases/tag/v3.0.0) | In Progress | .NET 5.0+ |
-| [v2.0.0](../../releases/tag/v2.0) | Available | .NET Framework 4.5+ |
+| [v3.0.0](https://github.com/jeremyknight-me/photocollage/releases/tag/v3.0.0) | In Progress | .NET 5.0+ |
+| [v2.0.0](https://github.com/jeremyknight-me/photocollage/releases/tag/v2.0) | Available | .NET Framework 4.5+ |
 | v1.0.0 | NA | .NET Framework 4.0+ |
 
 ### Features
@@ -40,14 +40,14 @@ Once installed, you can configure the screensaver in Control Panel -> Personaliz
 
 _Photo Coming Soon_
 
-Video of Configuring Photo Collage Screensaver: https://www.youtube.com/watch?v=2Sb3hSy9ECE
+Video of Configuring Photo Collage Screensaver: [https://www.youtube.com/watch?v=2Sb3hSy9ECE](https://www.youtube.com/watch?v=2Sb3hSy9ECE)
 
 ## What People Are Saying About Photo Collage Screensaver
 
 ### Reviews and Articles
 
 Tekzilla Daily Episode 1217 – 05/07/2012
-* http://www.youtube.com/watch?v=Vy1nrIMdtpA
+* [http://www.youtube.com/watch?v=Vy1nrIMdtpA](http://www.youtube.com/watch?v=Vy1nrIMdtpA)
 
 ### Testimonials
 
