@@ -9,7 +9,7 @@ namespace PhotoCollageScreensaver
 
         private void App_OnStartup(object sender, StartupEventArgs e)
         {
-            string commandArg = string.Empty;
+            var commandArg = string.Empty;
             if (e.Args.Length > 0)
             {
                 commandArg = e.Args[0].ToLower().Trim().Substring(0, 2);
