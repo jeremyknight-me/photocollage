@@ -6,7 +6,7 @@
         mc:Ignorable="d"
         Title="Photo Screensaver Settings" 
         Background="{StaticResource DarkGrayBrush}"
-        Height="365" Width="510" 
+        Height="385" Width="510" 
         WindowStartupLocation="CenterScreen" 
         ResizeMode="NoResize">
     <Window.Resources>
@@ -54,6 +54,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <Canvas Grid.ColumnSpan="3" 
@@ -85,6 +86,7 @@
 
         <Label Content="Photos:" 
                Target="{Binding ElementName=numberOfPhotosSlider}"
+               ToolTip="Number of photos to display on each monitor."
                Grid.Row="2" />
         <Slider x:Name="numberOfPhotosSlider" 
                 Grid.Row="2"
@@ -93,48 +95,71 @@
                 Minimum="5" 
                 Maximum="100"
                 IsSnapToTickEnabled="True" 
-                TickFrequency="5" />
+                TickFrequency="5" 
+                ToolTip="Number of photos to display on each monitor."/>
         <TextBlock x:Name="numberOfPhotosTextBlock"
                    Grid.Row="2"
                    Grid.Column="2"
                    Text="{Binding Config.NumberOfPhotos}"
+                   ToolTip="Number of photos to display on each monitor."
+                   Foreground="White"
+                   Padding="5, 5, 5, 5" />
+
+        <Label Content="Max Size:" 
+               Target="{Binding ElementName=maximumPhotoSizeSlider}"
+               ToolTip="Maximum size of each photo."
+               Grid.Row="3" />
+        <Slider x:Name="maximumPhotoSizeSlider" 
+                Grid.Row="3"
+                Grid.Column="1" 
+                Value="{Binding Config.MaximumSize}"
+                Minimum="100" 
+                Maximum="2000"
+                IsSnapToTickEnabled="True" 
+                TickFrequency="100"
+                ToolTip="Maximum size of each photo."/>
+        <TextBlock x:Name="maxPhotoSizeTextBlock"
+                   Grid.Row="3"
+                   Grid.Column="2"
+                   Text="{Binding Config.MaximumSize}"
+                   ToolTip="Maximum size of each photo."
                    Foreground="White"
                    Padding="5, 5, 5, 5" />
 
         <Label Content="Speed:"
                Target="{Binding ElementName=SpeedComboBox}"
-               Grid.Row="3" />
+               Grid.Row="4" />
         <ComboBox x:Name="SpeedComboBox" 
-                  Grid.Row="3"
+                  Grid.Row="4"
                   Grid.Column="1"
                   ItemsSource="{Binding Path=SpeedOptions}"
                   SelectedItem="{Binding Path=SelectedSpeed}" />
 
         <Label Content="Random?"
                Target="{Binding ElementName=IsRandomCheckBox}"
-               Grid.Row="4"/>
+               Grid.Row="5"/>
         <CheckBox x:Name="IsRandomCheckBox"
                   IsChecked="{Binding Config.IsRandom}"
-                  Grid.Row="4" 
+                  Grid.Row="5" 
                   Grid.Column="1" 
                   Margin="10, 0, 0, 0"
                   VerticalAlignment="Center" />
 
         <Label Content="Grayscale?"
                Target="{Binding ElementName=IsGrayscaleCheckBox}"
-               Grid.Row="5"/>
+               Grid.Row="6"/>
         <CheckBox x:Name="IsGrayscaleCheckBox"
                   IsChecked="{Binding Config.IsGrayscale}"
-                  Grid.Row="5" 
+                  Grid.Row="6" 
                   Grid.Column="1" 
                   Margin="10, 0, 0, 0"
                   VerticalAlignment="Center" />
 
         <Label Content="Border:"
                Target="{Binding ElementName=ShowBordersCheckBox}"
-               Grid.Row="6"/>
+               Grid.Row="7"/>
         <ComboBox x:Name="BorderComboBox" 
-                  Grid.Row="6" 
+                  Grid.Row="7" 
                   Grid.Column="1"
                   ItemsSource="{Binding Path=BorderOptions}"
                   DisplayMemberPath="Value"
@@ -143,30 +168,33 @@
 
         <Label Content="Opacity:" 
                Target="{Binding ElementName=opacitySlider}"
-               Grid.Row="7" />
+               ToolTip="Opacity of the background."
+               Grid.Row="8" />
         <Slider x:Name="opacitySlider" 
-                Grid.Row="7"
+                Grid.Row="8"
                 Grid.Column="1" 
                 Value="{Binding SelectedOpacity}"
                 Minimum="0" 
                 Maximum="100"
                 IsSnapToTickEnabled="True" 
-                TickFrequency="5" />
+                TickFrequency="5" 
+                ToolTip="Opacity of the background." />
         <TextBlock x:Name="opacityTextBlock"
-                   Grid.Row="7"
+                   Grid.Row="8"
                    Grid.Column="2"
                    Text="{Binding SelectedOpacity, StringFormat={}{0:###}}"
+                   ToolTip="Opacity of the background."
                    Foreground="White"
                    Padding="5, 5, 5, 5" />
 
-        <Button Grid.Row="8" Content="Preview" Command="{Binding PreviewCommand}" />
+        <Button Grid.Row="9" Content="Preview" Command="{Binding PreviewCommand}" ToolTip="Start Photo Collage" />
         <StackPanel Orientation="Horizontal" 
                     HorizontalAlignment="Right"
-                    Grid.Row="8" 
+                    Grid.Row="9" 
                     Grid.ColumnSpan="3">
-            <Button Content="Ok" Command="{Binding OkCommand}" />
-            <Button Content="Apply" Command="{Binding SaveCommand}" />
-            <Button Content="Cancel" Command="{Binding CancelCommand}"  />
+            <Button Content="Ok" Command="{Binding OkCommand}" ToolTip="Save and Close" />
+            <Button Content="Save" Command="{Binding SaveCommand}" ToolTip="Save" />
+            <Button Content="Close" Command="{Binding CancelCommand}" ToolTip="Close" />
         </StackPanel>
     </Grid>
 </Window>
