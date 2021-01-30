@@ -5,7 +5,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 
 ---
 
-## Unreleased (Version 3.0.0)
+## Unreleased 
+
+_No changes_
+
+## [Version 3.0.0](../../releases/tag/v3.0.0) - 29 January 2021
 ### Added
 * Added option for background transparency slider.
 * Added option for maximum photo size.
