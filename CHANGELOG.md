@@ -7,7 +7,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 
 ## Unreleased 
 
-_No changes_
+_There are currently no unreleased changes._
 
 ## [Version 3.0.0](../../releases/tag/v3.0.0) - 29 January 2021
 ### Added
