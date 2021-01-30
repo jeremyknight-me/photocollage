@@ -3,7 +3,7 @@ Photo Collage Screensaver is a Windows screensaver written in .NET. It takes pic
 
 _This project was formally maintained by [@digital-lagniappe](https://github.com/digital-lagniappe/)._
 
-[![buy me a coffee button](https://img.shields.io/badge/buy%20me%20a%20coffee-donate-yellowgreen)](https://ko-fi.com/jeremyknight) ![GitHub last commit](https://img.shields.io/github/last-commit/jeremyknight-me/photocollage?color=red)
+[![buy me a coffee button](https://img.shields.io/badge/buy%20me%20a%20coffee-donate-yellowgreen)](https://ko-fi.com/jeremyknight) ![GitHub last commit](https://img.shields.io/github/last-commit/jeremyknight-me/photocollage?color=red) [![facebook](https://img.shields.io/badge/social-facebook-blue)](https://www.facebook.com/PhotoCollageScreensaver) [![twitter](https://img.shields.io/badge/social-twitter-blue)](https://twitter.com/jeremyknight_me)
 
 ### Download
 
@@ -20,11 +20,9 @@ _This project was formally maintained by [@digital-lagniappe](https://github.com
 * Display your photos across multiple monitors
 * Control the number of photos displayed at once
 * Control the speed your photos rotate
-* And for advanced users, set the maximum size of of your photos (default size is 500 pixels)
+* Set the maximum size of of your photos (default size is 500 pixels)
 
-### Links
-* Facebook Page: https://www.facebook.com/PhotoCollageScreensaver
-* Video of Screensaver Running: https://www.youtube.com/watch?v=AWpOxp9_PDo
+<iframe width="560" height="315" src="https://www.youtube.com/embed/AWpOxp9_PDo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 ## Installing Photo Collage Screensaver
 
