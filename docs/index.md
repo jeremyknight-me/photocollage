@@ -44,12 +44,11 @@ Video of Configuring Photo Collage Screensaver: [https://www.youtube.com/watch?v
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/2Sb3hSy9ECE" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-## What People Are Saying About Photo Collage Screensaver
+## What People Are Saying 
 
 ### Reviews and Articles
 
-Tekzilla Daily Episode 1217 – 05/07/2012
-* [http://www.youtube.com/watch?v=Vy1nrIMdtpA](http://www.youtube.com/watch?v=Vy1nrIMdtpA)
+* [Tekzilla Daily Episode 1217 – 05/07/2012](http://www.youtube.com/watch?v=Vy1nrIMdtpA)
 
 ### Testimonials
 
