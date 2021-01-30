@@ -20,7 +20,7 @@ _This project was formally maintained by [@digital-lagniappe](https://github.com
 * Display your photos across multiple monitors
 * Control the number of photos displayed at once
 * Control the speed your photos rotate
-* And for advanced users, set the maximum size of of your photos (default size is 500 pixels)
+* Set the maximum size of of your photos (default size is 500 pixels)
 
 ### Links
 * Facebook Page: https://www.facebook.com/PhotoCollageScreensaver
