@@ -42,6 +42,8 @@ _Photo Coming Soon_
 
 Video of Configuring Photo Collage Screensaver: [https://www.youtube.com/watch?v=2Sb3hSy9ECE](https://www.youtube.com/watch?v=2Sb3hSy9ECE)
 
+<iframe width="560" height="315" src="https://www.youtube.com/embed/2Sb3hSy9ECE" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 ## What People Are Saying About Photo Collage Screensaver
 
 ### Reviews and Articles
