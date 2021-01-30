@@ -86,6 +86,7 @@
 
         <Label Content="Photos:" 
                Target="{Binding ElementName=numberOfPhotosSlider}"
+               ToolTip="Number of photos to display on each monitor."
                Grid.Row="2" />
         <Slider x:Name="numberOfPhotosSlider" 
                 Grid.Row="2"
@@ -94,16 +95,19 @@
                 Minimum="5" 
                 Maximum="100"
                 IsSnapToTickEnabled="True" 
-                TickFrequency="5" />
+                TickFrequency="5" 
+                ToolTip="Number of photos to display on each monitor."/>
         <TextBlock x:Name="numberOfPhotosTextBlock"
                    Grid.Row="2"
                    Grid.Column="2"
                    Text="{Binding Config.NumberOfPhotos}"
+                   ToolTip="Number of photos to display on each monitor."
                    Foreground="White"
                    Padding="5, 5, 5, 5" />
 
-        <Label Content="Max Size (px):" 
+        <Label Content="Max Size:" 
                Target="{Binding ElementName=maximumPhotoSizeSlider}"
+               ToolTip="Maximum size of each photo."
                Grid.Row="3" />
         <Slider x:Name="maximumPhotoSizeSlider" 
                 Grid.Row="3"
@@ -112,11 +116,13 @@
                 Minimum="100" 
                 Maximum="2000"
                 IsSnapToTickEnabled="True" 
-                TickFrequency="100" />
+                TickFrequency="100"
+                ToolTip="Maximum size of each photo."/>
         <TextBlock x:Name="maxPhotoSizeTextBlock"
                    Grid.Row="3"
                    Grid.Column="2"
                    Text="{Binding Config.MaximumSize}"
+                   ToolTip="Maximum size of each photo."
                    Foreground="White"
                    Padding="5, 5, 5, 5" />
 
@@ -162,6 +168,7 @@
 
         <Label Content="Opacity:" 
                Target="{Binding ElementName=opacitySlider}"
+               ToolTip="Opacity of the background."
                Grid.Row="8" />
         <Slider x:Name="opacitySlider" 
                 Grid.Row="8"
@@ -170,22 +177,24 @@
                 Minimum="0" 
                 Maximum="100"
                 IsSnapToTickEnabled="True" 
-                TickFrequency="5" />
+                TickFrequency="5" 
+                ToolTip="Opacity of the background." />
         <TextBlock x:Name="opacityTextBlock"
                    Grid.Row="8"
                    Grid.Column="2"
                    Text="{Binding SelectedOpacity, StringFormat={}{0:###}}"
+                   ToolTip="Opacity of the background."
                    Foreground="White"
                    Padding="5, 5, 5, 5" />
 
-        <Button Grid.Row="9" Content="Preview" Command="{Binding PreviewCommand}" />
+        <Button Grid.Row="9" Content="Preview" Command="{Binding PreviewCommand}" ToolTip="Start Photo Collage" />
         <StackPanel Orientation="Horizontal" 
                     HorizontalAlignment="Right"
                     Grid.Row="9" 
                     Grid.ColumnSpan="3">
-            <Button Content="Ok" Command="{Binding OkCommand}" />
-            <Button Content="Apply" Command="{Binding SaveCommand}" />
-            <Button Content="Cancel" Command="{Binding CancelCommand}"  />
+            <Button Content="Ok" Command="{Binding OkCommand}" ToolTip="Save and Close" />
+            <Button Content="Save" Command="{Binding SaveCommand}" ToolTip="Save" />
+            <Button Content="Close" Command="{Binding CancelCommand}" ToolTip="Close" />
         </StackPanel>
     </Grid>
 </Window>
