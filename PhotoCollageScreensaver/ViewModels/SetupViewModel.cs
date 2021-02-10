@@ -14,9 +14,7 @@ namespace PhotoCollageScreensaver.ViewModels
     public class SetupViewModel : INotifyPropertyChanged
     {
         private readonly ApplicationController controller;
-
         private readonly IDictionary<BorderType, KeyValuePair<string, string>> borderTypePairs = BorderTypeHelper.MakeDictionary();
-
         private readonly IDictionary<ScreensaverSpeed, string> speedPairs = ScreensaverSpeedHelper.MakeDictionary();
 
         public SetupViewModel(CollageSettings config, ApplicationController controllerToUse)

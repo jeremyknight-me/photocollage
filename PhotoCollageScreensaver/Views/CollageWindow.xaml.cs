@@ -28,14 +28,14 @@ namespace PhotoCollageScreensaver.Views
         private void Window_MouseMove(object sender, MouseEventArgs e)
         {
             // Shut down application when mouse has moved significantly
-            Point position = e.GetPosition(this);
+            var position = e.GetPosition(this);
 
-            if (!initialMousePosition.HasValue)
+            if (!this.initialMousePosition.HasValue)
             {
-                initialMousePosition = position;
+                this.initialMousePosition = position;
             }
-            else if (Math.Abs(initialMousePosition.Value.X - position.X) > 10
-                || Math.Abs(initialMousePosition.Value.Y - position.Y) > 10)
+            else if (Math.Abs(this.initialMousePosition.Value.X - position.X) > 10
+                || Math.Abs(this.initialMousePosition.Value.Y - position.Y) > 10)
             {
                 this.controller.Shutdown();
             }
