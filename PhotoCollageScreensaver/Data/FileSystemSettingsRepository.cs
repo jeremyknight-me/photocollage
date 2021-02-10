@@ -2,7 +2,7 @@
 using System.IO;
 using System.Text.Json;
 
-namespace PhotoCollageScreensaver.Repositories
+namespace PhotoCollageScreensaver.Data
 {
     internal class FileSystemSettingsRepository : ISettingsRepository
     {

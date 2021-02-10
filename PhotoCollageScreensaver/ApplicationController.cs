@@ -1,6 +1,6 @@
 ﻿using PhotoCollage.Common;
 using PhotoCollageScreensaver.Logging;
-using PhotoCollageScreensaver.Repositories;
+using PhotoCollageScreensaver.Data;
 using PhotoCollageScreensaver.ViewModels;
 using PhotoCollageScreensaver.Views;
 using System;
