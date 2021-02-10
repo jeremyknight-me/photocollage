@@ -1,7 +1,7 @@
 ﻿using PhotoCollage.Common;
 using PhotoCollage.Common.Data;
-using PhotoCollageScreensaver.Contracts;
 using PhotoCollageScreensaver.UserControls;
+using PhotoCollageScreensaver.Views;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
