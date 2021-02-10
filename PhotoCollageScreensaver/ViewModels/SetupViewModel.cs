@@ -24,14 +24,8 @@ namespace PhotoCollageScreensaver.ViewModels
                 { BorderType.BorderFooter, new KeyValuePair<string, string> ("footer", BorderTypeNames.BorderFooter) }
             };
 
-        private readonly Dictionary<ScreensaverSpeed, string> speedPairs =
-            new Dictionary<ScreensaverSpeed, string>
-            {
-                { ScreensaverSpeed.Fast, ScreensaverSpeedNames.Fast },
-                { ScreensaverSpeed.Medium, ScreensaverSpeedNames.Medium },
-                { ScreensaverSpeed.Slow, ScreensaverSpeedNames.Slow }
-            };
-        
+        private readonly IDictionary<ScreensaverSpeed, string> speedPairs = ScreensaverSpeedHelper.MakeDictionary();
+
         public SetupViewModel(CollageSettings config, ApplicationController controllerToUse)
         {
             this.BorderOptions = new ObservableCollection<KeyValuePair<string, string>>()
@@ -42,12 +36,7 @@ namespace PhotoCollageScreensaver.ViewModels
                this.borderTypePairs[BorderType.BorderFooter]
             };
 
-            this.SpeedOptions = new ObservableCollection<string>()
-            {
-                this.speedPairs[ScreensaverSpeed.Slow],
-                this.speedPairs[ScreensaverSpeed.Medium],
-                this.speedPairs[ScreensaverSpeed.Fast]
-            };
+            this.SpeedOptions = new ObservableCollection<string>(this.speedPairs.Values);
 
             this.Config = config;
             this.controller = controllerToUse;
