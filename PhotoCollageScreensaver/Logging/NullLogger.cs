@@ -1,6 +1,4 @@
-﻿using PhotoCollageScreensaver.Contracts;
-
-namespace PhotoCollageScreensaver
+﻿namespace PhotoCollageScreensaver.Logging
 {
     internal class NullLogger : ILogger
     {

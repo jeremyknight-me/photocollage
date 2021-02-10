@@ -1,5 +1,5 @@
 ﻿using PhotoCollage.Common;
-using PhotoCollageScreensaver.Contracts;
+using PhotoCollageScreensaver.Logging;
 using PhotoCollageScreensaver.Repositories;
 using PhotoCollageScreensaver.ViewModels;
 using PhotoCollageScreensaver.Views;
