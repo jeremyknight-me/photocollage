@@ -15,29 +15,14 @@ namespace PhotoCollageScreensaver.ViewModels
     {
         private readonly ApplicationController controller;
 
-        private readonly Dictionary<BorderType, KeyValuePair<string, string>> borderTypePairs =
-            new Dictionary<BorderType, KeyValuePair<string, string>>
-            {
-                { BorderType.None, new KeyValuePair<string, string>("none", BorderTypeNames.None) },
-                { BorderType.Border, new KeyValuePair<string, string> ("border", BorderTypeNames.Border) },
-                { BorderType.BorderHeader, new KeyValuePair<string, string> ("header", BorderTypeNames.BorderHeader) },
-                { BorderType.BorderFooter, new KeyValuePair<string, string> ("footer", BorderTypeNames.BorderFooter) }
-            };
+        private readonly IDictionary<BorderType, KeyValuePair<string, string>> borderTypePairs = BorderTypeHelper.MakeDictionary();
 
         private readonly IDictionary<ScreensaverSpeed, string> speedPairs = ScreensaverSpeedHelper.MakeDictionary();
 
         public SetupViewModel(CollageSettings config, ApplicationController controllerToUse)
         {
-            this.BorderOptions = new ObservableCollection<KeyValuePair<string, string>>()
-            {
-               this.borderTypePairs[BorderType.None],
-               this.borderTypePairs[BorderType.Border],
-               this.borderTypePairs[BorderType.BorderHeader],
-               this.borderTypePairs[BorderType.BorderFooter]
-            };
-
+            this.BorderOptions = new ObservableCollection<KeyValuePair<string, string>>(this.borderTypePairs.Values);
             this.SpeedOptions = new ObservableCollection<string>(this.speedPairs.Values);
-
             this.Config = config;
             this.controller = controllerToUse;
 
