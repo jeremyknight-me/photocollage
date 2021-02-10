@@ -1,4 +1,4 @@
-﻿using PhotoCollageScreensaver.Contracts;
+﻿using PhotoCollageScreensaver.Views;
 using System;
 using System.Windows;
 using System.Windows.Controls;

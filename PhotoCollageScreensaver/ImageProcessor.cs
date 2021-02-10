@@ -28,15 +28,9 @@ namespace PhotoCollageScreensaver
             this.dpiScale = sourceImage.DpiX / 96;
             this.maximumSizeDiu = this.configuration.MaximumSize / this.dpiScale;
 
-            if (this.DoesImageNeedScaling(sourceImage.Height, sourceImage.Width))
-            {
-                var scale = sourceImage.Height > sourceImage.Width
-                    ? this.GetPortraitScale(sourceImage.Height)
-                    : this.GetLandscapeScale(sourceImage.Width);
-                return this.GetScaledImage(sourceImage, scale);
-            }
-
-            return sourceImage;
+            return this.DoesImageNeedScaling(sourceImage.Height, sourceImage.Width)
+                ? this.GetScaledImage(sourceImage)
+                : sourceImage;
         }
 
         private BitmapImage GetRawImage()
@@ -60,19 +54,21 @@ namespace PhotoCollageScreensaver
             return image;
         }
 
-        private bool DoesImageNeedScaling(double height, double width) => height > this.maximumSizeDiu
+        private bool DoesImageNeedScaling(double height, double width)
+            => height > this.maximumSizeDiu
                 || width > this.maximumSizeDiu
                 || this.dpiScale > 1;
 
-        private TransformedBitmap GetScaledImage(BitmapSource original, double scale)
+        private TransformedBitmap GetScaledImage(BitmapSource original)
         {
+            var scale = original.Height > original.Width
+                    ? this.GetScale(original.Height)
+                    : this.GetScale(original.Width);
             RenderOptions.SetBitmapScalingMode(original, BitmapScalingMode.HighQuality);
             var transform = new ScaleTransform(scale, scale);
             return new TransformedBitmap(original, transform);
         }
 
-        private double GetLandscapeScale(double width) => (this.maximumSizeDiu / width) * this.dpiScale;
-
-        private double GetPortraitScale(double height) => (this.maximumSizeDiu / height) * this.dpiScale;
+        private double GetScale(double value) => this.maximumSizeDiu / value * this.dpiScale;
     }
 }

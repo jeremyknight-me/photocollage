@@ -58,13 +58,11 @@ namespace PhotoCollageScreensaver.UserControls
 
                     if (borderType == BorderType.BorderHeader)
                     {
-                        this.HeaderTextBlock.Text = this.GetDate();
-                        this.HeaderTextBlock.Visibility = Visibility.Visible;
+                        this.LoadBorderData(this.HeaderTextBlock);
                     }
                     else if (borderType == BorderType.BorderFooter)
                     {
-                        this.FooterTextBlock.Text = this.GetDate();
-                        this.FooterTextBlock.Visibility = Visibility.Visible;
+                        this.LoadBorderData(this.FooterTextBlock);
                     }
                 }
 
@@ -79,17 +77,21 @@ namespace PhotoCollageScreensaver.UserControls
             }
         }
 
+        private void LoadBorderData(TextBlock textBlock)
+        {
+            textBlock.Text = this.GetDate();
+            textBlock.Visibility = Visibility.Visible;
+        }
+
         private string GetDate()
         {
-            using (var fs = new FileStream(this.filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
-            {
-                var options = BitmapCreateOptions.DelayCreation | BitmapCreateOptions.IgnoreColorProfile | BitmapCreateOptions.IgnoreImageCache;
-                BitmapSource image = BitmapFrame.Create(fs, options, BitmapCacheOption.None);
-                var metadata = (BitmapMetadata)image.Metadata;
-                return !(metadata.DateTaken is null)
-                    ? Convert.ToDateTime(metadata.DateTaken).ToShortDateString()
-                    : File.GetLastWriteTime(this.filePath).ToShortDateString();
-            }
+            using var fs = new FileStream(this.filePath, FileMode.Open, FileAccess.Read, FileShare.Read);
+            var options = BitmapCreateOptions.DelayCreation | BitmapCreateOptions.IgnoreColorProfile | BitmapCreateOptions.IgnoreImageCache;
+            BitmapSource image = BitmapFrame.Create(fs, options, BitmapCacheOption.None);
+            var metadata = (BitmapMetadata)image.Metadata;
+            return !(metadata.DateTaken is null)
+                ? Convert.ToDateTime(metadata.DateTaken).ToShortDateString()
+                : File.GetLastWriteTime(this.filePath).ToShortDateString();
         }
 
         private void RotateImageFrame()

@@ -1,4 +1,4 @@
-﻿namespace PhotoCollageScreensaver.Contracts
+﻿namespace PhotoCollageScreensaver.Logging
 {
     internal interface ILogger
     {

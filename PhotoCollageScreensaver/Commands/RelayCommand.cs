@@ -18,18 +18,8 @@ namespace PhotoCollageScreensaver.Commands
 
         public RelayCommand(Action<object> execute, Predicate<object> canExecute)
         {
-            if (execute == null)
-            {
-                throw new ArgumentNullException("execute");
-            }
-
-            if (canExecute == null)
-            {
-                throw new ArgumentNullException("canExecute");
-            }
-
-            this.execute = execute;
-            this.canExecute = canExecute;
+            this.execute = execute ?? throw new ArgumentNullException("execute");
+            this.canExecute = canExecute ?? throw new ArgumentNullException("canExecute");
         }
 
         public event EventHandler CanExecuteChanged
@@ -47,19 +37,13 @@ namespace PhotoCollageScreensaver.Commands
             }
         }
 
-        public bool CanExecute(object parameter)
-        {
-            return this.canExecute != null && this.canExecute(parameter);
-        }
+        public bool CanExecute(object parameter) => this.canExecute != null && this.canExecute(parameter);
 
-        public void Execute(object parameter)
-        {
-            this.execute(parameter);
-        }
+        public void Execute(object parameter) => this.execute(parameter);
 
         public void OnCanExecuteChanged()
         {
-            EventHandler handler = this.CanExecuteChangedInternal;
+            var handler = this.CanExecuteChangedInternal;
             if (handler != null)
             {
                 //DispatcherHelper.BeginInvokeOnUIThread(() => handler.Invoke(this, EventArgs.Empty));
@@ -73,9 +57,6 @@ namespace PhotoCollageScreensaver.Commands
             this.execute = _ => { return; };
         }
 
-        private static bool DefaultCanExecute(object parameter)
-        {
-            return true;
-        }
+        private static bool DefaultCanExecute(object parameter) => true;
     }
 }

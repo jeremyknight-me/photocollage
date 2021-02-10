@@ -1,6 +1,6 @@
 ﻿using PhotoCollage.Common;
-using PhotoCollageScreensaver.Contracts;
-using PhotoCollageScreensaver.Repositories;
+using PhotoCollageScreensaver.Logging;
+using PhotoCollageScreensaver.Data;
 using PhotoCollageScreensaver.ViewModels;
 using PhotoCollageScreensaver.Views;
 using System;
@@ -28,7 +28,7 @@ namespace PhotoCollageScreensaver
 
         public void StartScreensaver()
         {
-            var collagePresenter = this.CollagePresenter;
+            var collagePresenter = this.collagePresenter ??= new CollagePresenter(this, this.configuration);
             foreach (var screen in Monitors.Monitor.GetScreens())
             {
                 var collageWindow = new CollageWindow(this);
@@ -40,30 +40,24 @@ namespace PhotoCollageScreensaver
 
         public void StartSetup() => new SetupWindow(this).Show();
 
-        public CollagePresenter CollagePresenter => this.collagePresenter ?? (this.collagePresenter = new CollagePresenter(this, this.configuration));
+        public SetupViewModel MakeSetupViewModel() => new SetupViewModel(this.configuration, this);
 
-        public void DisplayErrorMessage(string message) => _ = MessageBox.Show(message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        public void SaveConfiguration() => this.configurationRepository.Save(this.configuration);
+
+        public void Shutdown() => Application.Current.Shutdown();
 
         public void HandleError(Exception exception, bool showMessage = false)
         {
-            this.LogErrorMessage(exception);
+            this.LogMessage(exception);
             if (showMessage)
             {
                 this.DisplayErrorMessage(exception.Message);
             }
         }
 
-        public void LogMessage(string message) => this.logger.Log(message);
+        public void DisplayErrorMessage(string message) => _ = MessageBox.Show(message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
 
-        public SetupViewModel MakeSetupViewModel() => new SetupViewModel(this.configuration, this);
-
-        public void Reset() => this.collagePresenter = null;
-
-        public void SaveConfiguration() => this.configurationRepository.Save(this.configuration);
-
-        public void Shutdown() => Application.Current.Shutdown();
-
-        private void LogErrorMessage(Exception exception)
+        private void LogMessage(Exception exception)
         {
             if (this.configuration.UseVerboseLogging)
             {

@@ -1,9 +1,8 @@
-﻿using PhotoCollageScreensaver.Contracts;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace PhotoCollageScreensaver
+namespace PhotoCollageScreensaver.Logging
 {
     public class TextLogger : ILogger
     {
