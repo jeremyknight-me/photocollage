@@ -5,6 +5,7 @@ using PhotoCollageScreensaver.UserControls;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Threading;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Threading;
@@ -13,7 +14,6 @@ namespace PhotoCollageScreensaver
 {
     public sealed class CollagePresenter
     {
-        private readonly object threadLock = new object();
         private readonly Random random;
         private readonly List<ICollageView> views;
         private readonly IPhotoRepository photoRepository;
@@ -57,22 +57,11 @@ namespace PhotoCollageScreensaver
             }
         }
 
-        public void Close()
-        {
-            foreach (var view in this.views)
-            {
-                view.Close();
-            }
-        }
-
         public int GetRandomNumber(int min, int max)
         {
-            int value;
-            lock (this.threadLock)
-            {
-                value = this.random.Next(min, max);
-            }
-
+            var value = 0;
+            var random = this.random.Next(min, max);
+            Interlocked.Exchange(ref value, random);
             return value;
         }
 
