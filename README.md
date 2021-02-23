@@ -30,9 +30,11 @@ _This project was formally maintained by [@digital-lagniappe](https://github.com
 
 To install, place the scr file in the OS dependent location below:
 
-In Windows:
+In Windows: 
 * 32-bit, place the .scr and .dll files in the "C:/Windows/System32/" directory.
 * 64-bit, place the .scr and .dll files in the "C:/Windows/SysWOW64/" directory.
+
+**NOTE**: v3 and above no longer include separate .dll files. 
 
 ## Configuring Photo Collage Screensaver
 
