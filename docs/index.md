@@ -32,6 +32,8 @@ In Windows:
 * 32-bit, place the .scr and .dll files in the "C:/Windows/System32/" directory.
 * 64-bit, place the .scr and .dll files in the "C:/Windows/SysWOW64/" directory.
 
+**NOTE**: v3 and above no longer include separate .dll files. 
+
 ## Configuring Photo Collage Screensaver
 
 Once installed, you can configure the screensaver in Control Panel -> Personalization -> Screen Saver. Below is a screenshot of the window that is displayed when you click “Settings.” in Screen Saver Settings. It allows you to configure the directory that your photos are located, the maximum number of photos to display at one time, and the speed in which new photos are shown.
