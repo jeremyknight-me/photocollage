@@ -1,11 +1,10 @@
 ﻿using System.Windows.Controls;
 
-namespace PhotoCollageScreensaver.Views
+namespace PhotoCollageScreensaver.Views;
+
+public interface ICollageView
 {
-    public interface ICollageView
-    {
-        Canvas ImageCanvas { get; }
-        double WindowActualHeight { get; }
-        double WindowActualWidth { get; }
-    }
+    Canvas ImageCanvas { get; }
+    double WindowActualHeight { get; }
+    double WindowActualWidth { get; }
 }

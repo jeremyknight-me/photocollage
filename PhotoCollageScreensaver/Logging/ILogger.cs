@@ -1,8 +1,7 @@
-﻿namespace PhotoCollageScreensaver.Logging
+﻿namespace PhotoCollageScreensaver.Logging;
+
+internal interface ILogger
 {
-    internal interface ILogger
-    {
-        void Log(string message);
-        void Log(string message, string stackTrace);
-    }
+    void Log(string message);
+    void Log(string message, string stackTrace);
 }

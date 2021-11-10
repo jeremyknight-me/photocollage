@@ -9,7 +9,8 @@ _This project was formally maintained by [@digital-lagniappe](https://github.com
 
 | Version | Installer | Requirements |
 |---|---|---|
-| [v3.0.0](../../releases/tag/v3.0.0) | In Progress | .NET 5.0+ |
+| [v4.0.0](../../releases/tag/v4) | NA | .NET 6.0+ |
+| [v3.0.0](../../releases/tag/v3.0.0) | NA | .NET 5.0+ |
 | [v2.0.0](../../releases/tag/v2.0) | Available | .NET Framework 4.5+ |
 | v1.0.0 | NA | .NET Framework 4.0+ |
 

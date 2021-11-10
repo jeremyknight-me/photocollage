@@ -1,12 +1,9 @@
-﻿using System.Windows;
+﻿namespace PhotoCollageScreensaver.Commands;
 
-namespace PhotoCollageScreensaver.Commands
+public class ShutdownCommand : RelayCommand
 {
-    public class ShutdownCommand : RelayCommand
+    public ShutdownCommand()
+        : base(obj => Application.Current.Shutdown())
     {
-        public ShutdownCommand() 
-            : base(obj => Application.Current.Shutdown())
-        {
-        }
     }
 }

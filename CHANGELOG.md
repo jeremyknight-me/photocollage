@@ -9,6 +9,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 
 _There are currently no unreleased changes._
 
+## [Version 4.0.0](../../releases/tag/v4) - 09 November 2021
+### Changed
+* Upgraded to .NET 6. 
+
 ## [Version 3.0.0](../../releases/tag/v3.0.0) - 29 January 2021
 ### Added
 * Added option for background transparency slider.

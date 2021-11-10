@@ -1,13 +1,12 @@
-﻿namespace PhotoCollageScreensaver.Logging
-{
-    internal class NullLogger : ILogger
-    {
-        public void Log(string message)
-        {
-        }
+﻿namespace PhotoCollageScreensaver.Logging;
 
-        public void Log(string message, string stackTrace)
-        {
-        }
+internal class NullLogger : ILogger
+{
+    public void Log(string message)
+    {
+    }
+
+    public void Log(string message, string stackTrace)
+    {
     }
 }

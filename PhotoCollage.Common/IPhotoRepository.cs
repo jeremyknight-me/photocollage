@@ -1,8 +1,10 @@
-﻿namespace PhotoCollage.Common
+﻿namespace PhotoCollage.Common;
+
+public interface IPhotoRepository
 {
-    public interface IPhotoRepository
+    bool HasPhotos
     {
-        bool HasPhotos { get; }
-        string GetNextPhotoFilePath();
+        get;
     }
+    string GetNextPhotoFilePath();
 }

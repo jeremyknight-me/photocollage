@@ -1,42 +1,38 @@
-﻿using System;
-using System.Collections.Generic;
+﻿namespace PhotoCollageScreensaver.Monitors;
 
-namespace PhotoCollageScreensaver.Monitors
+/// <summary>This class deals with monitors.</summary>
+internal static partial class Monitor
 {
-    /// <summary>This class deals with monitors.</summary>
-    internal static partial class Monitor
+    private static List<Screen> screens = null;
+
+    internal static List<Screen> GetScreens()
     {
-        private static List<Screen> screens = null;
+        screens = new List<Screen>();
+        var handler = new DisplayDevices.EnumMonitorsDelegate(MonitorEnumProc);
+        DisplayDevices.EnumDisplayMonitors(IntPtr.Zero, IntPtr.Zero, handler, IntPtr.Zero); // should be sequential
+        return screens;
+    }
 
-        internal static List<Screen> GetScreens()
+    private static bool MonitorEnumProc(IntPtr hMonitor, IntPtr hdcMonitor, DisplayDevices.RECT rect, IntPtr dwData)
+    {
+        var mi = new DisplayDevices.MONITORINFO();
+        if (DisplayDevices.GetMonitorInfo(hMonitor, mi))
         {
-            screens = new List<Screen>();
-            var handler = new DisplayDevices.EnumMonitorsDelegate(MonitorEnumProc);
-            DisplayDevices.EnumDisplayMonitors(IntPtr.Zero, IntPtr.Zero, handler, IntPtr.Zero); // should be sequential
-            return screens;
+            var width = Math.Abs(mi.rcMonitor.Right - mi.rcMonitor.Left);
+            var height = Math.Abs(mi.rcMonitor.Bottom - mi.rcMonitor.Top);
+            var isPrimary = (mi.dwFlags & 1) == 1; // 1 = primary monitor
+            var screen = new Screen(
+                isPrimary,
+                mi.rcMonitor.Top,
+                mi.rcMonitor.Right,
+                mi.rcMonitor.Bottom,
+                mi.rcMonitor.Left,
+                width,
+                height
+            );
+            screens.Add(screen);
         }
 
-        private static bool MonitorEnumProc(IntPtr hMonitor, IntPtr hdcMonitor, DisplayDevices.RECT rect, IntPtr dwData)
-        {
-            var mi = new DisplayDevices.MONITORINFO();
-            if (DisplayDevices.GetMonitorInfo(hMonitor, mi))
-            {
-                var width = Math.Abs(mi.rcMonitor.Right - mi.rcMonitor.Left);
-                var height = Math.Abs(mi.rcMonitor.Bottom - mi.rcMonitor.Top);
-                var isPrimary = (mi.dwFlags & 1) == 1; // 1 = primary monitor
-                var screen = new Screen(
-                    isPrimary,
-                    mi.rcMonitor.Top,
-                    mi.rcMonitor.Right,
-                    mi.rcMonitor.Bottom,
-                    mi.rcMonitor.Left,
-                    width,
-                    height
-                );
-                screens.Add(screen);
-            }
-
-            return true;
-        }
+        return true;
     }
 }
