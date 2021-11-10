@@ -1,8 +1,7 @@
-﻿namespace PhotoCollage.Common
+﻿namespace PhotoCollage.Common;
+
+public interface ISettingsRepository
 {
-    public interface ISettingsRepository
-    {
-        CollageSettings Load();
-        void Save(CollageSettings configuration);
-    }
+    CollageSettings Load();
+    void Save(CollageSettings configuration);
 }

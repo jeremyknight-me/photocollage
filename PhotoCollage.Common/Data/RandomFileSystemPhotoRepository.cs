@@ -1,53 +1,50 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 
-namespace PhotoCollage.Common.Data
+namespace PhotoCollage.Common.Data;
+
+internal sealed class RandomFileSystemPhotoRepository : FileSystemPhotoRepositoryBase
 {
-    internal sealed class RandomFileSystemPhotoRepository : FileSystemPhotoRepositoryBase
+    private readonly List<string> displayedPhotos;
+    private readonly object threadLock = new object();
+
+    public RandomFileSystemPhotoRepository(string path)
+        : base(path)
     {
-        private readonly List<string> displayedPhotos;
-        private readonly object threadLock = new object();
+        this.displayedPhotos = new List<string>();
+    }
 
-        public RandomFileSystemPhotoRepository(string path)
-            : base(path)
+    public override string GetNextPhotoFilePath()
+    {
+        if (!this.PhotoFilePaths.TryDequeue(out var path))
         {
-            this.displayedPhotos = new List<string>();
+            this.ReloadPhotoQueue();
+            this.PhotoFilePaths.TryDequeue(out path);
         }
 
-        public override string GetNextPhotoFilePath()
+        lock (this.threadLock)
         {
-            if (!this.PhotoFilePaths.TryDequeue(out var path))
-            {
-                this.ReloadPhotoQueue();
-                this.PhotoFilePaths.TryDequeue(out path);
-            }
-
-            lock (this.threadLock)
-            {
-                this.displayedPhotos.Add(path);
-            }
-
-            return Path.Combine(this.RootDirectoryPath, path);
+            this.displayedPhotos.Add(path);
         }
 
-        protected override IEnumerable<string> GetOrderedPaths(IEnumerable<string> paths) => RandomizePaths(paths);
+        return Path.Combine(this.RootDirectoryPath, path);
+    }
 
-        private static IEnumerable<string> RandomizePaths(IEnumerable<string> paths)
-        {
-            var random = new Random();
-            return paths.OrderBy(item => random.Next());
-        }
+    protected override IEnumerable<string> GetOrderedPaths(IEnumerable<string> paths) => RandomizePaths(paths);
 
-        private void ReloadPhotoQueue()
+    private static IEnumerable<string> RandomizePaths(IEnumerable<string> paths)
+    {
+        var random = new Random();
+        return paths.OrderBy(item => random.Next());
+    }
+
+    private void ReloadPhotoQueue()
+    {
+        lock (this.threadLock)
         {
-            lock (this.threadLock)
-            {
-                var photosToQueue = RandomizePaths(this.displayedPhotos);
-                this.LoadPhotoPathsIntoQueue(photosToQueue);
-                this.displayedPhotos.Clear();
-            }
+            var photosToQueue = RandomizePaths(this.displayedPhotos);
+            this.LoadPhotoPathsIntoQueue(photosToQueue);
+            this.displayedPhotos.Clear();
         }
     }
 }

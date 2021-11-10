@@ -1,10 +1,9 @@
-﻿namespace PhotoCollage.Common.Enums
+﻿namespace PhotoCollage.Common.Enums;
+
+public enum BorderType
 {
-    public enum BorderType
-    {
-        None,
-        Border,
-        BorderHeader,
-        BorderFooter
-    }
+    None,
+    Border,
+    BorderHeader,
+    BorderFooter
 }

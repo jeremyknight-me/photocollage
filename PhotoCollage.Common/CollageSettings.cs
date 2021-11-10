@@ -1,5 +1,4 @@
 ﻿using PhotoCollage.Common.Enums;
-using System;
 
 namespace PhotoCollage.Common
 {
