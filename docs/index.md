@@ -3,13 +3,14 @@ Photo Collage Screensaver is a Windows screensaver written in .NET. It takes pic
 
 _This project was formally maintained by [@digital-lagniappe](https://github.com/digital-lagniappe/)._
 
-[![buy me a coffee button](https://img.shields.io/badge/buy%20me%20a%20coffee-donate-yellowgreen)](https://ko-fi.com/jeremyknight) ![GitHub last commit](https://img.shields.io/github/last-commit/jeremyknight-me/photocollage?color=red) [![facebook](https://img.shields.io/badge/social-facebook-blue)](https://www.facebook.com/PhotoCollageScreensaver) [![twitter](https://img.shields.io/badge/social-twitter-blue)](https://twitter.com/jeremyknight_me)
+[![buy me a coffee button](https://img.shields.io/badge/buy%20me%20a%20coffee-donate-yellowgreen)](https://ko-fi.com/jeremyknight) ![GitHub last commit](https://img.shields.io/github/last-commit/jeremyknight-me/photocollage?color=red) [![facebook](https://img.shields.io/badge/social-facebook-blue)](https://www.facebook.com/PhotoCollageScreensaver) 
 
 ### Download
 
 | Version | Installer | Requirements |
 |---|---|---|
-| [v3.0.0](https://github.com/jeremyknight-me/photocollage/releases/tag/v3.0.0) | In Progress | .NET 5.0+ |
+| [v4.0.0](https://github.com/jeremyknight-me/photocollage/releases/tag/v4) | NA | .NET 6.0+ |
+| [v3.0.0](https://github.com/jeremyknight-me/photocollage/releases/tag/v3.0.0) | NA | .NET 5.0+ |
 | [v2.0.0](https://github.com/jeremyknight-me/photocollage/releases/tag/v2.0) | Available | .NET Framework 4.5+ |
 | v1.0.0 | NA | .NET Framework 4.0+ |
 
