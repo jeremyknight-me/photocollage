@@ -52,10 +52,10 @@ namespace PhotoCollageWeb.Server.Workers
                     if (this.photoIdQueue.Count > (this.settings.NumberOfPhotos + 1)
                         && this.photoIdQueue.TryDequeue(out var result))
                     {
-                        await this.hub.Clients.All.ReceiveRemove(result);
+                        await this.hub.Clients.Group(CollageHub.ConnectedGroupName).ReceiveRemove(result);
                     }
 
-                    await this.hub.Clients.All.ReceivePhoto(photo);
+                    await this.hub.Clients.Group(CollageHub.ConnectedGroupName).ReceivePhoto(photo);
                 }
                 catch (Exception ex)
                 {

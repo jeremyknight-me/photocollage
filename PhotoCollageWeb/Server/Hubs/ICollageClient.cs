@@ -1,4 +1,5 @@
-﻿using PhotoCollageWeb.Shared;
+﻿using PhotoCollage.Common;
+using PhotoCollageWeb.Shared;
 
 namespace PhotoCollageWeb.Server.Hubs
 {
@@ -6,5 +7,6 @@ namespace PhotoCollageWeb.Server.Hubs
     {
         Task ReceivePhoto(PhotoData photo);
         Task ReceiveRemove(Guid photoId);
+        Task ReceiveConnected(CollageSettings settings);
     }
 }

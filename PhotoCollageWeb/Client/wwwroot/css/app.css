@@ -47,23 +47,13 @@
     }
 
     .photo-frame.removed {
-        animation: removedFadeOut ease 3s;
-        animation-fill-mode: forwards;
+        opacity: 0;
+        transition: opacity 3s ease-in;
     }
 
     .photo-frame img {
         border: 1px solid #ccc;
     }
-
-@keyframes removedFadeOut {
-    from {
-        opacity: inherit;
-    }
-
-    to {
-        opacity: 0;
-    }
-}
 
 /* -- Blazor Styles ----- */
 

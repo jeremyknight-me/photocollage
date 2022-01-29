@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\PhotoCollage.Common\PhotoCollage.Common.csproj" />
     <ProjectReference Include="..\Shared\PhotoCollageWeb.Shared.csproj" />
   </ItemGroup>
 
