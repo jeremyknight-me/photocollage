@@ -43,17 +43,24 @@
     .photo-frame.bordered {
         background-color: #eee;
         filter: drop-shadow(0 0 0.75rem #333);
-        padding: 0.8em;
+        padding: 0.6em;
     }
 
     .photo-frame.removed {
-        opacity: 0;
-        transition: opacity 3s ease-in;
+        /*opacity: 0;
+        transition: opacity 3s linear;*/
+        animation: removedFadeOut ease 3s;
+        animation-fill-mode: forwards;
     }
 
     .photo-frame img {
         border: 1px solid #ccc;
     }
+
+@keyframes removedFadeOut {
+    0% { opacity: 1; }
+    100% { opacity: 0; }
+}
 
 /* -- Blazor Styles ----- */
 

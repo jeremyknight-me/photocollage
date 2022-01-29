@@ -2,38 +2,25 @@
 @using Microsoft.AspNetCore.SignalR.Client
 @using PhotoCollage.Common
 @using PhotoCollage.Common.Enums
+@using PhotoCollageWeb.Client.Extensions
+@using PhotoCollageWeb.Client.Models
 @using PhotoCollageWeb.Shared
 @using System.Collections.Concurrent
 @layout EmptyLayout
 @inject NavigationManager NavigationManager
+@inject IJSRuntime JS
 @implements IDisposable
 
 <div id="collage-wrapper">
-    @if (!this.photos.Any())
-    {
-        <div style="position: absolute; text-align: center; top: 20vh; width: 100vw;">
-            <img src="/img/loading.gif" />
-        </div>
-    }
-    else
-    {
-        foreach (var photo in this.photos.Values)
-        {
-            <div @key="photo.Id" class="@this.GetCssClasses(photo)" style="@photo.PositionStyles">
-                <img style="@this.displayStyles" src="@($"data:image/{photo.Extension};base64,{photo.Data}")" />
-            </div>
-        }
-    }
+    <div id="loading" style="position: absolute; text-align: center; top: 20vh; width: 100vw;">
+        <img src="/img/loading.gif" />
+    </div>
 </div>
 
 @code {
     private HubConnection hubConnection;
-    private Guid id;
-    private ConcurrentDictionary<Guid, PhotoData> photos = new();
     private CollageSettings settings;
-    private Random random = new();
     private int index = 0;
-    private string displayStyles = string.Empty;
 
     protected override async Task OnInitializedAsync()
     {
@@ -45,43 +32,9 @@
             })
             .Build();
 
-        this.hubConnection.On<CollageSettings>("ReceiveConnected", collageSettings =>
-        {
-            this.settings = collageSettings;
-            this.displayStyles = this.CombineStyles(this.GetDisplayCssStyles());
-            this.StateHasChanged();
-        });
-
-        this.hubConnection.On<PhotoData>("ReceivePhoto", photo =>
-        {
-            if (!this.photos.ContainsKey(photo.Id))
-            {
-                photo.PositionStyles = this.GetPositionCssStyles();
-                this.photos.TryAdd(photo.Id, photo);
-            }
-
-            var hiddenPhotos = this.photos.Values.Where(x => x.IsRemoved);
-            foreach (var hiddenPhoto in hiddenPhotos)
-            {
-                if (this.photos.ContainsKey(hiddenPhoto.Id))
-                {
-                    this.photos.TryRemove(hiddenPhoto.Id, out var removedPhoto);
-                }
-            }
-
-            this.StateHasChanged();
-        });
-
-        this.hubConnection.On<Guid>("ReceiveRemove", id =>
-        {
-            if (this.photos.TryGetValue(id, out var photo))
-            {
-                photo.IsRemoved = true;
-                // todo: start fade out transition
-            }
-            this.StateHasChanged();
-        });
-
+        this.hubConnection.On<CollageSettings>("ReceiveConnected", collageSettings => this.OnReceiveConnected(collageSettings));
+        this.hubConnection.On<PhotoData>("ReceivePhoto", async (photo) => await this.OnReceivePhoto(photo));
+        this.hubConnection.On<Guid>("ReceiveRemove", async (id) => await this.OnReceiveRemove(id));
         await this.hubConnection.StartAsync();
     }
 
@@ -90,47 +43,31 @@
         _ = this.hubConnection.DisposeAsync();
     }
 
-    private string GetCssClasses(PhotoData photo) => "photo-frame" + this.GetBorderClasses() + this.GetRemovedClasses(photo);
-
-    private string GetBorderClasses() => this.settings.PhotoBorderType switch
+    private void OnReceiveConnected(CollageSettings collageSettings)
     {
-        BorderType.Border => " bordered",
-        BorderType.BorderHeader => " bordered",
-        BorderType.BorderFooter => " bordered",
-        _ => string.Empty,
-    };
-
-    private string GetRemovedClasses(PhotoData photo) => photo.IsRemoved ? " removed" : string.Empty;
-
-    private IDictionary<string, string> GetDisplayCssStyles()
-    {
-        var styles = new Dictionary<string, string>
-        {
-            { "max-height", $"{this.settings.MaximumSize}px" },
-            { "max-width", $"{this.settings.MaximumSize}px" }
-        };
-        if (this.settings.IsGrayscale)
-        {
-            styles.Add("filter", "grayscale(1)");
-        }
-        return styles;
+        this.settings = collageSettings;
+        this.StateHasChanged();
     }
 
-    private string GetPositionCssStyles()
+    private async Task OnReceivePhoto(PhotoData photo)
     {
-        var positionTop = random.Next(0, 100);
-        var positionLeft = random.Next(0, 100);
-        var rotation = random.Next(-settings.MaximumRotation, settings.MaximumRotation);
-        var half = settings.MaximumSize / 2;
-        var styles = new Dictionary<string, string>
+        var photoSettings = new PhotoSettings
         {
-            { "left", $"calc({positionLeft}vw - {half}px)" },
-            { "top", $"calc({positionTop}vh - {half}px)" },
-            { "transform", $"rotate({rotation}deg)" },
-            { "z-index", $"{this.index++}" }
+            Id = photo.Id,
+            Index = this.index++,
+            Source = $"data:image/{photo.Extension};base64,{photo.Data}",
+            HasBorder = this.settings.PhotoBorderType != BorderType.None,
+            IsGrayscale = this.settings.IsGrayscale,
+            MaximumRotation = this.settings.MaximumRotation,
+            MaximumSize = this.settings.MaximumSize
         };
-        return this.CombineStyles(styles);
+        await this.JS.AddPhoto(photoSettings);
+        this.StateHasChanged();
     }
 
-    private string CombineStyles(IDictionary<string, string> styles) => string.Join(";", styles.OrderBy(x => x.Key).Select(x => $"{x.Key}:{x.Value}"));
+    private async Task OnReceiveRemove(Guid id)
+    {
+        await this.JS.RemovePhoto(id);
+        this.StateHasChanged();
+    }
 }

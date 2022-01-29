@@ -47,8 +47,8 @@ namespace PhotoCollageWeb.Server.Workers
                         Extension = extension,
                         Data = Convert.ToBase64String(bytes)
                     };
-                    this.photoIdQueue.Enqueue(photo.Id);
 
+                    this.photoIdQueue.Enqueue(photo.Id);
                     if (this.photoIdQueue.Count > this.settings.NumberOfPhotos
                         && this.photoIdQueue.TryDequeue(out var result))
                     {
