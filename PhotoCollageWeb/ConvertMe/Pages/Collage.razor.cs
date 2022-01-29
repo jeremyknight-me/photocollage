@@ -61,29 +61,29 @@ public partial class Collage : IDisposable
 
     private void ShowNextPhoto()
     {
-        if (this.photoRepository.HasPhotos)
-        {
-            var path = this.photoRepository.GetNextPhotoFilePath();
-            var extension = System.IO.Path.GetExtension(path);
-            var bytes = System.IO.File.ReadAllBytes(path);
-            var image = new PhotoData(++this.count, this.Settings)
-            {
-                Extension = extension,
-                Data = Convert.ToBase64String(bytes)
-            };
-            this.images.Enqueue(image);
+        //if (this.photoRepository.HasPhotos)
+        //{
+        //    var path = this.photoRepository.GetNextPhotoFilePath();
+        //    var extension = System.IO.Path.GetExtension(path);
+        //    var bytes = System.IO.File.ReadAllBytes(path);
+        //    var image = new PhotoData(++this.count, this.Settings)
+        //    {
+        //        Extension = extension,
+        //        Data = Convert.ToBase64String(bytes)
+        //    };
+        //    this.images.Enqueue(image);
 
-            if (this.images.Count > (this.Settings.NumberOfPhotos + 1))
-            {
-                _ = this.images.Dequeue();
-            }
+        //    if (this.images.Count > (this.Settings.NumberOfPhotos + 1))
+        //    {
+        //        _ = this.images.Dequeue();
+        //    }
 
-            if (this.images.Count > this.Settings.NumberOfPhotos)
-            {
-                var faded = this.images.Peek();
-                faded.IsRemoved = true;
-            }
-        }
+        //    if (this.images.Count > this.Settings.NumberOfPhotos)
+        //    {
+        //        var faded = this.images.Peek();
+        //        faded.IsRemoved = true;
+        //    }
+        //}
     }
 
     private void TryStartTimer()

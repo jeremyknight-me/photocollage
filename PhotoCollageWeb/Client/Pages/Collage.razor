@@ -1,18 +1,23 @@
 ﻿@page "/collage"
 @using Microsoft.AspNetCore.SignalR.Client
 @using PhotoCollageWeb.Shared
+@using System.Collections.Concurrent
 @layout EmptyLayout
 @inject NavigationManager NavigationManager
 @implements IDisposable
 
 <div id="collage-wrapper">
-    <span>@id</span>
+    @foreach (var photo in this.photos.Values)
+    {
+        <img src="@($"data:image/{photo.Extension};base64,{photo.Data}")" />
+    }
 </div>
 
 
 @code {
     private HubConnection hubConnection;
     private Guid id;
+    private ConcurrentDictionary<Guid, PhotoData> photos = new();
 
     protected override async Task OnInitializedAsync()
     {
@@ -26,7 +31,26 @@
 
         this.hubConnection.On<PhotoData>("ReceivePhoto", photo =>
         {
-            this.id = photo.Id;
+            if (!this.photos.ContainsKey(photo.Id))
+            {
+                this.photos.TryAdd(photo.Id, photo);
+            }
+
+            var hiddenPhotos = this.photos.Values.Where(x => x.IsRemoved);
+            foreach (var hiddenPhoto in hiddenPhotos)
+            {
+                if (this.photos.ContainsKey(hiddenPhoto.Id))
+                {
+                    this.photos.TryRemove(hiddenPhoto.Id, out var removedPhoto);
+                }
+            }
+
+            this.StateHasChanged();
+        });
+
+        this.hubConnection.On<Guid>("ReceiveRemove", id =>
+        {
+            // todo: start fade out transition
             this.StateHasChanged();
         });
 

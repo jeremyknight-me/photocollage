@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿using System.Collections.Concurrent;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Options;
 using PhotoCollage.Common;
+using PhotoCollage.Common.Data;
 using PhotoCollageWeb.Server.Hubs;
 using PhotoCollageWeb.Shared;
 
@@ -11,6 +13,8 @@ namespace PhotoCollageWeb.Server.Workers
         private readonly ILogger<CollageWorker> logger;
         private readonly CollageSettings settings;
         private readonly IHubContext<CollageHub, ICollageClient> hub;
+        private readonly ConcurrentQueue<Guid> photoIdQueue = new ConcurrentQueue<Guid>();
+        private IPhotoRepository photoRepository;
 
         public CollageWorker(
             ILogger<CollageWorker> appLogger,
@@ -21,6 +25,7 @@ namespace PhotoCollageWeb.Server.Workers
             this.logger = appLogger;
             this.settings = appOptions.Value;
             this.hub = hubContext;
+            this.photoRepository = new PhotoRepositoryFactory(this.settings).Make();
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -34,11 +39,27 @@ namespace PhotoCollageWeb.Server.Workers
                         this.logger.LogInformation("Collage worker ran at {time}", DateTimeOffset.Now);
                     }
 
-                    await this.hub.Clients.All.ReceivePhoto(new PhotoData());
+                    var path = this.photoRepository.GetNextPhotoFilePath();
+                    var extension = Path.GetExtension(path);
+                    var bytes = File.ReadAllBytes(path);
+                    var photo = new PhotoData()
+                    {
+                        Extension = extension,
+                        Data = Convert.ToBase64String(bytes)
+                    };
+                    this.photoIdQueue.Enqueue(photo.Id);
+
+                    if (this.photoIdQueue.Count > (this.settings.NumberOfPhotos + 1)
+                        && this.photoIdQueue.TryDequeue(out var result))
+                    {
+                        await this.hub.Clients.All.ReceiveRemove(result);
+                    }
+
+                    await this.hub.Clients.All.ReceivePhoto(photo);
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-                    throw;
+                    this.logger.LogError("Error on Collage worker execution", ex);
                 }
                 finally
                 {
