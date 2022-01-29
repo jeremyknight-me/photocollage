@@ -49,7 +49,7 @@ namespace PhotoCollageWeb.Server.Workers
                     };
                     this.photoIdQueue.Enqueue(photo.Id);
 
-                    if (this.photoIdQueue.Count > (this.settings.NumberOfPhotos + 1)
+                    if (this.photoIdQueue.Count > this.settings.NumberOfPhotos
                         && this.photoIdQueue.TryDequeue(out var result))
                     {
                         await this.hub.Clients.Group(CollageHub.ConnectedGroupName).ReceiveRemove(result);
