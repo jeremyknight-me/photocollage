@@ -1,0 +1,18 @@
+﻿@page "/collage"
+@layout EmptyLayout
+
+<div id="collage-wrapper">
+    @if (!this.images.Any())
+    {
+        <div style="position: absolute; text-align: center; top: 20vh; width: 100vw;">
+            <img src="/img/loading.gif" />
+        </div>
+    }
+    else
+    {
+        foreach (var image in this.images)
+        {
+            <PhotoFrame Image="image" />
+        }
+    }
+</div>
