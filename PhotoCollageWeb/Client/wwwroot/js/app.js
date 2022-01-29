@@ -8,17 +8,15 @@
             frame.classList.add('bordered');
         }
 
-        const positionTop = Math.floor(Math.random() * 101);
-        const positionLeft = Math.floor(Math.random() * 101);
-        const min = -1 * settings.maximumRotation;
-        const max = settings.maximumRotation
-        const rotation = Math.floor(Math.random() * (max - min + 1)) + min;
+        frame.style.zIndex = `${settings.index}`;
+        const positionTop = this.getRandomIntFromZeroToMax(100);
+        const positionLeft = this.getRandomIntFromZeroToMax(100);
         const half = settings.maximumSize / 2;
         frame.style.left = `calc(${positionLeft}vw - ${half}px)`;
         frame.style.top = `calc(${positionTop}vh - ${half}px)`;
+        const rotation = this.getRandomIntFromAbsoluteValue(settings.maximumRotation);
         frame.style.transform = `rotate(${rotation}deg)`;
-        frame.style.zIndex = `${settings.index}`;
-
+        
         let photo = document.createElement('img');
         photo.src = settings.source;
         photo.style.maxHeight = `${settings.maximumSize}px`;
@@ -39,5 +37,14 @@
         const elementId = 'photo-' + id;
         let element = document.getElementById(elementId);
         element.classList.add("removed");
+    },
+    getRandomIntFromAbsoluteValue: function (abs) {
+        const min = -1 * abs;
+        const max = abs
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    },
+    getRandomIntFromZeroToMax: function (max) {
+        const maximum = max + 1;
+        return Math.floor(Math.random() * maximum);
     }
 }
