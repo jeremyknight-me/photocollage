@@ -1,11 +1,15 @@
-﻿using Microsoft.AspNetCore.ResponseCompression;
+﻿using PhotoCollageWeb.Server.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
+builder.Services.AddDependencyInjection(builder.Configuration, builder.Environment);
 
 builder.Services.AddControllers();
 builder.Services.AddRazorPages();
+
+builder.Services.AddSignalR(options =>
+{
+    options.EnableDetailedErrors = builder.Environment.IsDevelopment();
+});
 
 var app = builder.Build();
 
@@ -31,6 +35,7 @@ app.UseRouting();
 
 app.MapRazorPages();
 app.MapControllers();
+app.MapHub<PhotoCollageWeb.Server.Hubs.CollageHub>("/hubs/collage");
 app.MapFallbackToFile("index.html");
 
 app.Run();

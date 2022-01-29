@@ -11,12 +11,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\PhotoCollage.Common\PhotoCollage.Common.csproj" />
     <ProjectReference Include="..\Client\PhotoCollageWeb.Client.csproj" />
     <ProjectReference Include="..\Shared\PhotoCollageWeb.Shared.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Extensions\" />
   </ItemGroup>
 
 
