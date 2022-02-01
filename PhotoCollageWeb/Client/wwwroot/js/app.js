@@ -30,6 +30,9 @@
             loading.remove();
         }
 
+        frame.addEventListener('webkitAnimationEnd', this.handleRemovePhotoAnimationEnd);
+        frame.addEventListener('animationend', this.handleRemovePhotoAnimationEnd);
+
         frame.appendChild(photo);
         wrapper.appendChild(frame);
     },
@@ -46,5 +49,8 @@
     getRandomIntFromZeroToMax: function (max) {
         const maximum = max + 1;
         return Math.floor(Math.random() * maximum);
+    },
+    handleRemovePhotoAnimationEnd: function (e) {
+        e.target.remove();
     }
 }

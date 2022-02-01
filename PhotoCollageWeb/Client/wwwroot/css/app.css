@@ -47,9 +47,7 @@
     }
 
     .photo-frame.removed {
-        /*opacity: 0;
-        transition: opacity 3s linear;*/
-        animation: removedFadeOut ease 3s;
+        animation: removedFadeOut ease 2s;
         animation-fill-mode: forwards;
     }
 
