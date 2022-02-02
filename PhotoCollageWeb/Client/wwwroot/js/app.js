@@ -9,11 +9,13 @@
         }
 
         frame.style.zIndex = `${settings.index}`;
-        const positionTop = this.getRandomIntFromZeroToMax(100);
-        const positionLeft = this.getRandomIntFromZeroToMax(100);
-        const half = settings.maximumSize / 2;
-        frame.style.left = `calc(${positionLeft}vw - ${half}px)`;
-        frame.style.top = `calc(${positionTop}vh - ${half}px)`;
+        const tenPercent = settings.maximumSize * 0.1;
+        const boundedHeight = window.innerHeight + tenPercent - settings.maximumSize;
+        const boundedWidth = window.innerWidth + tenPercent - settings.maximumSize;
+        const positionTop = this.getRandomIntegerInclusive(-tenPercent, boundedHeight);
+        const positionLeft = this.getRandomIntegerInclusive(-tenPercent, boundedWidth);
+        frame.style.left = `${positionLeft}px`;
+        frame.style.top = `${positionTop}px`;
         const rotation = this.getRandomIntFromAbsoluteValue(settings.maximumRotation);
         frame.style.transform = `rotate(${rotation}deg)`;
         
@@ -49,6 +51,9 @@
     getRandomIntFromZeroToMax: function (max) {
         const maximum = max + 1;
         return Math.floor(Math.random() * maximum);
+    },
+    getRandomIntegerInclusive: function (min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
     },
     handleRemovePhotoAnimationEnd: function (e) {
         e.target.remove();
