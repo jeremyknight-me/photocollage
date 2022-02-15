@@ -14,7 +14,7 @@ namespace PhotoCollageWeb.Server.Workers
         private readonly CollageSettings settings;
         private readonly IHubContext<CollageHub, ICollageClient> hub;
         private readonly ConcurrentQueue<Guid> photoIdQueue = new ConcurrentQueue<Guid>();
-        private IPhotoRepository photoRepository;
+        private readonly IPhotoRepository photoRepository;
 
         public CollageWorker(
             ILogger<CollageWorker> appLogger,
@@ -64,7 +64,7 @@ namespace PhotoCollageWeb.Server.Workers
                 finally
                 {
                     var speed = 2 * (int)this.settings.Speed;
-                    await Task.Delay(TimeSpan.FromSeconds(speed));
+                    await Task.Delay(TimeSpan.FromSeconds(speed), stoppingToken);
                 }
             }
         }
