@@ -29,7 +29,7 @@ The web version was built for scenarios like a Raspberry PI connected on a TV. (
 * Facebook Page: https://www.facebook.com/PhotoCollageScreensaver
 * Video of Screensaver Running: https://www.youtube.com/watch?v=AWpOxp9_PDo
 
-## Installing Photo Collage Screensaver
+## Installation
 
 To install, place the scr file in the OS dependent location below:
 
@@ -39,7 +39,7 @@ In Windows:
 
 **NOTE**: v3 and above no longer include separate .dll files. 
 
-## Configuring Photo Collage Screensaver
+## Configuration
 
 Once installed, you can configure the screensaver in Control Panel -> Personalization -> Screen Saver. Below is a screenshot of the window that is displayed when you click “Settings.” in Screen Saver Settings. It allows you to configure the directory that your photos are located, the maximum number of photos to display at one time, and the speed in which new photos are shown.
 
@@ -49,7 +49,7 @@ _Photo Coming Soon_
 Microsoft Support Screensaver Guide: https://support.microsoft.com/en-us/windows/change-your-screen-saver-settings-a9dc2a0c-dc8e-9161-d270-aaccc252082a
 Video of Configuring Photo Collage Screensaver: https://www.youtube.com/watch?v=2Sb3hSy9ECE
 
-## What People Are Saying About Photo Collage Screensaver
+## What People Are Saying
 
 ### Reviews and Articles
 
