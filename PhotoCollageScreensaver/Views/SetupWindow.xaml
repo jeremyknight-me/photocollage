@@ -6,7 +6,7 @@
         mc:Ignorable="d"
         Title="Photo Screensaver Settings" 
         Background="{StaticResource DarkGrayBrush}"
-        Height="385" Width="510" 
+        Height="480" Width="525" 
         WindowStartupLocation="CenterScreen" 
         ResizeMode="NoResize">
     <Window.Resources>
@@ -25,40 +25,69 @@
             <Setter Property="FontWeight" Value="Normal" />
             <Setter Property="FontSize" Value="14" />
             <Setter Property="Margin" Value="5" />
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Background" Value="LightGray" />
+                    <Setter Property="Foreground" Value="DarkGray" />
+                </Trigger>
+            </Style.Triggers>
         </Style>
         <Style TargetType="{x:Type ComboBox}">
             <Setter Property="FontSize" Value="14" />
             <Setter Property="Margin" Value="2" />
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Background" Value="LightGray" />
+                    <Setter Property="Foreground" Value="DarkGray" />
+                </Trigger>
+            </Style.Triggers>
         </Style>
         <Style TargetType="{x:Type TextBlock}">
             <Setter Property="FontWeight" Value="Normal" />
             <Setter Property="FontSize" Value="14" />
         </Style>
+        <Style TargetType="{x:Type CheckBox}">
+            <Setter Property="Margin" Value="5" />
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Background" Value="LightGray" />
+                    <Setter Property="Foreground" Value="DarkGray" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
         <Style TargetType="{x:Type Slider}">
             <Setter Property="Margin" Value="5" />
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Background" Value="LightGray" />
+                    <Setter Property="Foreground" Value="DarkGray" />
+                </Trigger>
+            </Style.Triggers>
         </Style>
     </Window.Resources>
     <Grid Margin="10, 5, 0, 0">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="100" />
+            <ColumnDefinition Width="115" />
             <ColumnDefinition Width="300" />
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="36" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="40" />
         </Grid.RowDefinitions>
 
         <Canvas Grid.ColumnSpan="3" 
-                Height="50"
                 Margin="0, 0, 0, 5">
             <TextBlock Text="Photo Collage Screensaver"
                        FontSize="20"
@@ -71,127 +100,210 @@
 
         <Label Content="Directory:"
                Grid.Row="1"
-               Target="{Binding ElementName=DirectoryTextBox}" />
+               Target="{Binding ElementName=DirectoryTextBox}" 
+               ToolTip="Directory to find photos."
+               HorizontalAlignment="Right" 
+               VerticalAlignment="Center"/>
         <TextBox x:Name="DirectoryTextBox"
                  Grid.Row="1"
                  Grid.Column="1"
                  Foreground="Black"
                  IsReadOnly="True"
+               ToolTip="Directory to find photos."
                  Text="{Binding SelectedDirectory}" />
         <Button x:Name="DirectorySelectButton"
                 Content="Select"
                 Grid.Row="1"
                 Grid.Column="2"
-                Margin="5" Command="{Binding SelectDirectoryCommand}" />
+                Padding="3,3,3,3"
+                ToolTip="Select directory to find photos."
+                Command="{Binding SelectDirectoryCommand}" />
+
+        <Label Content="FullScreen:"
+               Target="{Binding ElementName=IsFullScreenCheckBox}"
+               ToolTip="Show one photo only in Full screen mode."
+               Grid.Row="2" />
+        <CheckBox x:Name="IsFullScreenCheckBox"
+                  IsChecked="{Binding FullScreenCheck}"
+                  Grid.Row="2" 
+                  Grid.Column="1"
+                  ToolTip="Show one photo only in Full screen mode."
+                  VerticalAlignment="Center" />
+
+        <Label Content="EXIF Rotate:"
+               Target="{Binding ElementName=RotateBasedOnEXIFCheckBox}"
+               ToolTip="Fix rotation of photo based on EXIF photo metadata."
+               Grid.Row="3" />
+        <CheckBox x:Name="RotateBasedOnEXIFCheckBox"
+                  IsChecked="{Binding RotateBasedOnEXIFCheck}"
+                  IsEnabled="{Binding RotateBasedOnEXIFEnabled}"
+                  Grid.Row="3" 
+                  Grid.Column="1"
+                  ToolTip="Fix rotation of photo based on EXIF photo metadata."
+                  VerticalAlignment="Center" />
 
         <Label Content="Photos:" 
                Target="{Binding ElementName=numberOfPhotosSlider}"
                ToolTip="Number of photos to display on each monitor."
-               Grid.Row="2" />
+               Grid.Row="4" 
+               HorizontalAlignment="Right" 
+               VerticalAlignment="Center" />
         <Slider x:Name="numberOfPhotosSlider" 
-                Grid.Row="2"
+                Grid.Row="4"
                 Grid.Column="1" 
                 Value="{Binding Config.NumberOfPhotos}"
+                IsEnabled="{Binding NumberOfPhotosEnabled}"
                 Minimum="5" 
                 Maximum="100"
                 IsSnapToTickEnabled="True" 
                 TickFrequency="5" 
-                ToolTip="Number of photos to display on each monitor."/>
+                ToolTip="Number of photos to display on each monitor." 
+                Margin="5,5,5,5"/>
         <TextBlock x:Name="numberOfPhotosTextBlock"
-                   Grid.Row="2"
-                   Grid.Column="2"
-                   Text="{Binding Config.NumberOfPhotos}"
-                   ToolTip="Number of photos to display on each monitor."
-                   Foreground="White"
-                   Padding="5, 5, 5, 5" />
+                Grid.Row="4"
+                Grid.Column="2"
+                Text="{Binding Config.NumberOfPhotos}"
+                IsEnabled="{Binding NumberOfPhotosEnabled}"
+                ToolTip="Number of photos to display on each monitor."
+                Foreground="White"
+                HorizontalAlignment="Left" 
+                VerticalAlignment="Center"
+                Padding="5, 5, 5, 5"  />
 
         <Label Content="Max Size:" 
                Target="{Binding ElementName=maximumPhotoSizeSlider}"
                ToolTip="Maximum size of each photo."
-               Grid.Row="3" />
+               Grid.Row="5"
+               HorizontalAlignment="Right" 
+               VerticalAlignment="Center" />
         <Slider x:Name="maximumPhotoSizeSlider" 
-                Grid.Row="3"
+                Grid.Row="5"
                 Grid.Column="1" 
                 Value="{Binding Config.MaximumSize}"
+                IsEnabled="{Binding MaximumPhotoSizeSliderEnabled}"
                 Minimum="100" 
                 Maximum="2000"
                 IsSnapToTickEnabled="True" 
                 TickFrequency="100"
-                ToolTip="Maximum size of each photo."/>
+                ToolTip="Maximum size of each photo." 
+                Margin="5,5,5,5"/>
         <TextBlock x:Name="maxPhotoSizeTextBlock"
-                   Grid.Row="3"
+                   Grid.Row="5"
                    Grid.Column="2"
                    Text="{Binding Config.MaximumSize}"
+                IsEnabled="{Binding MaximumPhotoSizeSliderEnabled}"
                    ToolTip="Maximum size of each photo."
                    Foreground="White"
                    Padding="5, 5, 5, 5" />
 
+        <Label Content="Fullscreen Mode:"
+               Target="{Binding ElementName=FullScreenModeComboBox}"
+               ToolTip="Full screen mode. Determine how the photos are displayed on the screen."
+               Grid.Row="6" 
+               HorizontalAlignment="Right" 
+               VerticalAlignment="Center" />
+        <ComboBox x:Name="FullScreenModeComboBox" 
+                  Grid.Row="6"
+                  Grid.Column="1"
+                  ItemsSource="{Binding Path=FullScreenModeOptions}"
+                  IsEnabled="{Binding FullScreenModeComboBoxEnabled}"
+                  DisplayMemberPath="Value"
+                  SelectedValuePath="Key"
+                  SelectedItem="{Binding Path=SelectedFullScreenMode}" 
+                  ToolTip="Full screen mode. Determine how the photos are displayed on the screen."
+                  Margin="2,2,2,2" />
+
         <Label Content="Speed:"
                Target="{Binding ElementName=SpeedComboBox}"
-               Grid.Row="4" />
+                  ToolTip="Speed at which Photos are transitioned on and off the screen."
+               Grid.Row="7" 
+               HorizontalAlignment="Right" 
+               VerticalAlignment="Center" />
         <ComboBox x:Name="SpeedComboBox" 
-                  Grid.Row="4"
+                  Grid.Row="7"
                   Grid.Column="1"
+                  ToolTip="Speed at which Photos are transitioned on and off the screen."
                   ItemsSource="{Binding Path=SpeedOptions}"
-                  SelectedItem="{Binding Path=SelectedSpeed}" />
+                  SelectedItem="{Binding Path=SelectedSpeed}" 
+                  Margin="2,2,2,2" />
 
         <Label Content="Random?"
                Target="{Binding ElementName=IsRandomCheckBox}"
-               Grid.Row="5"/>
+               ToolTip="Randomise selection of images."
+               Grid.Row="8" 
+               HorizontalAlignment="Right" 
+               VerticalAlignment="Center" />
         <CheckBox x:Name="IsRandomCheckBox"
+                  ToolTip="Randomise selection of images."
                   IsChecked="{Binding Config.IsRandom}"
-                  Grid.Row="5" 
+                  Grid.Row="8" 
                   Grid.Column="1" 
-                  Margin="10, 0, 0, 0"
+                  Margin="10,0,0,0"
                   VerticalAlignment="Center" />
 
         <Label Content="Grayscale?"
                Target="{Binding ElementName=IsGrayscaleCheckBox}"
-               Grid.Row="6"/>
+               ToolTip="Display images as Grayscale."
+               Grid.Row="9" 
+               HorizontalAlignment="Right" 
+               VerticalAlignment="Center" />
         <CheckBox x:Name="IsGrayscaleCheckBox"
                   IsChecked="{Binding Config.IsGrayscale}"
-                  Grid.Row="6" 
+                  ToolTip="Display images as Grayscale."
+                  Grid.Row="9" 
                   Grid.Column="1" 
-                  Margin="10, 0, 0, 0"
+                  Margin="10,0,0,0"
                   VerticalAlignment="Center" />
 
         <Label Content="Border:"
-               Target="{Binding ElementName=ShowBordersCheckBox}"
-               Grid.Row="7"/>
+               Target="{Binding ElementName=BorderComboBox}"
+               ToolTip="Display border around images."
+               Grid.Row="10"
+               HorizontalAlignment="Right" 
+               VerticalAlignment="Center" />
         <ComboBox x:Name="BorderComboBox" 
-                  Grid.Row="7" 
+                  Grid.Row="10" 
                   Grid.Column="1"
                   ItemsSource="{Binding Path=BorderOptions}"
+                  ToolTip="Display border around images."
                   DisplayMemberPath="Value"
                   SelectedValuePath="Key"
-                  SelectedItem="{Binding Path=SelectedBorderType}" />
+                  SelectedItem="{Binding Path=SelectedBorderType}" 
+                  Margin="2,2,2,2" />
 
         <Label Content="Opacity:" 
                Target="{Binding ElementName=opacitySlider}"
                ToolTip="Opacity of the background."
-               Grid.Row="8" />
+               Grid.Row="11" 
+               HorizontalAlignment="Right" 
+               VerticalAlignment="Center" />
         <Slider x:Name="opacitySlider" 
-                Grid.Row="8"
+                Grid.Row="11"
                 Grid.Column="1" 
                 Value="{Binding SelectedOpacity}"
                 Minimum="0" 
                 Maximum="100"
                 IsSnapToTickEnabled="True" 
                 TickFrequency="5" 
-                ToolTip="Opacity of the background." />
+                ToolTip="Opacity of the background." 
+                Margin="5,5,5,5" />
         <TextBlock x:Name="opacityTextBlock"
-                   Grid.Row="8"
+                   Grid.Row="11"
                    Grid.Column="2"
                    Text="{Binding SelectedOpacity, StringFormat={}{0:###}}"
                    ToolTip="Opacity of the background."
                    Foreground="White"
                    Padding="5, 5, 5, 5" />
 
-        <Button Grid.Row="9" Content="Preview" Command="{Binding PreviewCommand}" ToolTip="Start Photo Collage" />
+        <Button Grid.Row="12" 
+                Content="Preview" 
+                Command="{Binding PreviewCommand}" 
+                ToolTip="Start Photo Collage" 
+                Margin="5,5,5,5" />
         <StackPanel Orientation="Horizontal" 
-                    HorizontalAlignment="Right"
-                    Grid.Row="9" 
-                    Grid.ColumnSpan="3">
+                    HorizontalAlignment="Left"
+                    Grid.Row="12" 
+                    Grid.ColumnSpan="2" Grid.Column="1" Margin="193,0,0,0">
             <Button Content="Ok" Command="{Binding OkCommand}" ToolTip="Save and Close" />
             <Button Content="Save" Command="{Binding SaveCommand}" ToolTip="Save" />
             <Button Content="Close" Command="{Binding CancelCommand}" ToolTip="Close" />

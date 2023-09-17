@@ -18,6 +18,13 @@ public partial class CollageWindow : Window, ICollageView
     public Canvas ImageCanvas => this.MainCanvas;
     public double WindowActualHeight => this.ActualHeight;
     public double WindowActualWidth => this.ActualWidth;
+
+    public bool IsPortrait
+    {
+        get => this.ActualHeight > this.ActualWidth;
+        set { }
+    }
+
     private void Window_KeyDown(object sender, KeyEventArgs e) => this.controller.Shutdown();
     private void Window_MouseDown(object sender, MouseButtonEventArgs e) => this.controller.Shutdown();
     private void Window_TouchDown(object sender, TouchEventArgs e) => this.controller.Shutdown();
