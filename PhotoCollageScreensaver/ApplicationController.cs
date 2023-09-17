@@ -1,9 +1,8 @@
-﻿using PhotoCollageScreensaver.Logging;
+﻿using System.IO;
 using PhotoCollageScreensaver.Data;
+using PhotoCollageScreensaver.Logging;
 using PhotoCollageScreensaver.ViewModels;
 using PhotoCollageScreensaver.Views;
-using System.IO;
-using PhotoCollage.Common;
 
 namespace PhotoCollageScreensaver;
 

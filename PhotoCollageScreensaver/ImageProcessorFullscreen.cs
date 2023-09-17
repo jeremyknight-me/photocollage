@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using PhotoCollage.Common;
 using PhotoCollageScreensaver.Views;
 
 namespace PhotoCollageScreensaver;

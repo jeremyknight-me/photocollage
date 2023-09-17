@@ -1,9 +1,8 @@
-﻿using PhotoCollage.Common;
-using PhotoCollage.Common.Data;
-using PhotoCollageScreensaver.Views;
-using System.Threading;
+﻿using System.Threading;
 using System.Windows.Media;
 using System.Windows.Threading;
+using PhotoCollage.Common.Data;
+using PhotoCollageScreensaver.Views;
 
 namespace PhotoCollageScreensaver;
 

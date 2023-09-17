@@ -1,12 +1,11 @@
-﻿using PhotoCollage.Common;
-using PhotoCollage.Common.Enums;
-using PhotoCollageScreensaver.Commands;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 using System.Windows.Input;
+using PhotoCollage.Common.Enums;
+using PhotoCollageScreensaver.Commands;
 
 namespace PhotoCollageScreensaver.ViewModels;
 
@@ -26,7 +25,8 @@ public class SetupViewModel : INotifyPropertyChanged
         this.controller = controllerToUse;
 
         this.PreviewCommand = new RelayCommand((obj) => this.controller.StartScreensaver());
-        this.OkCommand = new RelayCommand(obj => {
+        this.OkCommand = new RelayCommand(obj =>
+        {
             this.controller.SaveConfiguration();
             this.controller.Shutdown();
         });
@@ -120,9 +120,11 @@ public class SetupViewModel : INotifyPropertyChanged
         }
     }
 
-    public bool FullScreenCheck {
+    public bool FullScreenCheck
+    {
         get => this.Config.IsFullScreen;
-        set {
+        set
+        {
             this.Config.IsFullScreen = value;
             this.RotateBasedOnEXIFCheck = false;
             this.NotifyPropertyChanged();

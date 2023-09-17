@@ -1,5 +1,5 @@
-﻿using PhotoCollageScreensaver.Views;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
+using PhotoCollageScreensaver.Views;
 
 namespace PhotoCollageScreensaver;
 

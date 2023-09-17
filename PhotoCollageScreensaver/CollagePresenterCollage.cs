@@ -1,7 +1,6 @@
-﻿using PhotoCollage.Common;
+﻿using System.Collections.Concurrent;
 using PhotoCollageScreensaver.UserControls;
 using PhotoCollageScreensaver.Views;
-using System.Collections.Concurrent;
 
 namespace PhotoCollageScreensaver;
 

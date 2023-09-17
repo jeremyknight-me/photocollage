@@ -1,7 +1,6 @@
-﻿using PhotoCollage.Common;
+﻿using System.Collections.Concurrent;
 using PhotoCollageScreensaver.UserControls;
 using PhotoCollageScreensaver.Views;
-using System.Collections.Concurrent;
 
 namespace PhotoCollageScreensaver;
 
@@ -81,7 +80,7 @@ public sealed class CollagePresenterFullscreen : CollagePresenter
                 else
                 {
                     this.skippedLandscapeImagePaths.Enqueue(path);
-                }                
+                }
             }
         }
 
