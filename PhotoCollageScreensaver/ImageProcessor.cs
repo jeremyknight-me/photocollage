@@ -5,7 +5,7 @@ using PhotoCollageScreensaver.Views;
 
 namespace PhotoCollageScreensaver;
 
-internal abstract class ImageProcessor : IImageProcessor
+internal abstract class ImageProcessor
 {
     protected readonly string ImagePath;
     protected readonly CollageSettings Configuration;
@@ -18,7 +18,9 @@ internal abstract class ImageProcessor : IImageProcessor
         this.Configuration = configurationToUse;
     }
 
-    public BitmapSource GetImage()
+    public abstract ImageSource GetImageSource(ICollageView view, BitmapSource sourceImage = null);
+
+    protected BitmapSource GetBitmapImage()
     {
         BitmapSource rawImage = this.GetRawImage();
         var sourceImage = this.Configuration.IsGrayscale
@@ -29,8 +31,6 @@ internal abstract class ImageProcessor : IImageProcessor
         this.MaximumSizeDiu = this.Configuration.MaximumSize / this.DpiScale; // default
         return sourceImage;
     }
-
-    public virtual ImageSource GetScaledImage(ICollageView view, BitmapSource sourceImage = null) => this.GetImage();
 
     private BitmapImage GetRawImage()
     {

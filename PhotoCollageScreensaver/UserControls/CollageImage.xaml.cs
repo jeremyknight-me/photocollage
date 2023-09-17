@@ -113,11 +113,10 @@ public partial class CollageImage : UserControl, IDisposable
 
     private void LoadImage()
     {
-        IImageProcessor processor = this.presenter.Configuration.IsFullScreen
+        ImageProcessor processor = this.presenter.Configuration.IsFullScreen
             ? new ImageProcessorFullscreen(this.filePath, this.presenter.Configuration)
             : new ImageProcessorCollage(this.filePath, this.presenter.Configuration);
-        this.MainImage.Source = processor.GetScaledImage(this.view);
-
+        this.MainImage.Source = processor.GetImageSource(this.view);
 
         if (!this.presenter.Configuration.IsFullScreen)
         {

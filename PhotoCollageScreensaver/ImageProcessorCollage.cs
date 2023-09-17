@@ -12,15 +12,15 @@ internal sealed class ImageProcessorCollage : ImageProcessor
     {
     }
 
-    public override ImageSource GetScaledImage(ICollageView view, BitmapSource sourceImage = null)
+    public override ImageSource GetImageSource(ICollageView view, BitmapSource sourceImage = null)
     {
         if (sourceImage == null)
         {
-            sourceImage = this.GetImage();
+            sourceImage = this.GetBitmapImage();
         }
 
         return this.DoesImageNeedScaling(sourceImage.Height, sourceImage.Width)
-            ? this.GetScaledImage(sourceImage)
+            ? this.GetScaledTransformedImage(sourceImage)
             : sourceImage;
     }
 
@@ -29,11 +29,11 @@ internal sealed class ImageProcessorCollage : ImageProcessor
             || width > this.MaximumSizeDiu
             || this.DpiScale > 1;
 
-    private TransformedBitmap GetScaledImage(BitmapSource original)
+    private TransformedBitmap GetScaledTransformedImage(BitmapSource original)
     {
         var scale = original.Height > original.Width
-                ? this.GetScale(original.Height)
-                : this.GetScale(original.Width);
+            ? this.GetScale(original.Height)
+            : this.GetScale(original.Width);
         RenderOptions.SetBitmapScalingMode(original, BitmapScalingMode.HighQuality);
         var transform = new ScaleTransform(scale, scale);
         return new TransformedBitmap(original, transform);
