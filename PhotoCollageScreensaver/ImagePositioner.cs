@@ -2,7 +2,7 @@
 
 namespace PhotoCollageScreensaver;
 
-internal abstract class ImagePositioner : IImagePositioner
+internal abstract class ImagePositioner
 {
     protected readonly CollagePresenter Presenter;
     protected readonly UIElement Control;
@@ -22,7 +22,5 @@ internal abstract class ImagePositioner : IImagePositioner
         this.ViewportWidth = Convert.ToInt32(view.WindowActualWidth);
     }
 
-    public virtual void Position()
-    {
-    }
+    public abstract void Position();
 }

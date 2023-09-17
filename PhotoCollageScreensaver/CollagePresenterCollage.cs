@@ -5,11 +5,12 @@ using System.Collections.Concurrent;
 
 namespace PhotoCollageScreensaver;
 
-public class CollagePresenterCollage: CollagePresenter, ICollagePresenter
+public sealed class CollagePresenterCollage : CollagePresenter
 {
     private readonly ConcurrentQueue<CollageImage> imageQueue;
 
-    public CollagePresenterCollage(ApplicationController controllerToUse, CollageSettings configurationToUse) : base(controllerToUse, configurationToUse)
+    public CollagePresenterCollage(ApplicationController controllerToUse, CollageSettings configurationToUse)
+        : base(controllerToUse, configurationToUse)
     {
         this.imageQueue = new ConcurrentQueue<CollageImage>();
     }

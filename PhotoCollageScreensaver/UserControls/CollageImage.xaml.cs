@@ -12,7 +12,6 @@ public partial class CollageImage : UserControl, IDisposable
 {
     private readonly string filePath;
     private readonly CollagePresenter presenter;
-    public bool IsPortrait { get; private set; }
     private readonly ICollageView view;
 
     public CollageImage(string path, CollagePresenter presenterToUse, ICollageView view)
@@ -23,6 +22,8 @@ public partial class CollageImage : UserControl, IDisposable
         this.InitializeComponent();
         this.Uid = Guid.NewGuid().ToString();
     }
+
+    public bool IsPortrait { get; private set; }
 
     public void FadeOutImage(Action<CollageImage> onCompletedAction)
     {
@@ -112,7 +113,9 @@ public partial class CollageImage : UserControl, IDisposable
 
     private void LoadImage()
     {
-        IImageProcessor processor = this.presenter.Configuration.IsFullScreen ? new ImageProcessorFullscreen(this.filePath, this.presenter.Configuration) : new ImageProcessorCollage(this.filePath, this.presenter.Configuration);
+        IImageProcessor processor = this.presenter.Configuration.IsFullScreen
+            ? new ImageProcessorFullscreen(this.filePath, this.presenter.Configuration)
+            : new ImageProcessorCollage(this.filePath, this.presenter.Configuration);
         this.MainImage.Source = processor.GetScaledImage(this.view);
 
 

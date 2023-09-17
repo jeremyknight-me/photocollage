@@ -26,7 +26,9 @@ public class ApplicationController
 
     public void StartScreensaver()
     {
-        var collagePresenter = this.configuration.IsFullScreen ? this.collagePresenter ??= new CollagePresenterFullscreen(this, this.configuration) : this.collagePresenter ??= new CollagePresenterCollage(this, this.configuration);
+        var collagePresenter = this.configuration.IsFullScreen
+            ? this.collagePresenter ??= new CollagePresenterFullscreen(this, this.configuration)
+            : this.collagePresenter ??= new CollagePresenterCollage(this, this.configuration);
         foreach (var screen in Monitors.Monitor.GetScreens())
         {
             var collageWindow = new CollageWindow(this);

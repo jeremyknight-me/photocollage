@@ -9,26 +9,24 @@ using PhotoCollageScreensaver.Views;
 
 namespace PhotoCollageScreensaver;
 
-internal class ImageProcessorFullscreen: ImageProcessor, IImageProcessor
+internal sealed class ImageProcessorFullscreen : ImageProcessor
 {
-    public bool ImageIsRotatedPlusMinusNinetyDegrees { get; private set; }
-
     private int rotationAngle;
 
-    public ImageProcessorFullscreen(string imagePathToUse, CollageSettings configurationToUse) : base(imagePathToUse, configurationToUse)
+    public ImageProcessorFullscreen(string imagePathToUse, CollageSettings configurationToUse)
+        : base(imagePathToUse, configurationToUse)
     {
     }
+
+    public bool ImageIsRotatedPlusMinusNinetyDegrees { get; private set; }
 
     public new BitmapSource GetImage()
     {
         var sourceImage = base.GetImage();
-
         if (this.Configuration.RotateBasedOnEXIF)
         {
-            using (var image = Image.FromFile(this.ImagePath))
-            {
-                this.GetExifRotationData(image);
-            }
+            using var image = Image.FromFile(this.ImagePath);
+            this.GetExifRotationData(image);
         }
 
         return sourceImage;
@@ -94,7 +92,7 @@ internal class ImageProcessorFullscreen: ImageProcessor, IImageProcessor
     {
         var scaledHeight = view.WindowActualHeight / original.Height;
         var scaledWidth = view.WindowActualWidth / original.Width;
-        if (this.Configuration.PhotoFullScreenMode == PhotoCollage.Common.Enums.FullScreenMode.Centred)
+        if (this.Configuration.PhotoFullScreenMode == PhotoCollage.Common.Enums.FullScreenMode.Centered)
         {
             scaledHeight = view.WindowActualHeight / original.Height;
             scaledWidth = view.WindowActualWidth / original.Width;

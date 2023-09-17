@@ -26,9 +26,7 @@ internal abstract class ImageProcessor : IImageProcessor
             : rawImage;
 
         this.DpiScale = sourceImage.DpiX / 96;
-
         this.MaximumSizeDiu = this.Configuration.MaximumSize / this.DpiScale; // default
-
         return sourceImage;
     }
 

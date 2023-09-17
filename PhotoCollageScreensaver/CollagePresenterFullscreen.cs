@@ -5,13 +5,14 @@ using System.Collections.Concurrent;
 
 namespace PhotoCollageScreensaver;
 
-public class CollagePresenterFullscreen: CollagePresenter, ICollagePresenter
+public sealed class CollagePresenterFullscreen : CollagePresenter
 {
     private readonly List<ConcurrentQueue<CollageImage>> imageQueues;
     private readonly Queue<string> skippedPortraitImagePaths;
     private readonly Queue<string> skippedLandscapeImagePaths;
 
-    public CollagePresenterFullscreen(ApplicationController controllerToUse, CollageSettings configurationToUse): base(controllerToUse, configurationToUse)
+    public CollagePresenterFullscreen(ApplicationController controllerToUse, CollageSettings configurationToUse)
+        : base(controllerToUse, configurationToUse)
     {
         this.imageQueues = new List<ConcurrentQueue<CollageImage>>();
         this.skippedPortraitImagePaths = new Queue<string>();

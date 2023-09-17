@@ -11,10 +11,10 @@ public static class ScreensaverSpeedHelper
     public static IDictionary<ScreensaverSpeed, string> MakeDictionary()
         => new Dictionary<ScreensaverSpeed, string>
         {
-                { ScreensaverSpeed.SuperSlow, SuperSlow },
-                { ScreensaverSpeed.ReallySlow, ReallySlow },
-                { ScreensaverSpeed.Slow, Slow },
-                { ScreensaverSpeed.Medium, Medium },
-                { ScreensaverSpeed.Fast, Fast }
+            { ScreensaverSpeed.SuperSlow, SuperSlow },
+            { ScreensaverSpeed.ReallySlow, ReallySlow },
+            { ScreensaverSpeed.Slow, Slow },
+            { ScreensaverSpeed.Medium, Medium },
+            { ScreensaverSpeed.Fast, Fast }
         };
 }

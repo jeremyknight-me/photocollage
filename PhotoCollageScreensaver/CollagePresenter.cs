@@ -7,7 +7,7 @@ using System.Windows.Threading;
 
 namespace PhotoCollageScreensaver;
 
-public abstract class CollagePresenter: ICollagePresenter
+public abstract class CollagePresenter
 {
     private readonly Random random;
     protected readonly IPhotoRepository PhotoRepository;
@@ -25,10 +25,7 @@ public abstract class CollagePresenter: ICollagePresenter
         this.DisplayViewIndex = -1;
     }
 
-    public CollageSettings Configuration
-    {
-        get;
-    }
+    public CollageSettings Configuration { get; }
 
     public void StartAnimation()
     {
@@ -76,15 +73,10 @@ public abstract class CollagePresenter: ICollagePresenter
         window.Width = screen.Width;
         window.Height = screen.Height;
         window.Show();
-        window.IsPortrait = screen.Height > screen.Width;
         this.Views.Add(window);
     }
 
-    protected virtual void DisplayImageTimerTick(object sender, EventArgs e)
-    {
-    }
+    protected abstract void DisplayImageTimerTick(object sender, EventArgs e);
 
-    protected virtual void SetUserControlPosition(UIElement control, ICollageView view)
-    {
-    }
+    protected abstract void SetUserControlPosition(UIElement control, ICollageView view);
 }

@@ -3,5 +3,5 @@
 public enum FullScreenMode
 {
     Stretched,
-    Centred
+    Centered
 }

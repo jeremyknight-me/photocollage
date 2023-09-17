@@ -3,11 +3,11 @@ using System.Windows.Controls;
 
 namespace PhotoCollageScreensaver;
 
-internal class ImagePositionerFullscreen: ImagePositioner, IImagePositioner
+internal sealed class ImagePositionerFullscreen : ImagePositioner
 {
-    public ImagePositionerFullscreen(CollagePresenter presenterToUse, UIElement controlToPosition, ICollageView view) : base(presenterToUse, controlToPosition, view)
+    public ImagePositionerFullscreen(CollagePresenter presenterToUse, UIElement controlToPosition, ICollageView view)
+        : base(presenterToUse, controlToPosition, view)
     {
-    
     }
 
     public override void Position()
@@ -21,16 +21,16 @@ internal class ImagePositionerFullscreen: ImagePositioner, IImagePositioner
             }
             else
             {
-                this.SetCentredPosition();
+                this.SetCenteredPosition();
             }
         }
     }
 
-    private void SetCentredPosition()
+    private void SetCenteredPosition()
     {
-        var centredHorizontal = (this.ViewportWidth - this.ControlWidth) / 2;
-        var centredVertical = (this.ViewportHeight - this.ControlHeight) / 2;
-        Canvas.SetLeft(this.Control, centredHorizontal);
-        Canvas.SetTop(this.Control, centredVertical);
+        var centeredHorizontal = (this.ViewportWidth - this.ControlWidth) / 2;
+        var centeredVertical = (this.ViewportHeight - this.ControlHeight) / 2;
+        Canvas.SetLeft(this.Control, centeredHorizontal);
+        Canvas.SetTop(this.Control, centeredVertical);
     }
 }

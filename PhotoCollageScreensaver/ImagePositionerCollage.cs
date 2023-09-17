@@ -3,11 +3,11 @@ using System.Windows.Controls;
 
 namespace PhotoCollageScreensaver;
 
-internal class ImagePositionerCollage: ImagePositioner, IImagePositioner
+internal sealed class ImagePositionerCollage : ImagePositioner
 {
-    public ImagePositionerCollage(CollagePresenter presenterToUse, UIElement controlToPosition, ICollageView view) : base(presenterToUse, controlToPosition, view)
+    public ImagePositionerCollage(CollagePresenter presenterToUse, UIElement controlToPosition, ICollageView view)
+        : base(presenterToUse, controlToPosition, view)
     {
-    
     }
 
     public override void Position()

@@ -5,13 +5,14 @@ using PhotoCollageScreensaver.Views;
 
 namespace PhotoCollageScreensaver;
 
-internal class ImageProcessorCollage: ImageProcessor, IImageProcessor
+internal sealed class ImageProcessorCollage : ImageProcessor
 {
-    public ImageProcessorCollage(string imagePathToUse, CollageSettings configurationToUse) : base(imagePathToUse, configurationToUse)
+    public ImageProcessorCollage(string imagePathToUse, CollageSettings configurationToUse)
+        : base(imagePathToUse, configurationToUse)
     {
     }
 
-    public override ImageSource GetScaledImage(ICollageView view, BitmapSource sourceImage=null)
+    public override ImageSource GetScaledImage(ICollageView view, BitmapSource sourceImage = null)
     {
         if (sourceImage == null)
         {
