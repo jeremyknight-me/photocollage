@@ -16,8 +16,9 @@ insert_final_newline = true
 trim_trailing_whitespace = true
 
 [*.{cs,vb}]
-# Organize usings
+# Organize usings and namespaces
 dotnet_sort_system_directives_first = true
+csharp_style_namespace_declarations = file_scoped:suggestion
 
 # this. and me. preferences
 dotnet_style_qualification_for_event = true:warning
@@ -140,7 +141,7 @@ csharp_new_line_before_open_brace = all
 csharp_new_line_between_query_expression_clauses = true
 
 # Wrapping preferences
-csharp_preserve_single_line_blocks = false
+csharp_preserve_single_line_blocks = true
 csharp_preserve_single_line_statements = false
 
 # Space preferences
@@ -166,4 +167,3 @@ csharp_space_between_method_declaration_name_and_open_parenthesis = false
 csharp_space_between_method_declaration_parameter_list_parentheses = false
 csharp_space_between_parentheses = none
 csharp_space_between_square_brackets = false
-csharp_style_namespace_declarations=block_scoped:suggestion

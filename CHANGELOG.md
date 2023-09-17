@@ -7,7 +7,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 
 ## Unreleased 
 
-_There are currently no unreleased changes._
+### Changed
+ * Upgraded to .NET 7.
+
+### Added
+ * Added option for full-screen
+ * Added extra options for transition speed
+ * Added option to stretch or center full-screen display
+ * Added option to fix rotation based on EXIF metadata for full-screen display
 
 ## [Version 4.0.0](../../releases/tag/v4) - 09 November 2021
 ### Changed

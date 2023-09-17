@@ -1,9 +1,8 @@
-﻿using PhotoCollageScreensaver.Logging;
+﻿using System.IO;
 using PhotoCollageScreensaver.Data;
+using PhotoCollageScreensaver.Logging;
 using PhotoCollageScreensaver.ViewModels;
 using PhotoCollageScreensaver.Views;
-using System.IO;
-using PhotoCollage.Common;
 
 namespace PhotoCollageScreensaver;
 
@@ -26,7 +25,9 @@ public class ApplicationController
 
     public void StartScreensaver()
     {
-        var collagePresenter = this.collagePresenter ??= new CollagePresenter(this, this.configuration);
+        var collagePresenter = this.configuration.IsFullScreen
+            ? this.collagePresenter ??= new CollagePresenterFullscreen(this, this.configuration)
+            : this.collagePresenter ??= new CollagePresenterCollage(this, this.configuration);
         foreach (var screen in Monitors.Monitor.GetScreens())
         {
             var collageWindow = new CollageWindow(this);

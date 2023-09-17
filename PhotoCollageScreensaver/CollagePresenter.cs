@@ -1,47 +1,39 @@
-﻿using PhotoCollage.Common;
-using PhotoCollage.Common.Data;
-using PhotoCollageScreensaver.UserControls;
-using PhotoCollageScreensaver.Views;
-using System.Collections.Concurrent;
-using System.Threading;
+﻿using System.Threading;
 using System.Windows.Media;
 using System.Windows.Threading;
+using PhotoCollage.Common.Data;
+using PhotoCollageScreensaver.Views;
 
 namespace PhotoCollageScreensaver;
 
-public sealed class CollagePresenter
+public abstract class CollagePresenter
 {
     private readonly Random random;
-    private readonly List<ICollageView> views;
-    private readonly IPhotoRepository photoRepository;
-    private readonly ConcurrentQueue<CollageImage> imageQueue;
-    private readonly ApplicationController controller;
-    private int displayViewIndex;
+    protected readonly IPhotoRepository PhotoRepository;
+    protected readonly ApplicationController Controller;
+    protected int DisplayViewIndex;
+    protected readonly List<ICollageView> Views;
 
     public CollagePresenter(ApplicationController controllerToUse, CollageSettings configurationToUse)
     {
         this.random = new Random();
-        this.views = new List<ICollageView>();
-        this.imageQueue = new ConcurrentQueue<CollageImage>();
-        this.controller = controllerToUse;
+        this.Views = new List<ICollageView>();
+        this.Controller = controllerToUse;
         this.Configuration = configurationToUse;
-        this.photoRepository = new PhotoRepositoryFactory(this.Configuration).Make();
-        this.displayViewIndex = -1;
+        this.PhotoRepository = new PhotoRepositoryFactory(this.Configuration).Make();
+        this.DisplayViewIndex = -1;
     }
 
-    public CollageSettings Configuration
-    {
-        get;
-    }
+    public CollageSettings Configuration { get; }
 
     public void StartAnimation()
     {
         try
         {
-            if (!this.photoRepository.HasPhotos)
+            if (!this.PhotoRepository.HasPhotos)
             {
-                this.controller.DisplayErrorMessage("Folder does not contain any supported photos.");
-                this.controller.Shutdown();
+                this.Controller.DisplayErrorMessage("Folder does not contain any supported photos.");
+                this.Controller.Shutdown();
             }
 
             this.DisplayImageTimerTick(null, null);
@@ -53,7 +45,7 @@ public sealed class CollagePresenter
         }
         catch (Exception ex)
         {
-            this.controller.HandleError(ex);
+            this.Controller.HandleError(ex);
         }
     }
 
@@ -65,9 +57,9 @@ public sealed class CollagePresenter
         return value;
     }
 
-    public void HandleError(Exception ex, bool showMessage = false) => this.controller.HandleError(ex, showMessage);
+    public void HandleError(Exception ex, bool showMessage = false) => this.Controller.HandleError(ex, showMessage);
 
-    public void SetupWindow<T>(T window, Monitors.Screen screen) where T : Window, ICollageView
+    public virtual void SetupWindow<T>(T window, Monitors.Screen screen) where T : Window, ICollageView
     {
         var backgroundBrush = new SolidColorBrush
         {
@@ -80,77 +72,10 @@ public sealed class CollagePresenter
         window.Width = screen.Width;
         window.Height = screen.Height;
         window.Show();
-        this.views.Add(window);
+        this.Views.Add(window);
     }
 
-    private void DisplayImageTimerTick(object sender, EventArgs e)
-    {
-        try
-        {
-            var path = this.photoRepository.GetNextPhotoFilePath();
-            var view = this.GetNextDisplayView();
-            var control = new CollageImage(path, this);
-            view.ImageCanvas.Children.Add(control);
-            this.imageQueue.Enqueue(control);
+    protected abstract void DisplayImageTimerTick(object sender, EventArgs e);
 
-            if (this.imageQueue.Count > this.Configuration.NumberOfPhotos)
-            {
-                this.RemoveImageFromQueue();
-            }
-
-            this.SetUserControlPosition(control, view);
-        }
-        catch (Exception ex)
-        {
-            this.controller.HandleError(ex);
-            this.controller.Shutdown();
-        }
-    }
-
-    private ICollageView GetNextDisplayView()
-    {
-        var nextIndex = this.displayViewIndex + 1;
-        if (nextIndex >= this.views.Count)
-        {
-            nextIndex = 0;
-        }
-
-        this.displayViewIndex = nextIndex;
-        return this.views[nextIndex];
-    }
-
-    private void RemoveImageFromQueue()
-    {
-        if (this.imageQueue.TryDequeue(out var control))
-        {
-            Action<CollageImage> action = this.RemoveImageFromPanel;
-            control.FadeOutImage(action);
-        }
-    }
-
-    private void RemoveImageFromPanel(CollageImage control)
-    {
-        try
-        {
-            foreach (var view in this.views)
-            {
-                if (view.ImageCanvas.Children.Contains(control))
-                {
-                    view.ImageCanvas.Children.Remove(control);
-                    control.Dispose();
-                    break;
-                }
-            }
-        }
-        catch (Exception ex)
-        {
-            this.controller.HandleError(ex);
-        }
-    }
-
-    private void SetUserControlPosition(UIElement control, ICollageView view)
-    {
-        var positioner = new ImagePositioner(this, control, view);
-        positioner.Position();
-    }
+    protected abstract void SetUserControlPosition(UIElement control, ICollageView view);
 }

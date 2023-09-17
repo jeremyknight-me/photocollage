@@ -1,12 +1,11 @@
-﻿using PhotoCollage.Common;
-using PhotoCollage.Common.Enums;
-using PhotoCollageScreensaver.Commands;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 using System.Windows.Input;
+using PhotoCollage.Common.Enums;
+using PhotoCollageScreensaver.Commands;
 
 namespace PhotoCollageScreensaver.ViewModels;
 
@@ -15,16 +14,19 @@ public class SetupViewModel : INotifyPropertyChanged
     private readonly ApplicationController controller;
     private readonly IDictionary<BorderType, KeyValuePair<string, string>> borderTypePairs = BorderTypeHelper.MakeDictionary();
     private readonly IDictionary<ScreensaverSpeed, string> speedPairs = ScreensaverSpeedHelper.MakeDictionary();
+    private readonly IDictionary<FullScreenMode, KeyValuePair<string, string>> fullscreenModePairs = FullScreenModeHelper.MakeDictionary();
 
     public SetupViewModel(CollageSettings config, ApplicationController controllerToUse)
     {
         this.BorderOptions = new ObservableCollection<KeyValuePair<string, string>>(this.borderTypePairs.Values);
         this.SpeedOptions = new ObservableCollection<string>(this.speedPairs.Values);
+        this.FullScreenModeOptions = new ObservableCollection<KeyValuePair<string, string>>(this.fullscreenModePairs.Values);
         this.Config = config;
         this.controller = controllerToUse;
 
         this.PreviewCommand = new RelayCommand((obj) => this.controller.StartScreensaver());
-        this.OkCommand = new RelayCommand(obj => {
+        this.OkCommand = new RelayCommand(obj =>
+        {
             this.controller.SaveConfiguration();
             this.controller.Shutdown();
         });
@@ -47,6 +49,7 @@ public class SetupViewModel : INotifyPropertyChanged
     public CollageSettings Config { get; private set; }
     public ObservableCollection<KeyValuePair<string, string>> BorderOptions { get; set; }
     public ObservableCollection<string> SpeedOptions { get; set; }
+    public ObservableCollection<KeyValuePair<string, string>> FullScreenModeOptions { get; set; }
 
     public KeyValuePair<string, string> SelectedBorderType
     {
@@ -55,6 +58,16 @@ public class SetupViewModel : INotifyPropertyChanged
         {
             var pair = this.borderTypePairs.Single(x => x.Value.Key == value.Key);
             this.Config.PhotoBorderType = pair.Key;
+        }
+    }
+
+    public KeyValuePair<string, string> SelectedFullScreenMode
+    {
+        get => this.fullscreenModePairs[this.Config.PhotoFullScreenMode];
+        set
+        {
+            var pair = this.fullscreenModePairs.Single(x => x.Value.Key == value.Key);
+            this.Config.PhotoFullScreenMode = pair.Key;
         }
     }
 
@@ -88,6 +101,38 @@ public class SetupViewModel : INotifyPropertyChanged
         {
             var pair = this.speedPairs.Single(x => x.Value == value);
             this.Config.Speed = pair.Key;
+        }
+    }
+
+    public bool NumberOfPhotosEnabled => !this.Config.IsFullScreen;
+    public bool MaximumPhotoSizeSliderEnabled => !this.Config.IsFullScreen;
+
+    public bool FullScreenModeComboBoxEnabled => this.Config.IsFullScreen;
+    public bool RotateBasedOnEXIFEnabled => this.Config.IsFullScreen;
+
+    public bool RotateBasedOnEXIFCheck
+    {
+        get => this.Config.RotateBasedOnEXIF;
+        set
+        {
+            this.Config.RotateBasedOnEXIF = value;
+            this.NotifyPropertyChanged();
+        }
+    }
+
+    public bool FullScreenCheck
+    {
+        get => this.Config.IsFullScreen;
+        set
+        {
+            this.Config.IsFullScreen = value;
+            this.RotateBasedOnEXIFCheck = false;
+            this.NotifyPropertyChanged();
+            this.NotifyPropertyChanged(nameof(this.NumberOfPhotosEnabled));
+            this.NotifyPropertyChanged(nameof(this.MaximumPhotoSizeSliderEnabled));
+            this.NotifyPropertyChanged(nameof(this.RotateBasedOnEXIFCheck));
+            this.NotifyPropertyChanged(nameof(this.RotateBasedOnEXIFEnabled));
+            this.NotifyPropertyChanged(nameof(this.FullScreenModeComboBoxEnabled));
         }
     }
 
