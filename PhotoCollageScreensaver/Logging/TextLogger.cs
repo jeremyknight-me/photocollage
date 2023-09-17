@@ -32,7 +32,7 @@ public class TextLogger : ILogger
     private string GetLogEntry(string message)
     {
         var date = DateTime.Now.ToString();
-        return string.Concat(date, "  ==>  ", message);
+        return string.Concat("\n", date, "  ==>  ", message);
     }
 
     private string GetFileName() => "log-" + DateTime.Today.ToString("yyyy-MM-dd") + ".txt";

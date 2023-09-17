@@ -4,6 +4,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using PhotoCollage.Common.Enums;
+using PhotoCollageScreensaver.Views;
 
 namespace PhotoCollageScreensaver.UserControls;
 
@@ -11,11 +12,14 @@ public partial class CollageImage : UserControl, IDisposable
 {
     private readonly string filePath;
     private readonly CollagePresenter presenter;
+    public bool IsPortrait { get; private set; }
+    private readonly ICollageView view;
 
-    public CollageImage(string path, CollagePresenter presenterToUse)
+    public CollageImage(string path, CollagePresenter presenterToUse, ICollageView view)
     {
         this.filePath = path;
         this.presenter = presenterToUse;
+        this.view = view;
         this.InitializeComponent();
         this.Uid = Guid.NewGuid().ToString();
     }
@@ -67,9 +71,12 @@ public partial class CollageImage : UserControl, IDisposable
                 }
             }
 
-            this.MainImage.MaxHeight = this.presenter.Configuration.MaximumSize;
-            this.MainImage.MaxWidth = this.presenter.Configuration.MaximumSize;
-            this.RotateImageFrame();
+            if (!this.presenter.Configuration.IsFullScreen)
+            {
+                this.MainImage.MaxHeight = this.presenter.Configuration.MaximumSize;
+                this.MainImage.MaxWidth = this.presenter.Configuration.MaximumSize;
+                this.RotateImageFrame();
+            }
             this.LoadImage();
         }
         catch (Exception ex)
@@ -105,8 +112,17 @@ public partial class CollageImage : UserControl, IDisposable
 
     private void LoadImage()
     {
-        var processor = new ImageProcessor(this.filePath, this.presenter.Configuration);
-        this.MainImage.Source = processor.GetImage();
+        IImageProcessor processor = this.presenter.Configuration.IsFullScreen ? new ImageProcessorFullscreen(this.filePath, this.presenter.Configuration) : new ImageProcessorCollage(this.filePath, this.presenter.Configuration);
+        this.MainImage.Source = processor.GetScaledImage(this.view);
+
+
+        if (!this.presenter.Configuration.IsFullScreen)
+        {
+            this.MainImage.MaxHeight = this.MainImage.Source.Height;
+            this.MainImage.MaxWidth = this.MainImage.Source.Width;
+        }
+
+        this.IsPortrait = this.MainImage.Source.Height > this.MainImage.Source.Width;
     }
 
     public void Dispose()
