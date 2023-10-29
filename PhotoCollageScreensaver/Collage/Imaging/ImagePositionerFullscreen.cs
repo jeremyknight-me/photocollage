@@ -5,10 +5,13 @@ namespace PhotoCollageScreensaver.Collage.Imaging;
 
 internal sealed class ImagePositionerFullscreen : ImagePositioner
 {
-    public ImagePositionerFullscreen(CollagePresenter presenterToUse, UIElement controlToPosition, ICollageView view)
+    private ImagePositionerFullscreen(CollagePresenter presenterToUse, UIElement controlToPosition, ICollageView view)
         : base(presenterToUse, controlToPosition, view)
     {
     }
+
+    public static ImagePositionerFullscreen Create(CollagePresenter presenterToUse, UIElement controlToPosition, ICollageView view)
+        => new(presenterToUse, controlToPosition, view);
 
     public override void Position()
     {

@@ -1,12 +1,12 @@
-﻿using System.Threading;
-using System.Windows.Media;
+﻿using System.Windows.Media;
 using System.Windows.Threading;
+using PhotoCollageScreensaver.Collage.Imaging;
 
 namespace PhotoCollageScreensaver.Collage.Presenters;
 
 public abstract class CollagePresenter
 {
-    internal CollagePresenter(
+    protected CollagePresenter(
         ISettingsRepository settingsRepository,
         IPhotoRepository photoRepository,
         ErrorHandler errorHandler)
@@ -35,15 +35,9 @@ public abstract class CollagePresenter
         this.StartAnimation();
     }
 
-    public int GetRandomNumber(int min, int max)
-    {
-        var value = 0;
-        var random = Random.Shared.Next(min, max);
-        Interlocked.Exchange(ref value, random);
-        return value;
-    }
+    public int GetRandomNumber(int min, int max) => Random.Shared.Next(min, max);
 
-    public virtual void SetupWindow<T>(T window, Monitors.Screen screen) where T : Window, ICollageView
+    public void SetupWindow<T>(T window, Monitors.Screen screen) where T : Window, ICollageView
     {
         var backgroundBrush = new SolidColorBrush
         {
@@ -58,6 +52,11 @@ public abstract class CollagePresenter
         window.Show();
         this.Views.Add(window);
     }
+
+    internal ImageProcessor CreateImageProcessor(string filePath)
+        => this.Configuration.IsFullScreen
+            ? ImageProcessorFullscreen.Create(filePath, this.Configuration)
+            : new ImageProcessorCollage(filePath, this.Configuration);
 
     protected abstract void DisplayImageTimerTick(object sender, EventArgs e);
 

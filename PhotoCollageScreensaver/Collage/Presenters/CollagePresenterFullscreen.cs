@@ -17,12 +17,6 @@ internal sealed class CollagePresenterFullscreen : CollagePresenter
     {
     }
 
-    public override void SetupWindow<T>(T window, Monitors.Screen screen)
-    {
-        base.SetupWindow(window, screen);
-        this.imageQueues.Add(new ConcurrentQueue<CollageImage>());
-    }
-
     protected override void DisplayImageTimerTick(object sender, EventArgs e)
     {
         try
@@ -47,28 +41,28 @@ internal sealed class CollagePresenterFullscreen : CollagePresenter
         var view = this.Views[this.DisplayViewIndex];
         if (view.IsPortrait && this.skippedPortraitImagePaths.Count > 0)
         {
-            return new CollageImage(this.skippedPortraitImagePaths.Dequeue(), this, view);
+            return CollageImage.Create(this.skippedPortraitImagePaths.Dequeue(), this, view);
         }
         else if (!view.IsPortrait && this.skippedLandscapeImagePaths.Count > 0)
         {
-            return new CollageImage(this.skippedLandscapeImagePaths.Dequeue(), this, view);
+            return CollageImage.Create(this.skippedLandscapeImagePaths.Dequeue(), this, view);
         }
 
         for (var i = 0; i < 10; i++) // Only go through this 10 iterations and if we don't get a perfect fit just return the next image after that
         {
             var path = this.PhotoRepository.GetNextPhotoFilePath();
-            var processor = new ImageProcessorFullscreen(path, this.SettingsRepository.Current);
+            var processor = ImageProcessorFullscreen.Create(path, this.SettingsRepository.Current);
             var image = processor.GetImage();
             var isImagePortait = image.Height > image.Width;
             isImagePortait = processor.ImageIsRotatedPlusMinusNinetyDegrees ? !isImagePortait : isImagePortait;
 
             if (view.IsPortrait && isImagePortait)
             {
-                return new CollageImage(path, this, view);
+                return CollageImage.Create(path, this, view);
             }
             else if (!view.IsPortrait && !isImagePortait)
             {
-                return new CollageImage(path, this, view);
+                return CollageImage.Create(path, this, view);
             }
             else
             {
@@ -84,7 +78,7 @@ internal sealed class CollagePresenterFullscreen : CollagePresenter
         }
 
         // If we don't get one that fits the monitor alignment just return the next image
-        return new CollageImage(this.PhotoRepository.GetNextPhotoFilePath(), this, view);
+        return CollageImage.Create(this.PhotoRepository.GetNextPhotoFilePath(), this, view);
     }
 
     private CollageImage AddImageToQueue(int retryCount = 0)
@@ -136,7 +130,7 @@ internal sealed class CollagePresenterFullscreen : CollagePresenter
 
     protected override void SetUserControlPosition(UIElement control, ICollageView view)
     {
-        var positioner = new ImagePositionerFullscreen(this, control, view);
+        var positioner = ImagePositionerFullscreen.Create(this, control, view);
         positioner.Position();
     }
 }

@@ -11,12 +11,15 @@ internal sealed class ImageProcessorFullscreen : ImageProcessor
 {
     private int rotationAngle;
 
-    public ImageProcessorFullscreen(string imagePathToUse, CollageSettings collageSettings)
+    private ImageProcessorFullscreen(string imagePathToUse, CollageSettings collageSettings)
         : base(imagePathToUse, collageSettings)
     {
     }
 
     public bool ImageIsRotatedPlusMinusNinetyDegrees { get; private set; }
+
+    public static ImageProcessorFullscreen Create(string imagePathToUse, CollageSettings collageSettings)
+        => new(imagePathToUse, collageSettings);
 
     public override ImageSource GetImageSource(ICollageView view, BitmapSource sourceImage = null)
     {

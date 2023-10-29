@@ -30,13 +30,11 @@ public sealed class RandomFileSystemPhotoRepository : FileSystemPhotoRepositoryB
         return Path.Combine(this.RootDirectoryPath, path);
     }
 
-    protected override IEnumerable<string> GetOrderedPaths(IEnumerable<string> paths) => RandomizePaths(paths);
+    protected override IEnumerable<string> GetOrderedPaths(IEnumerable<string> paths)
+        => RandomizePaths(paths);
 
     private static IEnumerable<string> RandomizePaths(IEnumerable<string> paths)
-    {
-        var random = new Random();
-        return paths.OrderBy(item => random.Next());
-    }
+        => paths.OrderBy(item => Random.Shared.Next());
 
     private void ReloadPhotoQueue()
     {

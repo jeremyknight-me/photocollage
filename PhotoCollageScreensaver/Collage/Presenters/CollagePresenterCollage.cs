@@ -21,7 +21,7 @@ internal sealed class CollagePresenterCollage : CollagePresenter
         {
             var path = this.PhotoRepository.GetNextPhotoFilePath();
             var view = this.GetNextDisplayView();
-            var control = new CollageImage(path, this, this.Views[this.DisplayViewIndex]);
+            var control = CollageImage.Create(path, this, this.Views[this.DisplayViewIndex]);
             view.ImageCanvas.Children.Add(control);
             this.imageQueue.Enqueue(control);
 
@@ -73,7 +73,7 @@ internal sealed class CollagePresenterCollage : CollagePresenter
 
     protected override void SetUserControlPosition(UIElement control, ICollageView view)
     {
-        var positioner = new ImagePositionerCollage(this, control, view);
+        var positioner = ImagePositionerCollage.Create(this, control, view);
         positioner.Position();
     }
 }

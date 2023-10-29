@@ -5,10 +5,13 @@ namespace PhotoCollageScreensaver.Collage.Imaging;
 
 internal sealed class ImagePositionerCollage : ImagePositioner
 {
-    public ImagePositionerCollage(CollagePresenter presenterToUse, UIElement controlToPosition, ICollageView view)
+    private ImagePositionerCollage(CollagePresenter presenterToUse, UIElement controlToPosition, ICollageView view)
         : base(presenterToUse, controlToPosition, view)
     {
     }
+
+    public static ImagePositionerCollage Create(CollagePresenter presenterToUse, UIElement controlToPosition, ICollageView view)
+        => new(presenterToUse, controlToPosition, view);
 
     public override void Position()
     {

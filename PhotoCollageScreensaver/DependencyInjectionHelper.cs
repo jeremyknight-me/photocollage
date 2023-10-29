@@ -25,8 +25,8 @@ internal static class DependencyInjectionHelper
         services.AddSingleton<ErrorHandler>();
         services.AddSingleton<ISettingsRepository, FileSystemSettingsRepository>(provider => new FileSystemSettingsRepository(localDataDirectory));
 
-        services.AddSingleton<CollagePresenterCollage>();
-        services.AddSingleton<CollagePresenterFullscreen>();
+        services.AddTransient<CollagePresenterCollage>();
+        services.AddTransient<CollagePresenterFullscreen>();
         services.AddTransient<CollagePresenter>(provider =>
         {
             var settingsRepo = provider.GetRequiredService<ISettingsRepository>();
@@ -35,8 +35,8 @@ internal static class DependencyInjectionHelper
                 : provider.GetRequiredService<CollagePresenterCollage>();
         });
 
-        services.AddSingleton<RandomFileSystemPhotoRepository>();
-        services.AddSingleton<OrderedFileSystemPhotoRepository>();
+        services.AddTransient<RandomFileSystemPhotoRepository>();
+        services.AddTransient<OrderedFileSystemPhotoRepository>();
         services.AddTransient<IPhotoRepository>(provider =>
         {
             var settingsRepo = provider.GetRequiredService<ISettingsRepository>();

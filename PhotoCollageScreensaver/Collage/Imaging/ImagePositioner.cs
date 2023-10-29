@@ -4,14 +4,7 @@ namespace PhotoCollageScreensaver.Collage.Imaging;
 
 internal abstract class ImagePositioner
 {
-    protected readonly CollagePresenter Presenter;
-    protected readonly UIElement Control;
-    protected readonly int ControlHeight;
-    protected readonly int ControlWidth;
-    protected readonly int ViewportHeight;
-    protected readonly int ViewportWidth;
-
-    public ImagePositioner(CollagePresenter presenterToUse, UIElement controlToPosition, ICollageView view)
+    protected ImagePositioner(CollagePresenter presenterToUse, UIElement controlToPosition, ICollageView view)
     {
         this.Presenter = presenterToUse;
         this.Control = controlToPosition;
@@ -21,6 +14,13 @@ internal abstract class ImagePositioner
         this.ViewportHeight = Convert.ToInt32(view.WindowActualHeight);
         this.ViewportWidth = Convert.ToInt32(view.WindowActualWidth);
     }
+
+    protected CollagePresenter Presenter { get; }
+    protected UIElement Control { get; }
+    protected int ControlHeight { get; }
+    protected int ControlWidth { get; }
+    protected int ViewportHeight { get; }
+    protected int ViewportWidth { get; }
 
     public abstract void Position();
 }

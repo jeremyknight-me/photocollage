@@ -28,8 +28,8 @@ public partial class App : Application
                 ShutdownHelper.Shutdown();
                 break;
             case "/s": // screensaver
-                var controller = this.serviceProvider.GetService<CollagePresenter>();
-                controller.Start();
+                var presenter = this.serviceProvider.GetService<CollagePresenter>();
+                presenter.Start();
                 break;
             default: // no argument or /c both show config
                 var setupWindow = this.serviceProvider.GetRequiredService<SetupWindow>();

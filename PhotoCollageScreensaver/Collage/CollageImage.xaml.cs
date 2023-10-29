@@ -4,7 +4,6 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using PhotoCollage.Common.Enums;
-using PhotoCollageScreensaver.Collage.Imaging;
 using PhotoCollageScreensaver.Collage.Presenters;
 
 namespace PhotoCollageScreensaver.Collage;
@@ -15,7 +14,7 @@ public partial class CollageImage : UserControl, IDisposable
     private readonly CollagePresenter presenter;
     private readonly ICollageView view;
 
-    public CollageImage(string path, CollagePresenter presenterToUse, ICollageView view)
+    private CollageImage(string path, CollagePresenter presenterToUse, ICollageView view)
     {
         this.filePath = path;
         this.presenter = presenterToUse;
@@ -25,6 +24,9 @@ public partial class CollageImage : UserControl, IDisposable
     }
 
     public bool IsPortrait { get; private set; }
+
+    public static CollageImage Create(string path, CollagePresenter presenterToUse, ICollageView view)
+        => new(path, presenterToUse, view); 
 
     public void FadeOutImage(Action<CollageImage> onCompletedAction)
     {
@@ -114,9 +116,7 @@ public partial class CollageImage : UserControl, IDisposable
 
     private void LoadImage()
     {
-        ImageProcessor processor = this.presenter.Configuration.IsFullScreen
-            ? new ImageProcessorFullscreen(this.filePath, this.presenter.Configuration)
-            : new ImageProcessorCollage(this.filePath, this.presenter.Configuration);
+        var processor = this.presenter.CreateImageProcessor(this.filePath);
         this.MainImage.Source = processor.GetImageSource(this.view);
 
         if (!this.presenter.Configuration.IsFullScreen)
