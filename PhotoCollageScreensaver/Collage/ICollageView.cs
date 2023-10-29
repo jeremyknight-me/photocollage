@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace PhotoCollageScreensaver.Views;
+namespace PhotoCollageScreensaver.Collage;
 
 public interface ICollageView
 {

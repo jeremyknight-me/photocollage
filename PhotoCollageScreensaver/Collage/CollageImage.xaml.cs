@@ -4,9 +4,10 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using PhotoCollage.Common.Enums;
-using PhotoCollageScreensaver.Views;
+using PhotoCollageScreensaver.Collage.Imaging;
+using PhotoCollageScreensaver.Collage.Presenters;
 
-namespace PhotoCollageScreensaver.UserControls;
+namespace PhotoCollageScreensaver.Collage;
 
 public partial class CollageImage : UserControl, IDisposable
 {

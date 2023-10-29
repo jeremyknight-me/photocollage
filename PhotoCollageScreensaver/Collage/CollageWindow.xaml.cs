@@ -1,7 +1,7 @@
 ﻿using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace PhotoCollageScreensaver.Views;
+namespace PhotoCollageScreensaver.Collage;
 
 public partial class CollageWindow : Window, ICollageView
 {

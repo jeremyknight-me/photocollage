@@ -1,9 +1,8 @@
 ﻿using System.Threading;
 using System.Windows.Media;
 using System.Windows.Threading;
-using PhotoCollageScreensaver.Views;
 
-namespace PhotoCollageScreensaver;
+namespace PhotoCollageScreensaver.Collage.Presenters;
 
 public abstract class CollagePresenter
 {

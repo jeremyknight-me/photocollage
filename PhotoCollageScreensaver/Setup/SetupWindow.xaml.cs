@@ -1,4 +1,4 @@
-﻿using PhotoCollageScreensaver.ViewModels;
+﻿using PhotoCollageScreensaver.Setup;
 
 namespace PhotoCollageScreensaver.Views;
 

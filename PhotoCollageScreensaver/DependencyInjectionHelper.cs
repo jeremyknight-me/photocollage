@@ -1,9 +1,9 @@
 ﻿using System.IO;
 using Microsoft.Extensions.DependencyInjection;
 using PhotoCollage.Common.Data;
-using PhotoCollageScreensaver.Data;
+using PhotoCollageScreensaver.Collage.Presenters;
 using PhotoCollageScreensaver.Logging;
-using PhotoCollageScreensaver.ViewModels;
+using PhotoCollageScreensaver.Setup;
 using PhotoCollageScreensaver.Views;
 
 namespace PhotoCollageScreensaver;

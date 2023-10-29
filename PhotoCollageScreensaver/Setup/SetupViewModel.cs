@@ -5,9 +5,10 @@ using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 using System.Windows.Input;
 using PhotoCollage.Common.Enums;
+using PhotoCollageScreensaver.Collage.Presenters;
 using PhotoCollageScreensaver.Commands;
 
-namespace PhotoCollageScreensaver.ViewModels;
+namespace PhotoCollageScreensaver.Setup;
 
 public class SetupViewModel : INotifyPropertyChanged
 {
@@ -50,7 +51,7 @@ public class SetupViewModel : INotifyPropertyChanged
     public ICommand CancelCommand { get; private set; }
     public ICommand SelectDirectoryCommand { get; private set; }
 
-    
+
     public ObservableCollection<KeyValuePair<string, string>> BorderOptions { get; set; }
     public ObservableCollection<string> SpeedOptions { get; set; }
     public ObservableCollection<KeyValuePair<string, string>> FullScreenModeOptions { get; set; }

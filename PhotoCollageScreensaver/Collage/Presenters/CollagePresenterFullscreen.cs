@@ -1,8 +1,7 @@
 ﻿using System.Collections.Concurrent;
-using PhotoCollageScreensaver.UserControls;
-using PhotoCollageScreensaver.Views;
+using PhotoCollageScreensaver.Collage.Imaging;
 
-namespace PhotoCollageScreensaver;
+namespace PhotoCollageScreensaver.Collage.Presenters;
 
 internal sealed class CollagePresenterFullscreen : CollagePresenter
 {

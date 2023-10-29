@@ -1,7 +1,7 @@
 ﻿using System.Windows.Controls;
-using PhotoCollageScreensaver.Views;
+using PhotoCollageScreensaver.Collage.Presenters;
 
-namespace PhotoCollageScreensaver;
+namespace PhotoCollageScreensaver.Collage.Imaging;
 
 internal sealed class ImagePositionerCollage : ImagePositioner
 {

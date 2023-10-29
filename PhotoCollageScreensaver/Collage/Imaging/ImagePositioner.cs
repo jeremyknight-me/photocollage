@@ -1,6 +1,6 @@
-﻿using PhotoCollageScreensaver.Views;
+﻿using PhotoCollageScreensaver.Collage.Presenters;
 
-namespace PhotoCollageScreensaver;
+namespace PhotoCollageScreensaver.Collage.Imaging;
 
 internal abstract class ImagePositioner
 {

@@ -1,5 +1,6 @@
 ﻿using System.Windows.Threading;
 using Microsoft.Extensions.DependencyInjection;
+using PhotoCollageScreensaver.Collage.Presenters;
 using PhotoCollageScreensaver.Views;
 
 namespace PhotoCollageScreensaver;
