@@ -3,6 +3,7 @@ using System.Windows.Threading;
 using PhotoCollage.Common.Photos;
 using PhotoCollage.Common.Settings;
 using PhotoCollageScreensaver.Collage.Imaging;
+using PhotoCollageScreensaver.Logging;
 
 namespace PhotoCollageScreensaver.Collage.Presenters;
 
@@ -11,19 +12,19 @@ public abstract class CollagePresenter
     private readonly IPhotoRepository photoRepo;
 
     protected CollagePresenter(
+        ILogger logger,
         ISettingsRepository settingsRepository,
         IPhotoRepository photoRepository,
-        IPhotoPathRepository photoPathRepository,
-        ErrorHandler errorHandler)
+        IPhotoPathRepository photoPathRepository)
     {
+        this.Logger = logger;
         this.SettingsRepository = settingsRepository;
         this.photoRepo = photoRepository;
-        this.ErrorHandler = errorHandler;
         this.PhotoPathRepository = photoPathRepository;
     }
 
     public CollageSettings Configuration => this.SettingsRepository.Current;
-    public ErrorHandler ErrorHandler { get; }
+    public  ILogger Logger { get; }
 
     protected int DisplayViewIndex { get; set; } = -1;
     protected IPhotoPathRepository PhotoPathRepository { get; }
@@ -75,7 +76,7 @@ public abstract class CollagePresenter
         {
             if (!this.PhotoPathRepository.HasPhotos)
             {
-                this.ErrorHandler.DisplayErrorMessage("Folder does not contain any supported photos.");
+                MessageBoxHelper.DisplayError("Folder does not contain any supported photos.");
                 ShutdownHelper.Shutdown();
             }
 
@@ -88,7 +89,7 @@ public abstract class CollagePresenter
         }
         catch (Exception ex)
         {
-            this.ErrorHandler.HandleError(ex);
+            this.Logger.Log(ex);
         }
     }
 }

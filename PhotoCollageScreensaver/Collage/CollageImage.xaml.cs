@@ -46,7 +46,7 @@ public partial class CollageImage : UserControl, IDisposable
         }
         catch (Exception ex)
         {
-            this.presenter.ErrorHandler.HandleError(ex);
+            this.presenter.Logger.Log(ex);
         }
     }
 
@@ -85,7 +85,7 @@ public partial class CollageImage : UserControl, IDisposable
         }
         catch (Exception ex)
         {
-            this.presenter.ErrorHandler.HandleError(ex);
+            this.presenter.Logger.Log(ex);
         }
     }
 
@@ -101,9 +101,9 @@ public partial class CollageImage : UserControl, IDisposable
         var options = BitmapCreateOptions.DelayCreation | BitmapCreateOptions.IgnoreColorProfile | BitmapCreateOptions.IgnoreImageCache;
         BitmapSource image = BitmapFrame.Create(fs, options, BitmapCacheOption.None);
         var metadata = (BitmapMetadata)image.Metadata;
-        return !(metadata.DateTaken is null)
-            ? Convert.ToDateTime(metadata.DateTaken).ToShortDateString()
-            : File.GetLastWriteTime(this.filePath).ToShortDateString();
+        return metadata.DateTaken is null
+            ? File.GetLastWriteTime(this.filePath).ToShortDateString()
+            : Convert.ToDateTime(metadata.DateTaken).ToShortDateString();
     }
 
     private void RotateImageFrame()

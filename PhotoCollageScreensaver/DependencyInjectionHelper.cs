@@ -24,8 +24,12 @@ internal static class DependencyInjectionHelper
     {
         var localDataDirectory = GetLocalDataDirectory();
 
-        services.AddSingleton<ILogger, TextLogger>(provider => new TextLogger(localDataDirectory));
-        services.AddSingleton<ErrorHandler>();
+        services.AddSingleton<ILogger, TextLogger>(provider =>
+        {
+            var settingsRepo = provider.GetRequiredService<ISettingsRepository>();
+            return new TextLogger(localDataDirectory, settingsRepo);
+        });
+
         services.AddSingleton<ISettingsRepository, FileSystemSettingsRepository>(provider => new FileSystemSettingsRepository(localDataDirectory));
         services.AddSingleton<IPhotoRepository, FileSystemPhotoRepository>();
 

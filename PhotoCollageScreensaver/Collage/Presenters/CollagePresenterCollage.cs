@@ -2,6 +2,7 @@
 using PhotoCollage.Common.Photos;
 using PhotoCollage.Common.Settings;
 using PhotoCollageScreensaver.Collage.Imaging;
+using PhotoCollageScreensaver.Logging;
 
 namespace PhotoCollageScreensaver.Collage.Presenters;
 
@@ -10,11 +11,11 @@ internal sealed class CollagePresenterCollage : CollagePresenter
     private readonly ConcurrentQueue<CollageImage> imageQueue = new();
 
     public CollagePresenterCollage(
+        ILogger logger,
         ISettingsRepository settingsRepository,
         IPhotoRepository photoRepository,
-        IPhotoPathRepository photoPathRepository,
-        ErrorHandler errorHandler)
-        : base(settingsRepository, photoRepository, photoPathRepository, errorHandler)
+        IPhotoPathRepository photoPathRepository)
+        : base(logger, settingsRepository, photoRepository, photoPathRepository)
     {
     }
 
@@ -37,7 +38,7 @@ internal sealed class CollagePresenterCollage : CollagePresenter
         }
         catch (Exception ex)
         {
-            this.ErrorHandler.HandleError(ex);
+            this.Logger.Log(ex);
             ShutdownHelper.Shutdown();
         }
     }
@@ -70,7 +71,7 @@ internal sealed class CollagePresenterCollage : CollagePresenter
         }
         catch (Exception ex)
         {
-            this.ErrorHandler.HandleError(ex);
+            this.Logger.Log(ex);
         }
     }
 

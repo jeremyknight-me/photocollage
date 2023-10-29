@@ -24,11 +24,7 @@ internal sealed class ImageProcessorFullscreen : ImageProcessor
 
     public override ImageSource GetImageSource(ICollageView view, BitmapSource sourceImage = null)
     {
-        if (sourceImage == null)
-        {
-            sourceImage = this.GetBitmapImage();
-        }
-
+        sourceImage ??= this.GetBitmapImage();
         if (this.Configuration.RotateBasedOnEXIF && this.rotationAngle != 0)
         {
             var correctlyRotatedImage = this.GetRotateTransformedImage(sourceImage);

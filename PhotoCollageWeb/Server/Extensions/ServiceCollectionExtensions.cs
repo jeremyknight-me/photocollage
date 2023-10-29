@@ -4,27 +4,26 @@ using PhotoCollage.Common.Photos.InMemory;
 using PhotoCollage.Common.Settings;
 using PhotoCollageWeb.Server.Workers;
 
-namespace PhotoCollageWeb.Server.Extensions
+namespace PhotoCollageWeb.Server.Extensions;
+
+internal static class ServiceCollectionExtensions
 {
-    internal static class ServiceCollectionExtensions
+    public static void AddDependencyInjection(this IServiceCollection services, IConfiguration configuration)
     {
-        public static void AddDependencyInjection(this IServiceCollection services, IConfiguration configuration, IWebHostEnvironment host)
+        services.Configure<CollageSettings>(options => configuration.GetSection("Settings").Bind(options));
+        services.AddSingleton<ISettingsRepository, AppSettingsRepository>();
+        services.AddSingleton<IPhotoRepository, FileSystemPhotoRepository>();
+
+        services.AddSingleton<InMemoryRandomPhotoPathRepository>();
+        services.AddSingleton<InMemoryOrderedPhotoPathRepository>();
+        services.AddSingleton<IPhotoPathRepository>(provider =>
         {
-            services.Configure<CollageSettings>(options => configuration.GetSection("Settings").Bind(options));
-            services.AddSingleton<ISettingsRepository, AppSettingsRepository>();
-            services.AddSingleton<IPhotoRepository, FileSystemPhotoRepository>();
+            var settingsRepo = provider.GetRequiredService<ISettingsRepository>();
+            return settingsRepo.Current.IsRandom
+                ? provider.GetRequiredService<InMemoryRandomPhotoPathRepository>()
+                : provider.GetRequiredService<InMemoryOrderedPhotoPathRepository>();
+        });
 
-            services.AddSingleton<InMemoryRandomPhotoPathRepository>();
-            services.AddSingleton<InMemoryOrderedPhotoPathRepository>();
-            services.AddSingleton<IPhotoPathRepository>(provider =>
-            {
-                var settingsRepo = provider.GetRequiredService<ISettingsRepository>();
-                return settingsRepo.Current.IsRandom
-                    ? provider.GetRequiredService<InMemoryRandomPhotoPathRepository>()
-                    : provider.GetRequiredService<InMemoryOrderedPhotoPathRepository>();
-            });
-
-            services.AddHostedService<CollageWorker>();
-        }
+        services.AddHostedService<CollageWorker>();
     }
 }

@@ -2,6 +2,7 @@
 using PhotoCollage.Common.Photos;
 using PhotoCollage.Common.Settings;
 using PhotoCollageScreensaver.Collage.Imaging;
+using PhotoCollageScreensaver.Logging;
 
 namespace PhotoCollageScreensaver.Collage.Presenters;
 
@@ -12,11 +13,11 @@ internal sealed class CollagePresenterFullscreen : CollagePresenter
     private readonly Queue<string> skippedLandscapeImagePaths = new();
 
     public CollagePresenterFullscreen(
+        ILogger logger,
         ISettingsRepository settingsRepository,
         IPhotoRepository photoRepository,
-        IPhotoPathRepository photoPathRepository,
-        ErrorHandler errorHandler)
-        : base(settingsRepository, photoRepository, photoPathRepository, errorHandler)
+        IPhotoPathRepository photoPathRepository)
+        : base(logger, settingsRepository, photoRepository, photoPathRepository)
     {
     }
 
@@ -34,7 +35,7 @@ internal sealed class CollagePresenterFullscreen : CollagePresenter
         }
         catch (Exception ex)
         {
-            this.ErrorHandler.HandleError(ex);
+            this.Logger.Log(ex);
             ShutdownHelper.Shutdown();
         }
     }
@@ -94,7 +95,7 @@ internal sealed class CollagePresenterFullscreen : CollagePresenter
         }
         catch (Exception ex)
         {
-            this.ErrorHandler.HandleError(ex);
+            this.Logger.Log(ex);
             if (retryCount > 3)
             {
                 throw new Exception("AddImageToQueue retry count failed");
@@ -127,7 +128,7 @@ internal sealed class CollagePresenterFullscreen : CollagePresenter
         }
         catch (Exception ex)
         {
-            this.ErrorHandler.HandleError(ex);
+            this.Logger.Log(ex);
         }
     }
 

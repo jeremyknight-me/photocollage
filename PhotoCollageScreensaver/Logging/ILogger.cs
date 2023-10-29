@@ -2,6 +2,7 @@
 
 public interface ILogger
 {
-    void Log(string message);
-    void Log(string message, string stackTrace);
+    void Log(Exception exception);
+    //void Log(string message);
+    //void Log(string message, string stackTrace);
 }

@@ -1,23 +1,40 @@
 ﻿using System.IO;
+using PhotoCollage.Common.Settings;
 
 namespace PhotoCollageScreensaver.Logging;
 
 public class TextLogger : ILogger
 {
+    private readonly ISettingsRepository settingsRepo;
     private readonly string directory;
 
-    public TextLogger(string directoryPath)
+    public TextLogger(
+        string localDataDirectory,
+        ISettingsRepository settingsRepository)
     {
-        this.directory = Path.Combine(directoryPath, @"logs");
+        this.directory = Path.Combine(localDataDirectory, @"logs");
+        this.settingsRepo = settingsRepository;
     }
 
-    public void Log(string message)
+    public void Log(Exception exception)
+    {
+        if (this.settingsRepo.Current.UseVerboseLogging)
+        {
+            this.Log(exception.Message, exception.StackTrace);
+        }
+        else
+        {
+            this.Log(exception.Message);
+        }
+    }
+
+    private void Log(string message)
     {
         var fullPath = this.FullFilePath;
         File.AppendAllText(fullPath, this.GetLogEntry(message));
     }
 
-    public void Log(string message, string stackTrace)
+    private void Log(string message, string stackTrace)
     {
         var fullPath = this.FullFilePath;
         var lines = new List<string>()
@@ -35,7 +52,5 @@ public class TextLogger : ILogger
         return string.Concat("\n", date, "  ==>  ", message);
     }
 
-    private string GetFileName() => "log-" + DateTime.Today.ToString("yyyy-MM-dd") + ".txt";
-
-    private string FullFilePath => Path.Combine(this.directory, this.GetFileName());
+    private string FullFilePath => Path.Combine(this.directory, $"log-{DateTime.Today:yyyy-MM-dd}.txt");
 }

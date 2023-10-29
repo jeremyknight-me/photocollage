@@ -13,11 +13,7 @@ internal sealed class ImageProcessorCollage : ImageProcessor
 
     public override ImageSource GetImageSource(ICollageView view, BitmapSource sourceImage = null)
     {
-        if (sourceImage == null)
-        {
-            sourceImage = this.GetBitmapImage();
-        }
-
+        sourceImage ??= this.GetBitmapImage();
         return this.DoesImageNeedScaling(sourceImage.Height, sourceImage.Width)
             ? this.GetScaledTransformedImage(sourceImage)
             : sourceImage;
