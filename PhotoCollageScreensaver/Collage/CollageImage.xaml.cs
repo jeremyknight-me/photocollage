@@ -3,7 +3,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
-using PhotoCollage.Common.Enums;
+using PhotoCollage.Common.Settings;
 using PhotoCollageScreensaver.Collage.Presenters;
 
 namespace PhotoCollageScreensaver.Collage;

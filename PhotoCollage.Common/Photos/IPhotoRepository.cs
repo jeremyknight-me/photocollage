@@ -1,4 +1,4 @@
-﻿namespace PhotoCollage.Common;
+﻿namespace PhotoCollage.Common.Photos;
 
 public interface IPhotoRepository
 {

@@ -1,6 +1,7 @@
 ﻿using System.IO;
+using PhotoCollage.Common.Settings;
 
-namespace PhotoCollage.Common.Data;
+namespace PhotoCollage.Common.Photos.FileSystem;
 
 public sealed class OrderedFileSystemPhotoRepository : FileSystemPhotoRepositoryBase
 {

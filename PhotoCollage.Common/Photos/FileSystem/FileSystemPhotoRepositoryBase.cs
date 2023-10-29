@@ -2,8 +2,9 @@
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using PhotoCollage.Common.Settings;
 
-namespace PhotoCollage.Common.Data;
+namespace PhotoCollage.Common.Photos.FileSystem;
 
 public abstract class FileSystemPhotoRepositoryBase : IPhotoRepository
 {

@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Text.Json;
+using PhotoCollage.Common.Settings;
 
 namespace PhotoCollageScreensaver;
 

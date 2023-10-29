@@ -1,6 +1,8 @@
 ﻿using System.IO;
 using Microsoft.Extensions.DependencyInjection;
-using PhotoCollage.Common.Data;
+using PhotoCollage.Common.Photos;
+using PhotoCollage.Common.Photos.FileSystem;
+using PhotoCollage.Common.Settings;
 using PhotoCollageScreensaver.Collage.Presenters;
 using PhotoCollageScreensaver.Logging;
 using PhotoCollageScreensaver.Setup;

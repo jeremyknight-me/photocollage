@@ -1,6 +1,4 @@
-﻿using PhotoCollage.Common.Enums;
-
-namespace PhotoCollage.Common;
+﻿namespace PhotoCollage.Common.Settings;
 
 public sealed class CollageSettings
 {

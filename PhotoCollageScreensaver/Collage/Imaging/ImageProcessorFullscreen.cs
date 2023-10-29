@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using PhotoCollage.Common.Settings;
 
 namespace PhotoCollageScreensaver.Collage.Imaging;
 
@@ -91,7 +92,7 @@ internal sealed class ImageProcessorFullscreen : ImageProcessor
     {
         var scaledHeight = view.WindowActualHeight / original.Height;
         var scaledWidth = view.WindowActualWidth / original.Width;
-        if (this.Configuration.PhotoFullScreenMode == PhotoCollage.Common.Enums.FullScreenMode.Centered)
+        if (this.Configuration.PhotoFullScreenMode == FullScreenMode.Centered)
         {
             scaledHeight = view.WindowActualHeight / original.Height;
             scaledWidth = view.WindowActualWidth / original.Width;

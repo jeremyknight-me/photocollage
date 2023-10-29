@@ -1,4 +1,6 @@
 ﻿using System.Collections.Concurrent;
+using PhotoCollage.Common.Photos;
+using PhotoCollage.Common.Settings;
 using PhotoCollageScreensaver.Collage.Imaging;
 
 namespace PhotoCollageScreensaver.Collage.Presenters;

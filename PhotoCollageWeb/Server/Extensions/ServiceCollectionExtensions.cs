@@ -1,5 +1,6 @@
-﻿using PhotoCollage.Common;
-using PhotoCollage.Common.Data;
+﻿using PhotoCollage.Common.Photos;
+using PhotoCollage.Common.Photos.FileSystem;
+using PhotoCollage.Common.Settings;
 using PhotoCollageWeb.Server.Workers;
 
 namespace PhotoCollageWeb.Server.Extensions

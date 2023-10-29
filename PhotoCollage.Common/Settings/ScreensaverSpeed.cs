@@ -1,4 +1,13 @@
-﻿namespace PhotoCollage.Common.Enums;
+﻿namespace PhotoCollage.Common.Settings;
+
+public enum ScreensaverSpeed
+{
+    SuperSlow = 20,
+    ReallySlow = 10,
+    Slow = 6,
+    Medium = 4,
+    Fast = 2
+}
 
 public static class ScreensaverSpeedHelper
 {

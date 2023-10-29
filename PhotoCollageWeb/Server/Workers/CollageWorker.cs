@@ -1,7 +1,8 @@
 ﻿using System.Collections.Concurrent;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Options;
-using PhotoCollage.Common;
+using PhotoCollage.Common.Photos;
+using PhotoCollage.Common.Settings;
 using PhotoCollageWeb.Server.Hubs;
 using PhotoCollageWeb.Shared;
 

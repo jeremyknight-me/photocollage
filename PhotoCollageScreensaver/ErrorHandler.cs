@@ -1,4 +1,5 @@
-﻿using PhotoCollageScreensaver.Logging;
+﻿using PhotoCollage.Common.Settings;
+using PhotoCollageScreensaver.Logging;
 
 namespace PhotoCollageScreensaver;
 

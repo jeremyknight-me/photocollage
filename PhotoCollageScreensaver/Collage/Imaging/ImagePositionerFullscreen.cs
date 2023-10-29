@@ -1,4 +1,5 @@
 ﻿using System.Windows.Controls;
+using PhotoCollage.Common.Settings;
 using PhotoCollageScreensaver.Collage.Presenters;
 
 namespace PhotoCollageScreensaver.Collage.Imaging;
@@ -17,7 +18,7 @@ internal sealed class ImagePositionerFullscreen : ImagePositioner
     {
         if (this.Presenter.Configuration.IsFullScreen)
         {
-            if (this.Presenter.Configuration.PhotoFullScreenMode == PhotoCollage.Common.Enums.FullScreenMode.Stretched)
+            if (this.Presenter.Configuration.PhotoFullScreenMode == FullScreenMode.Stretched)
             {
                 Canvas.SetLeft(this.Control, 0);
                 Canvas.SetTop(this.Control, 0);

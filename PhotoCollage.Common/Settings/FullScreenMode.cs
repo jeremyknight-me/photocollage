@@ -1,4 +1,10 @@
-﻿namespace PhotoCollage.Common.Enums;
+﻿namespace PhotoCollage.Common.Settings;
+
+public enum FullScreenMode
+{
+    Stretched,
+    Centered
+}
 
 public static class FullScreenModeHelper
 {
