@@ -12,8 +12,9 @@ internal sealed class CollagePresenterCollage : CollagePresenter
     public CollagePresenterCollage(
         ISettingsRepository settingsRepository,
         IPhotoRepository photoRepository,
+        IPhotoPathRepository photoPathRepository,
         ErrorHandler errorHandler)
-        : base(settingsRepository, photoRepository, errorHandler)
+        : base(settingsRepository, photoRepository, photoPathRepository, errorHandler)
     {
     }
 
@@ -21,7 +22,7 @@ internal sealed class CollagePresenterCollage : CollagePresenter
     {
         try
         {
-            var path = this.PhotoRepository.GetNextPhotoFilePath();
+            var path = this.PhotoPathRepository.GetNextPath();
             var view = this.GetNextDisplayView();
             var control = CollageImage.Create(path, this, this.Views[this.DisplayViewIndex]);
             view.ImageCanvas.Children.Add(control);

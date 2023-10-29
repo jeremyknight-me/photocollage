@@ -2,6 +2,5 @@
 
 public interface IPhotoRepository
 {
-    bool HasPhotos { get; }
-    string GetNextPhotoFilePath();
+    void LoadPhotoPaths();
 }

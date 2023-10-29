@@ -1,5 +1,6 @@
 ﻿using PhotoCollage.Common.Photos;
 using PhotoCollage.Common.Photos.FileSystem;
+using PhotoCollage.Common.Photos.InMemory;
 using PhotoCollage.Common.Settings;
 using PhotoCollageWeb.Server.Workers;
 
@@ -10,15 +11,17 @@ namespace PhotoCollageWeb.Server.Extensions
         public static void AddDependencyInjection(this IServiceCollection services, IConfiguration configuration, IWebHostEnvironment host)
         {
             services.Configure<CollageSettings>(options => configuration.GetSection("Settings").Bind(options));
+            services.AddSingleton<ISettingsRepository, AppSettingsRepository>();
+            services.AddSingleton<IPhotoRepository, FileSystemPhotoRepository>();
 
-            services.AddSingleton<RandomFileSystemPhotoRepository>();
-            services.AddSingleton<OrderedFileSystemPhotoRepository>();
-            services.AddTransient<IPhotoRepository>(provider =>
+            services.AddSingleton<InMemoryRandomPhotoPathRepository>();
+            services.AddSingleton<InMemoryOrderedPhotoPathRepository>();
+            services.AddSingleton<IPhotoPathRepository>(provider =>
             {
                 var settingsRepo = provider.GetRequiredService<ISettingsRepository>();
                 return settingsRepo.Current.IsRandom
-                    ? provider.GetRequiredService<RandomFileSystemPhotoRepository>()
-                    : provider.GetRequiredService<OrderedFileSystemPhotoRepository>();
+                    ? provider.GetRequiredService<InMemoryRandomPhotoPathRepository>()
+                    : provider.GetRequiredService<InMemoryOrderedPhotoPathRepository>();
             });
 
             services.AddHostedService<CollageWorker>();

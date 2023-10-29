@@ -6,44 +6,30 @@ using PhotoCollage.Common.Settings;
 
 namespace PhotoCollage.Common.Photos.FileSystem;
 
-public abstract class FileSystemPhotoRepositoryBase : IPhotoRepository
+public sealed class FileSystemPhotoRepository : IPhotoRepository
 {
-    protected FileSystemPhotoRepositoryBase(ISettingsRepository settingsRepository)
+    private readonly IPhotoPathRepository photoPathRepo;
+    private readonly ISettingsRepository settingsRepo;
+
+    public FileSystemPhotoRepository(
+        IPhotoPathRepository photoPathRepository,
+        ISettingsRepository settingsRepository)
     {
-        this.RootDirectoryPath = settingsRepository.Current.Directory;
-        this.LoadPathsFromFileSystem();
+        this.photoPathRepo = photoPathRepository;
+        this.settingsRepo = settingsRepository;
     }
 
-    public bool HasPhotos => !this.PhotoFilePaths.IsEmpty;
-
-    public abstract string GetNextPhotoFilePath();
-
-    protected ConcurrentQueue<string> PhotoFilePaths { get; } = new();
-
-    protected string RootDirectoryPath { get; }
-
-    protected abstract IEnumerable<string> GetOrderedPaths(IEnumerable<string> paths);
-
-    protected void LoadPhotoPathsIntoQueue(IEnumerable<string> paths)
+    public void LoadPhotoPaths()
     {
-        foreach (var path in paths)
-        {
-            this.PhotoFilePaths.Enqueue(path);
-        }
-    }
-
-    private void LoadPathsFromFileSystem()
-    {
-        var files = Directory.EnumerateFiles(this.RootDirectoryPath, "*", SearchOption.AllDirectories);
+        var files = Directory.EnumerateFiles(this.settingsRepo.Current.Directory, "*", SearchOption.AllDirectories);
         var paths = this.GetPathsWithExtension(files);
-        var orderedPaths = this.GetOrderedPaths(paths);
-        this.LoadPhotoPathsIntoQueue(orderedPaths);
+        this.photoPathRepo.LoadPaths(paths);
     }
 
     private IEnumerable<string> GetPathsWithExtension(IEnumerable<string> files)
     {
         var extensions = new HashSet<string> { ".jpg", ".jpeg", ".png" };
-        var length = this.RootDirectoryPath.Length;
+        var length = this.settingsRepo.Current.Directory.Length;
         var paths = new ConcurrentQueue<string>();
         var exceptions = new ConcurrentQueue<Exception>();
         Parallel.ForEach(files, file =>

@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using PhotoCollage.Common.Photos;
 using PhotoCollage.Common.Photos.FileSystem;
+using PhotoCollage.Common.Photos.InMemory;
 using PhotoCollage.Common.Settings;
 using PhotoCollageScreensaver.Collage.Presenters;
 using PhotoCollageScreensaver.Logging;
@@ -26,6 +27,17 @@ internal static class DependencyInjectionHelper
         services.AddSingleton<ILogger, TextLogger>(provider => new TextLogger(localDataDirectory));
         services.AddSingleton<ErrorHandler>();
         services.AddSingleton<ISettingsRepository, FileSystemSettingsRepository>(provider => new FileSystemSettingsRepository(localDataDirectory));
+        services.AddSingleton<IPhotoRepository, FileSystemPhotoRepository>();
+
+        services.AddSingleton<InMemoryRandomPhotoPathRepository>();
+        services.AddSingleton<InMemoryOrderedPhotoPathRepository>();
+        services.AddSingleton<IPhotoPathRepository>(provider =>
+        {
+            var settingsRepo = provider.GetRequiredService<ISettingsRepository>();
+            return settingsRepo.Current.IsRandom
+                ? provider.GetRequiredService<InMemoryRandomPhotoPathRepository>()
+                : provider.GetRequiredService<InMemoryOrderedPhotoPathRepository>();
+        });
 
         services.AddTransient<CollagePresenterCollage>();
         services.AddTransient<CollagePresenterFullscreen>();
@@ -35,16 +47,6 @@ internal static class DependencyInjectionHelper
             return settingsRepo.Current.IsFullScreen
                 ? provider.GetRequiredService<CollagePresenterFullscreen>()
                 : provider.GetRequiredService<CollagePresenterCollage>();
-        });
-
-        services.AddTransient<RandomFileSystemPhotoRepository>();
-        services.AddTransient<OrderedFileSystemPhotoRepository>();
-        services.AddTransient<IPhotoRepository>(provider =>
-        {
-            var settingsRepo = provider.GetRequiredService<ISettingsRepository>();
-            return settingsRepo.Current.IsRandom
-                ? provider.GetRequiredService<RandomFileSystemPhotoRepository>()
-                : provider.GetRequiredService<OrderedFileSystemPhotoRepository>();
         });
 
         services.AddTransient<SetupViewModel>();

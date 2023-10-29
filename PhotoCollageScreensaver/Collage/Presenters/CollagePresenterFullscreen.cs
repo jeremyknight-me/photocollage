@@ -14,8 +14,9 @@ internal sealed class CollagePresenterFullscreen : CollagePresenter
     public CollagePresenterFullscreen(
         ISettingsRepository settingsRepository,
         IPhotoRepository photoRepository,
+        IPhotoPathRepository photoPathRepository,
         ErrorHandler errorHandler)
-        : base(settingsRepository, photoRepository, errorHandler)
+        : base(settingsRepository, photoRepository, photoPathRepository, errorHandler)
     {
     }
 
@@ -52,7 +53,7 @@ internal sealed class CollagePresenterFullscreen : CollagePresenter
 
         for (var i = 0; i < 10; i++) // Only go through this 10 iterations and if we don't get a perfect fit just return the next image after that
         {
-            var path = this.PhotoRepository.GetNextPhotoFilePath();
+            var path = this.PhotoPathRepository.GetNextPath();
             var processor = ImageProcessorFullscreen.Create(path, this.SettingsRepository.Current);
             var image = processor.GetImage();
             var isImagePortait = image.Height > image.Width;
@@ -80,7 +81,7 @@ internal sealed class CollagePresenterFullscreen : CollagePresenter
         }
 
         // If we don't get one that fits the monitor alignment just return the next image
-        return CollageImage.Create(this.PhotoRepository.GetNextPhotoFilePath(), this, view);
+        return CollageImage.Create(this.PhotoPathRepository.GetNextPath(), this, view);
     }
 
     private CollageImage AddImageToQueue(int retryCount = 0)

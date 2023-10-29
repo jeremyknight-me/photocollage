@@ -8,21 +8,25 @@ namespace PhotoCollageScreensaver.Collage.Presenters;
 
 public abstract class CollagePresenter
 {
+    private readonly IPhotoRepository photoRepo;
+
     protected CollagePresenter(
         ISettingsRepository settingsRepository,
         IPhotoRepository photoRepository,
+        IPhotoPathRepository photoPathRepository,
         ErrorHandler errorHandler)
     {
         this.SettingsRepository = settingsRepository;
+        this.photoRepo = photoRepository;
         this.ErrorHandler = errorHandler;
-        this.PhotoRepository = photoRepository;
+        this.PhotoPathRepository = photoPathRepository;
     }
 
     public CollageSettings Configuration => this.SettingsRepository.Current;
     public ErrorHandler ErrorHandler { get; }
 
     protected int DisplayViewIndex { get; set; } = -1;
-    protected IPhotoRepository PhotoRepository { get; }
+    protected IPhotoPathRepository PhotoPathRepository { get; }
     protected ISettingsRepository SettingsRepository { get; }
     protected List<ICollageView> Views { get; } = new();
 
@@ -34,6 +38,7 @@ public abstract class CollagePresenter
             this.SetupWindow(collageWindow, screen);
         }
 
+        this.photoRepo.LoadPhotoPaths();
         this.StartAnimation();
     }
 
@@ -68,7 +73,7 @@ public abstract class CollagePresenter
     {
         try
         {
-            if (!this.PhotoRepository.HasPhotos)
+            if (!this.PhotoPathRepository.HasPhotos)
             {
                 this.ErrorHandler.DisplayErrorMessage("Folder does not contain any supported photos.");
                 ShutdownHelper.Shutdown();
