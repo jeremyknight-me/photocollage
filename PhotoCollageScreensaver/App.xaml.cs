@@ -29,7 +29,7 @@ public partial class App : Application
                 ShutdownHelper.Shutdown();
                 break;
             case "/s": // screensaver
-                var presenter = this.serviceProvider.GetService<CollagePresenter>();
+                var presenter = this.serviceProvider.GetRequiredService<CollagePresenter>();
                 presenter.Start();
                 break;
             default: // no argument or /c both show config
