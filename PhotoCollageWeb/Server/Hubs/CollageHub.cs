@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Options;
-using PhotoCollage.Common;
+using PhotoCollage.Common.Settings;
 
 namespace PhotoCollageWeb.Server.Hubs
 {

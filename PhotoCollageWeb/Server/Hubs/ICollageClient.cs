@@ -1,4 +1,4 @@
-﻿using PhotoCollage.Common;
+﻿using PhotoCollage.Common.Settings;
 using PhotoCollageWeb.Shared;
 
 namespace PhotoCollageWeb.Server.Hubs

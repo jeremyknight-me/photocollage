@@ -1,41 +1,31 @@
 ﻿using System.IO;
+using PhotoCollage.Common.Settings;
 
 namespace PhotoCollageScreensaver.Logging;
 
 public class TextLogger : ILogger
 {
+    private readonly ISettingsRepository settingsRepo;
     private readonly string directory;
 
-    public TextLogger(string directoryPath)
+    public TextLogger(
+        string localDataDirectory,
+        ISettingsRepository settingsRepository)
     {
-        this.directory = Path.Combine(directoryPath, @"logs");
+        this.directory = Path.Combine(localDataDirectory, @"logs");
+        this.settingsRepo = settingsRepository;
     }
 
-    public void Log(string message)
+    public void Log(Exception exception)
     {
-        var fullPath = this.FullFilePath;
-        File.AppendAllText(fullPath, this.GetLogEntry(message));
-    }
+        var lines = new List<string> { $"\n{DateTime.Now}  ==>  {exception.Message}" };
+        if (this.settingsRepo.Current.UseVerboseLogging)
+        {
+            lines.Add("Stack Trace:");
+            lines.Add(exception.StackTrace);
+        }
 
-    public void Log(string message, string stackTrace)
-    {
-        var fullPath = this.FullFilePath;
-        var lines = new List<string>()
-            {
-                this.GetLogEntry(message),
-                "Stack Trace:",
-                stackTrace
-            };
+        var fullPath = Path.Combine(this.directory, $"log-{DateTime.Today:yyyy-MM-dd}.txt");
         File.AppendAllLines(fullPath, lines);
     }
-
-    private string GetLogEntry(string message)
-    {
-        var date = DateTime.Now.ToString();
-        return string.Concat("\n", date, "  ==>  ", message);
-    }
-
-    private string GetFileName() => "log-" + DateTime.Today.ToString("yyyy-MM-dd") + ".txt";
-
-    private string FullFilePath => Path.Combine(this.directory, this.GetFileName());
 }

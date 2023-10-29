@@ -3,7 +3,7 @@
 public class ShutdownCommand : RelayCommand
 {
     public ShutdownCommand()
-        : base(obj => Application.Current.Shutdown())
+        : base(obj => ShutdownHelper.Shutdown())
     {
     }
 }

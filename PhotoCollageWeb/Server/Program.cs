@@ -1,7 +1,7 @@
 ﻿using PhotoCollageWeb.Server.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddDependencyInjection(builder.Configuration, builder.Environment);
+builder.Services.AddDependencyInjection(builder.Configuration);
 
 builder.Services.AddControllers();
 builder.Services.AddRazorPages();
