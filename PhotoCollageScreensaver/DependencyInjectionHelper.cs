@@ -1,5 +1,4 @@
 ﻿using System.IO;
-using System.Runtime.CompilerServices;
 using Microsoft.Extensions.DependencyInjection;
 using PhotoCollage.Common.Data;
 using PhotoCollageScreensaver.Data;
@@ -45,7 +44,6 @@ internal static class DependencyInjectionHelper
                 ? provider.GetRequiredService<RandomFileSystemPhotoRepository>()
                 : provider.GetRequiredService<OrderedFileSystemPhotoRepository>();
         });
-        services.AddTransient<ScreensaverController>();
 
         services.AddTransient<SetupViewModel>();
         services.AddTransient<SetupWindow>();

@@ -25,27 +25,15 @@ public abstract class CollagePresenter
     protected ISettingsRepository SettingsRepository { get; }
     protected List<ICollageView> Views { get; } = new();
 
-    public void StartAnimation()
+    public void Start()
     {
-        try
+        foreach (var screen in Monitors.Monitor.GetScreens())
         {
-            if (!this.PhotoRepository.HasPhotos)
-            {
-                this.ErrorHandler.DisplayErrorMessage("Folder does not contain any supported photos.");
-                ShutdownHelper.Shutdown();
-            }
-
-            this.DisplayImageTimerTick(null, null);
-
-            var seconds = (int)this.SettingsRepository.Current.Speed;
-            var timer = new DispatcherTimer { Interval = new TimeSpan(0, 0, seconds) };
-            timer.Tick += this.DisplayImageTimerTick;
-            timer.Start();
+            var collageWindow = new CollageWindow();
+            this.SetupWindow(collageWindow, screen);
         }
-        catch (Exception ex)
-        {
-            this.ErrorHandler.HandleError(ex);
-        }
+
+        this.StartAnimation();
     }
 
     public int GetRandomNumber(int min, int max)
@@ -75,4 +63,27 @@ public abstract class CollagePresenter
     protected abstract void DisplayImageTimerTick(object sender, EventArgs e);
 
     protected abstract void SetUserControlPosition(UIElement control, ICollageView view);
+
+    private void StartAnimation()
+    {
+        try
+        {
+            if (!this.PhotoRepository.HasPhotos)
+            {
+                this.ErrorHandler.DisplayErrorMessage("Folder does not contain any supported photos.");
+                ShutdownHelper.Shutdown();
+            }
+
+            this.DisplayImageTimerTick(null, null);
+
+            var seconds = (int)this.SettingsRepository.Current.Speed;
+            var timer = new DispatcherTimer { Interval = new TimeSpan(0, 0, seconds) };
+            timer.Tick += this.DisplayImageTimerTick;
+            timer.Start();
+        }
+        catch (Exception ex)
+        {
+            this.ErrorHandler.HandleError(ex);
+        }
+    }
 }

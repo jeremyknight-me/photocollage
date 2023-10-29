@@ -11,25 +11,24 @@ namespace PhotoCollageScreensaver.ViewModels;
 
 public class SetupViewModel : INotifyPropertyChanged
 {
+    private readonly CollagePresenter presenter;
     private readonly ISettingsRepository settingsRepo;
-
-    private readonly ScreensaverController controller;
     private readonly IDictionary<BorderType, KeyValuePair<string, string>> borderTypePairs = BorderTypeHelper.MakeDictionary();
     private readonly IDictionary<ScreensaverSpeed, string> speedPairs = ScreensaverSpeedHelper.MakeDictionary();
     private readonly IDictionary<FullScreenMode, KeyValuePair<string, string>> fullscreenModePairs = FullScreenModeHelper.MakeDictionary();
 
     public SetupViewModel(
-        ScreensaverController controllerToUse,
+        CollagePresenter collagePresenter,
         ISettingsRepository settingsRepository)
     {
+        this.presenter = collagePresenter;
         this.settingsRepo = settingsRepository;
 
         this.BorderOptions = new ObservableCollection<KeyValuePair<string, string>>(this.borderTypePairs.Values);
         this.SpeedOptions = new ObservableCollection<string>(this.speedPairs.Values);
         this.FullScreenModeOptions = new ObservableCollection<KeyValuePair<string, string>>(this.fullscreenModePairs.Values);
-        this.controller = controllerToUse;
 
-        this.PreviewCommand = new RelayCommand((obj) => this.controller.Start());
+        this.PreviewCommand = new RelayCommand((obj) => this.presenter.Start());
         this.OkCommand = new RelayCommand(obj =>
         {
             this.settingsRepo.Save();

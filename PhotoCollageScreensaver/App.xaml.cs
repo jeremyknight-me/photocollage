@@ -27,7 +27,7 @@ public partial class App : Application
                 ShutdownHelper.Shutdown();
                 break;
             case "/s": // screensaver
-                var controller = this.serviceProvider.GetService<ScreensaverController>();
+                var controller = this.serviceProvider.GetService<CollagePresenter>();
                 controller.Start();
                 break;
             default: // no argument or /c both show config
