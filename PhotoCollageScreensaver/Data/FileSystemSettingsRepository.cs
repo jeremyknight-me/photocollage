@@ -8,6 +8,8 @@ internal class FileSystemSettingsRepository : ISettingsRepository
     private readonly string directoryPath;
     private readonly string filePath;
 
+    private CollageSettings current = null;
+
     public FileSystemSettingsRepository(string configurationFolderPath)
     {
         this.directoryPath = configurationFolderPath;
@@ -16,21 +18,35 @@ internal class FileSystemSettingsRepository : ISettingsRepository
         this.EnsureFileExists();
     }
 
-    public CollageSettings Load()
+    public CollageSettings Current
+    {
+        get
+        {
+            if (this.current is null)
+            {
+                this.Load();
+            }
+
+            return this.current;
+        }
+        private set => this.current = value;
+    }
+
+    public void Load()
     {
         var contents = File.ReadAllText(this.filePath);
-        return contents.Trim().StartsWith("<?xml")
+        this.Current = contents.Trim().StartsWith("<?xml")
             ? this.LoadFromXml(contents) // provides fallback for upgrades from older version
             : this.LoadFromJson(contents);
     }
 
-    public void Save(CollageSettings configuration)
+    public void Save()
     {
         var options = new JsonSerializerOptions
         {
             WriteIndented = true
         };
-        var json = JsonSerializer.Serialize(configuration, options);
+        var json = JsonSerializer.Serialize(this.Current, options);
         File.WriteAllText(this.filePath, json);
     }
 
@@ -57,7 +73,7 @@ internal class FileSystemSettingsRepository : ISettingsRepository
         if (!File.Exists(this.filePath))
         {
             File.CreateText(this.filePath).Close();
-            this.Save(new CollageSettings());
+            this.Save();
         }
     }
 }

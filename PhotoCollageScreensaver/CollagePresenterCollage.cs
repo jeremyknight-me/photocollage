@@ -4,14 +4,16 @@ using PhotoCollageScreensaver.Views;
 
 namespace PhotoCollageScreensaver;
 
-public sealed class CollagePresenterCollage : CollagePresenter
+internal sealed class CollagePresenterCollage : CollagePresenter
 {
-    private readonly ConcurrentQueue<CollageImage> imageQueue;
+    private readonly ConcurrentQueue<CollageImage> imageQueue = new();
 
-    public CollagePresenterCollage(ApplicationController controllerToUse, CollageSettings configurationToUse)
-        : base(controllerToUse, configurationToUse)
+    public CollagePresenterCollage(
+        ISettingsRepository settingsRepository,
+        IPhotoRepository photoRepository,
+        ErrorHandler errorHandler)
+        : base(settingsRepository, photoRepository, errorHandler)
     {
-        this.imageQueue = new ConcurrentQueue<CollageImage>();
     }
 
     protected override void DisplayImageTimerTick(object sender, EventArgs e)
@@ -24,7 +26,7 @@ public sealed class CollagePresenterCollage : CollagePresenter
             view.ImageCanvas.Children.Add(control);
             this.imageQueue.Enqueue(control);
 
-            if (this.imageQueue.Count > this.Configuration.NumberOfPhotos)
+            if (this.imageQueue.Count > this.SettingsRepository.Current.NumberOfPhotos)
             {
                 this.RemoveImageFromPanel(control);
             }
@@ -33,8 +35,8 @@ public sealed class CollagePresenterCollage : CollagePresenter
         }
         catch (Exception ex)
         {
-            this.Controller.HandleError(ex);
-            this.Controller.Shutdown();
+            this.ErrorHandler.HandleError(ex);
+            ShutdownHelper.Shutdown();
         }
     }
 
@@ -66,7 +68,7 @@ public sealed class CollagePresenterCollage : CollagePresenter
         }
         catch (Exception ex)
         {
-            this.Controller.HandleError(ex);
+            this.ErrorHandler.HandleError(ex);
         }
     }
 

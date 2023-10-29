@@ -4,18 +4,18 @@ using PhotoCollageScreensaver.Views;
 
 namespace PhotoCollageScreensaver;
 
-public sealed class CollagePresenterFullscreen : CollagePresenter
+internal sealed class CollagePresenterFullscreen : CollagePresenter
 {
-    private readonly List<ConcurrentQueue<CollageImage>> imageQueues;
-    private readonly Queue<string> skippedPortraitImagePaths;
-    private readonly Queue<string> skippedLandscapeImagePaths;
+    private readonly List<ConcurrentQueue<CollageImage>> imageQueues = new();
+    private readonly Queue<string> skippedPortraitImagePaths = new();
+    private readonly Queue<string> skippedLandscapeImagePaths = new();
 
-    public CollagePresenterFullscreen(ApplicationController controllerToUse, CollageSettings configurationToUse)
-        : base(controllerToUse, configurationToUse)
+    public CollagePresenterFullscreen(
+        ISettingsRepository settingsRepository,
+        IPhotoRepository photoRepository,
+        ErrorHandler errorHandler)
+        : base(settingsRepository, photoRepository, errorHandler)
     {
-        this.imageQueues = new List<ConcurrentQueue<CollageImage>>();
-        this.skippedPortraitImagePaths = new Queue<string>();
-        this.skippedLandscapeImagePaths = new Queue<string>();
     }
 
     public override void SetupWindow<T>(T window, Monitors.Screen screen)
@@ -38,8 +38,8 @@ public sealed class CollagePresenterFullscreen : CollagePresenter
         }
         catch (Exception ex)
         {
-            this.Controller.HandleError(ex);
-            this.Controller.Shutdown();
+            this.ErrorHandler.HandleError(ex);
+            ShutdownHelper.Shutdown();
         }
     }
 
@@ -58,7 +58,7 @@ public sealed class CollagePresenterFullscreen : CollagePresenter
         for (var i = 0; i < 10; i++) // Only go through this 10 iterations and if we don't get a perfect fit just return the next image after that
         {
             var path = this.PhotoRepository.GetNextPhotoFilePath();
-            var processor = new ImageProcessorFullscreen(path, this.Configuration);
+            var processor = new ImageProcessorFullscreen(path, this.SettingsRepository.Current);
             var image = processor.GetImage();
             var isImagePortait = image.Height > image.Width;
             isImagePortait = processor.ImageIsRotatedPlusMinusNinetyDegrees ? !isImagePortait : isImagePortait;
@@ -98,7 +98,7 @@ public sealed class CollagePresenterFullscreen : CollagePresenter
         }
         catch (Exception ex)
         {
-            this.Controller.HandleError(ex);
+            this.ErrorHandler.HandleError(ex);
             if (retryCount > 3)
             {
                 throw new Exception("AddImageToQueue retry count failed");
@@ -131,7 +131,7 @@ public sealed class CollagePresenterFullscreen : CollagePresenter
         }
         catch (Exception ex)
         {
-            this.Controller.HandleError(ex);
+            this.ErrorHandler.HandleError(ex);
         }
     }
 

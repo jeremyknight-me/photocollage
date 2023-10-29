@@ -1,30 +1,29 @@
 ﻿using System.Threading;
 using System.Windows.Media;
 using System.Windows.Threading;
-using PhotoCollage.Common.Data;
 using PhotoCollageScreensaver.Views;
 
 namespace PhotoCollageScreensaver;
 
 public abstract class CollagePresenter
 {
-    private readonly Random random;
-    protected readonly IPhotoRepository PhotoRepository;
-    protected readonly ApplicationController Controller;
-    protected int DisplayViewIndex;
-    protected readonly List<ICollageView> Views;
-
-    public CollagePresenter(ApplicationController controllerToUse, CollageSettings configurationToUse)
+    internal CollagePresenter(
+        ISettingsRepository settingsRepository,
+        IPhotoRepository photoRepository,
+        ErrorHandler errorHandler)
     {
-        this.random = new Random();
-        this.Views = new List<ICollageView>();
-        this.Controller = controllerToUse;
-        this.Configuration = configurationToUse;
-        this.PhotoRepository = new PhotoRepositoryFactory(this.Configuration).Make();
-        this.DisplayViewIndex = -1;
+        this.SettingsRepository = settingsRepository;
+        this.ErrorHandler = errorHandler;
+        this.PhotoRepository = photoRepository;
     }
 
-    public CollageSettings Configuration { get; }
+    public CollageSettings Configuration => this.SettingsRepository.Current;
+    public ErrorHandler ErrorHandler { get; }
+
+    protected int DisplayViewIndex { get; set; } = -1;
+    protected IPhotoRepository PhotoRepository { get; }
+    protected ISettingsRepository SettingsRepository { get; }
+    protected List<ICollageView> Views { get; } = new();
 
     public void StartAnimation()
     {
@@ -32,38 +31,36 @@ public abstract class CollagePresenter
         {
             if (!this.PhotoRepository.HasPhotos)
             {
-                this.Controller.DisplayErrorMessage("Folder does not contain any supported photos.");
-                this.Controller.Shutdown();
+                this.ErrorHandler.DisplayErrorMessage("Folder does not contain any supported photos.");
+                ShutdownHelper.Shutdown();
             }
 
             this.DisplayImageTimerTick(null, null);
 
-            var seconds = (int)this.Configuration.Speed;
+            var seconds = (int)this.SettingsRepository.Current.Speed;
             var timer = new DispatcherTimer { Interval = new TimeSpan(0, 0, seconds) };
             timer.Tick += this.DisplayImageTimerTick;
             timer.Start();
         }
         catch (Exception ex)
         {
-            this.Controller.HandleError(ex);
+            this.ErrorHandler.HandleError(ex);
         }
     }
 
     public int GetRandomNumber(int min, int max)
     {
         var value = 0;
-        var random = this.random.Next(min, max);
+        var random = Random.Shared.Next(min, max);
         Interlocked.Exchange(ref value, random);
         return value;
     }
-
-    public void HandleError(Exception ex, bool showMessage = false) => this.Controller.HandleError(ex, showMessage);
 
     public virtual void SetupWindow<T>(T window, Monitors.Screen screen) where T : Window, ICollageView
     {
         var backgroundBrush = new SolidColorBrush
         {
-            Opacity = this.Configuration.Opacity,
+            Opacity = this.SettingsRepository.Current.Opacity,
             Color = Colors.Black
         };
         window.Background = backgroundBrush;

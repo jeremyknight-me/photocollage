@@ -1,13 +1,12 @@
-﻿namespace PhotoCollageScreensaver.Views;
+﻿using PhotoCollageScreensaver.ViewModels;
+
+namespace PhotoCollageScreensaver.Views;
 
 public partial class SetupWindow : Window
 {
-    private readonly ApplicationController controller;
-
-    public SetupWindow(ApplicationController controllerToUse)
+    public SetupWindow(SetupViewModel viewModel)
     {
-        this.controller = controllerToUse;
-        this.DataContext = this.controller.MakeSetupViewModel();
+        this.DataContext = viewModel;
         this.InitializeComponent();
     }
 }

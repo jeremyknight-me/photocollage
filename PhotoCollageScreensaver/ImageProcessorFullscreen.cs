@@ -12,8 +12,8 @@ internal sealed class ImageProcessorFullscreen : ImageProcessor
 {
     private int rotationAngle;
 
-    public ImageProcessorFullscreen(string imagePathToUse, CollageSettings configurationToUse)
-        : base(imagePathToUse, configurationToUse)
+    public ImageProcessorFullscreen(string imagePathToUse, CollageSettings collageSettings)
+        : base(imagePathToUse, collageSettings)
     {
     }
 

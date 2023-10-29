@@ -2,6 +2,8 @@
 
 public interface ISettingsRepository
 {
-    CollageSettings Load();
-    void Save(CollageSettings configuration);
+    CollageSettings Current { get; }
+
+    void Load();
+    void Save();
 }

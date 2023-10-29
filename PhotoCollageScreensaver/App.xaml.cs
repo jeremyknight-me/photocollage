@@ -1,10 +1,17 @@
 ﻿using System.Windows.Threading;
+using Microsoft.Extensions.DependencyInjection;
+using PhotoCollageScreensaver.Views;
 
 namespace PhotoCollageScreensaver;
 
 public partial class App : Application
 {
-    private ApplicationController controller;
+    private readonly IServiceProvider serviceProvider;
+
+    public App()
+    {
+        this.serviceProvider = DependencyInjectionHelper.CreateServiceProvider();
+    }
 
     private void App_OnStartup(object sender, StartupEventArgs e)
     {
@@ -14,24 +21,26 @@ public partial class App : Application
             commandArg = e.Args[0].ToLower().Trim().Substring(0, 2);
         }
 
-        this.controller = new ApplicationController();
         switch (commandArg)
         {
             case "/p": // preview
-                this.Shutdown();
+                ShutdownHelper.Shutdown();
                 break;
             case "/s": // screensaver
-                this.controller.StartScreensaver();
+                var controller = this.serviceProvider.GetService<ScreensaverController>();
+                controller.Start();
                 break;
             default: // no argument or /c both show config
-                this.controller.StartSetup();
+                var setupWindow = this.serviceProvider.GetRequiredService<SetupWindow>();
+                setupWindow.Show();
                 break;
         }
     }
 
     private void App_OnDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
     {
-        this.controller.HandleError(e.Exception);
+        var handler = this.serviceProvider.GetRequiredService<ErrorHandler>();
+        handler.HandleError(e.Exception);
         e.Handled = true;
     }
 }

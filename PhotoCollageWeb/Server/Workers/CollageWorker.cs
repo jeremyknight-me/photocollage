@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Options;
 using PhotoCollage.Common;
-using PhotoCollage.Common.Data;
 using PhotoCollageWeb.Server.Hubs;
 using PhotoCollageWeb.Shared;
 
@@ -19,13 +18,14 @@ namespace PhotoCollageWeb.Server.Workers
         public CollageWorker(
             ILogger<CollageWorker> appLogger,
             IOptions<CollageSettings> appOptions,
-            IHubContext<CollageHub, ICollageClient> hubContext
+            IHubContext<CollageHub, ICollageClient> hubContext,
+            IPhotoRepository photoRepository
             )
         {
             this.logger = appLogger;
             this.settings = appOptions.Value;
             this.hub = hubContext;
-            this.photoRepository = new PhotoRepositoryFactory(this.settings).Make();
+            this.photoRepository = photoRepository; // new PhotoRepositoryFactory(this.settings).Make();
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)

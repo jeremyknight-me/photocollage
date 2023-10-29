@@ -43,7 +43,7 @@ public partial class CollageImage : UserControl, IDisposable
         }
         catch (Exception ex)
         {
-            this.presenter.HandleError(ex);
+            this.presenter.ErrorHandler.HandleError(ex);
         }
     }
 
@@ -82,7 +82,7 @@ public partial class CollageImage : UserControl, IDisposable
         }
         catch (Exception ex)
         {
-            this.presenter.HandleError(ex);
+            this.presenter.ErrorHandler.HandleError(ex);
         }
     }
 

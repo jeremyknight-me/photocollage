@@ -2,10 +2,10 @@
 
 namespace PhotoCollage.Common.Data;
 
-internal sealed class OrderedFileSystemPhotoRepository : FileSystemPhotoRepositoryBase
+public sealed class OrderedFileSystemPhotoRepository : FileSystemPhotoRepositoryBase
 {
-    public OrderedFileSystemPhotoRepository(string path)
-        : base(path)
+    public OrderedFileSystemPhotoRepository(ISettingsRepository settingsRepository)
+        : base(settingsRepository)
     {
     }
 

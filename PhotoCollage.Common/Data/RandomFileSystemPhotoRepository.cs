@@ -3,13 +3,13 @@ using System.Linq;
 
 namespace PhotoCollage.Common.Data;
 
-internal sealed class RandomFileSystemPhotoRepository : FileSystemPhotoRepositoryBase
+public sealed class RandomFileSystemPhotoRepository : FileSystemPhotoRepositoryBase
 {
     private readonly List<string> displayedPhotos;
-    private readonly object threadLock = new object();
+    private readonly object threadLock = new();
 
-    public RandomFileSystemPhotoRepository(string path)
-        : base(path)
+    public RandomFileSystemPhotoRepository(ISettingsRepository settingsRepository)
+        : base(settingsRepository)
     {
         this.displayedPhotos = new List<string>();
     }

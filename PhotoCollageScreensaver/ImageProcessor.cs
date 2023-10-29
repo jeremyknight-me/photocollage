@@ -6,16 +6,16 @@ namespace PhotoCollageScreensaver;
 
 internal abstract class ImageProcessor
 {
-    protected readonly string ImagePath;
-    protected readonly CollageSettings Configuration;
-    protected double DpiScale;
-    protected double MaximumSizeDiu;
-
-    public ImageProcessor(string imagePathToUse, CollageSettings configurationToUse)
+    public ImageProcessor(string imagePathToUse, CollageSettings collageSettings)
     {
+        this.Configuration = collageSettings;
         this.ImagePath = imagePathToUse;
-        this.Configuration = configurationToUse;
     }
+
+    protected CollageSettings Configuration { get; }
+    protected double DpiScale { get; set; }
+    protected string ImagePath { get; }
+    protected double MaximumSizeDiu { get; set; }
 
     public abstract ImageSource GetImageSource(ICollageView view, BitmapSource sourceImage = null);
 

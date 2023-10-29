@@ -11,26 +11,31 @@ namespace PhotoCollageScreensaver.ViewModels;
 
 public class SetupViewModel : INotifyPropertyChanged
 {
-    private readonly ApplicationController controller;
+    private readonly ISettingsRepository settingsRepo;
+
+    private readonly ScreensaverController controller;
     private readonly IDictionary<BorderType, KeyValuePair<string, string>> borderTypePairs = BorderTypeHelper.MakeDictionary();
     private readonly IDictionary<ScreensaverSpeed, string> speedPairs = ScreensaverSpeedHelper.MakeDictionary();
     private readonly IDictionary<FullScreenMode, KeyValuePair<string, string>> fullscreenModePairs = FullScreenModeHelper.MakeDictionary();
 
-    public SetupViewModel(CollageSettings config, ApplicationController controllerToUse)
+    public SetupViewModel(
+        ScreensaverController controllerToUse,
+        ISettingsRepository settingsRepository)
     {
+        this.settingsRepo = settingsRepository;
+
         this.BorderOptions = new ObservableCollection<KeyValuePair<string, string>>(this.borderTypePairs.Values);
         this.SpeedOptions = new ObservableCollection<string>(this.speedPairs.Values);
         this.FullScreenModeOptions = new ObservableCollection<KeyValuePair<string, string>>(this.fullscreenModePairs.Values);
-        this.Config = config;
         this.controller = controllerToUse;
 
-        this.PreviewCommand = new RelayCommand((obj) => this.controller.StartScreensaver());
+        this.PreviewCommand = new RelayCommand((obj) => this.controller.Start());
         this.OkCommand = new RelayCommand(obj =>
         {
-            this.controller.SaveConfiguration();
-            this.controller.Shutdown();
+            this.settingsRepo.Save();
+            ShutdownHelper.Shutdown();
         });
-        this.SaveCommand = new RelayCommand(obj => this.controller.SaveConfiguration());
+        this.SaveCommand = new RelayCommand(obj => this.settingsRepo.Save());
         this.CancelCommand = new ShutdownCommand();
         this.SelectDirectoryCommand = new RelayCommand(obj =>
         {
@@ -46,7 +51,7 @@ public class SetupViewModel : INotifyPropertyChanged
     public ICommand CancelCommand { get; private set; }
     public ICommand SelectDirectoryCommand { get; private set; }
 
-    public CollageSettings Config { get; private set; }
+    
     public ObservableCollection<KeyValuePair<string, string>> BorderOptions { get; set; }
     public ObservableCollection<string> SpeedOptions { get; set; }
     public ObservableCollection<KeyValuePair<string, string>> FullScreenModeOptions { get; set; }
@@ -136,6 +141,8 @@ public class SetupViewModel : INotifyPropertyChanged
         }
     }
 
+    protected CollageSettings Config => this.settingsRepo.Current;
+
     private void RequestDirectoryFromUser()
     {
         var dialog = new FolderBrowserDialog
@@ -162,7 +169,7 @@ public class SetupViewModel : INotifyPropertyChanged
         }
     }
 
-    public void Save() => this.controller.SaveConfiguration();
+    public void Save() => this.settingsRepo.Save();
 
     // This method is called by the Set accessor of each property.  
     // The CallerMemberName attribute that is applied to the optional propertyName  

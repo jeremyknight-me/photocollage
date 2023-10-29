@@ -6,8 +6,8 @@ namespace PhotoCollageScreensaver;
 
 internal sealed class ImageProcessorCollage : ImageProcessor
 {
-    public ImageProcessorCollage(string imagePathToUse, CollageSettings configurationToUse)
-        : base(imagePathToUse, configurationToUse)
+    public ImageProcessorCollage(string imagePathToUse, CollageSettings collageSettings)
+        : base(imagePathToUse, collageSettings)
     {
     }
 

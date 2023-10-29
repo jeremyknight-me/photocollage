@@ -2,7 +2,7 @@
 
 namespace PhotoCollage.Common;
 
-public class CollageSettings
+public sealed class CollageSettings
 {
     public string Directory { get; set; } = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
     public bool IsGrayscale { get; set; } = false;

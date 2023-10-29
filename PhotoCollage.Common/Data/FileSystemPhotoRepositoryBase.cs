@@ -5,12 +5,11 @@ using System.Threading.Tasks;
 
 namespace PhotoCollage.Common.Data;
 
-internal abstract class FileSystemPhotoRepositoryBase : IPhotoRepository
+public abstract class FileSystemPhotoRepositoryBase : IPhotoRepository
 {
-    protected FileSystemPhotoRepositoryBase(string path)
+    protected FileSystemPhotoRepositoryBase(ISettingsRepository settingsRepository)
     {
-        this.PhotoFilePaths = new ConcurrentQueue<string>();
-        this.RootDirectoryPath = path;
+        this.RootDirectoryPath = settingsRepository.Current.Directory;
         this.LoadPathsFromFileSystem();
     }
 
@@ -18,15 +17,9 @@ internal abstract class FileSystemPhotoRepositoryBase : IPhotoRepository
 
     public abstract string GetNextPhotoFilePath();
 
-    protected ConcurrentQueue<string> PhotoFilePaths
-    {
-        get; private set;
-    }
+    protected ConcurrentQueue<string> PhotoFilePaths { get; } = new();
 
-    protected string RootDirectoryPath
-    {
-        get; private set;
-    }
+    protected string RootDirectoryPath { get; }
 
     protected abstract IEnumerable<string> GetOrderedPaths(IEnumerable<string> paths);
 
