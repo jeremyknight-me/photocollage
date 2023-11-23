@@ -33,7 +33,8 @@ public abstract class CollagePresenter
 
     public void Start()
     {
-        foreach (var screen in Monitors.Monitor.GetScreens())
+        var screens = Monitors.Monitor.GetScreens();
+        foreach (var screen in screens)
         {
             var collageWindow = new CollageWindow();
             this.SetupWindow(collageWindow, screen);

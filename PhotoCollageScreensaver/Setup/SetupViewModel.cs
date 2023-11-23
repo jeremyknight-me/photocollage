@@ -2,8 +2,8 @@
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Windows.Forms;
 using System.Windows.Input;
+using Microsoft.Win32;
 using PhotoCollage.Common.Settings;
 using PhotoCollageScreensaver.Collage.Presenters;
 using PhotoCollageScreensaver.Commands;
@@ -50,7 +50,6 @@ public class SetupViewModel : INotifyPropertyChanged
     public ICommand SaveCommand { get; private set; }
     public ICommand CancelCommand { get; private set; }
     public ICommand SelectDirectoryCommand { get; private set; }
-
 
     public ObservableCollection<KeyValuePair<string, string>> BorderOptions { get; set; }
     public ObservableCollection<string> SpeedOptions { get; set; }
@@ -145,27 +144,26 @@ public class SetupViewModel : INotifyPropertyChanged
 
     private void RequestDirectoryFromUser()
     {
-        var dialog = new FolderBrowserDialog
+        var dialog = new OpenFolderDialog
         {
-            ShowNewFolderButton = false
+            Title = "Select Folder",
+            Multiselect = false,
+            AddToRecent = false
         };
         if (!string.IsNullOrWhiteSpace(this.Config.Directory))
         {
-            dialog.SelectedPath = this.Config.Directory;
+            dialog.DefaultDirectory = this.Config.Directory;
+            dialog.InitialDirectory = this.Config.Directory;
         }
 
         var result = dialog.ShowDialog();
-        if (result == DialogResult.OK)
+        if (result.HasValue && result.Value)
         {
-            var path = dialog.SelectedPath;
-            if (!string.IsNullOrEmpty(path))
+            var path = dialog.FolderName;
+            if (!string.IsNullOrWhiteSpace(path))
             {
                 this.SelectedDirectory = path;
             }
-        }
-        else if (result != DialogResult.Cancel)
-        {
-            this.SelectedDirectory = string.Empty;
         }
     }
 

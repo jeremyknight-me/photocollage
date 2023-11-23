@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:PhotoCollageScreensaver.Views"
         mc:Ignorable="d"
         Title="Photo Screensaver"
-        Topmost="True"
+        Topmost="False"
         AllowsTransparency="True"
         Background="Black"
         Cursor="None"
