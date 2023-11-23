@@ -25,6 +25,11 @@ public class TextLogger : ILogger
             lines.Add(exception.StackTrace);
         }
 
+        if (!Directory.Exists(this.directory))
+        {
+            Directory.CreateDirectory(this.directory);
+        }
+
         var fullPath = Path.Combine(this.directory, $"log-{DateTime.Today:yyyy-MM-dd}.txt");
         File.AppendAllLines(fullPath, lines);
     }
