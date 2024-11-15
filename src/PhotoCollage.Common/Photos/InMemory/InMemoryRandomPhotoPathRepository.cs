@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using PhotoCollage.Common.Settings;
+﻿using PhotoCollage.Common.Settings;
 
 namespace PhotoCollage.Common.Photos.InMemory;
 

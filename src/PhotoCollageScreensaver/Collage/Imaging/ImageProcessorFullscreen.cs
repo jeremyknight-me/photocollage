@@ -1,10 +1,8 @@
 ﻿using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Linq;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using PhotoCollage.Common.Settings;
 
 namespace PhotoCollageScreensaver.Collage.Imaging;
 
@@ -94,6 +92,7 @@ internal sealed class ImageProcessorFullscreen : ImageProcessor
             scaledWidth = view.WindowActualWidth / original.Width;
             scaledWidth = scaledHeight = scaledHeight > scaledWidth ? scaledWidth : scaledHeight;
         }
+
         RenderOptions.SetBitmapScalingMode(original, BitmapScalingMode.HighQuality);
         var transform = new ScaleTransform(scaledWidth, scaledHeight);
         return new TransformedBitmap(original, transform);

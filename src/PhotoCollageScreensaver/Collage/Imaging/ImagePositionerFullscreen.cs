@@ -1,5 +1,4 @@
 ﻿using System.Windows.Controls;
-using PhotoCollage.Common.Settings;
 using PhotoCollageScreensaver.Collage.Presenters;
 
 namespace PhotoCollageScreensaver.Collage.Imaging;

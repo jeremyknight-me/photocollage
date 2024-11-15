@@ -1,10 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 using System.Windows.Input;
-using PhotoCollage.Common.Settings;
 using PhotoCollageScreensaver.Collage.Presenters;
 using PhotoCollageScreensaver.Commands;
 
@@ -50,7 +48,6 @@ public class SetupViewModel : INotifyPropertyChanged
     public ICommand SaveCommand { get; private set; }
     public ICommand CancelCommand { get; private set; }
     public ICommand SelectDirectoryCommand { get; private set; }
-
 
     public ObservableCollection<KeyValuePair<string, string>> BorderOptions { get; set; }
     public ObservableCollection<string> SpeedOptions { get; set; }

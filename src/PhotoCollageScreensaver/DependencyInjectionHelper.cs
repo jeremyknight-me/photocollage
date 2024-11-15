@@ -3,7 +3,6 @@ using Microsoft.Extensions.DependencyInjection;
 using PhotoCollage.Common.Photos;
 using PhotoCollage.Common.Photos.FileSystem;
 using PhotoCollage.Common.Photos.InMemory;
-using PhotoCollage.Common.Settings;
 using PhotoCollageScreensaver.Collage.Presenters;
 using PhotoCollageScreensaver.Logging;
 using PhotoCollageScreensaver.Setup;

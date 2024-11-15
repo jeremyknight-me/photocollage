@@ -3,7 +3,6 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
-using PhotoCollage.Common.Settings;
 using PhotoCollageScreensaver.Collage.Presenters;
 
 namespace PhotoCollageScreensaver.Collage;
@@ -26,7 +25,7 @@ public partial class CollageImage : UserControl, IDisposable
     public bool IsPortrait { get; private set; }
 
     public static CollageImage Create(string path, CollagePresenter presenterToUse, ICollageView view)
-        => new(path, presenterToUse, view); 
+        => new(path, presenterToUse, view);
 
     public void FadeOutImage(Action<CollageImage> onCompletedAction)
     {
@@ -81,6 +80,7 @@ public partial class CollageImage : UserControl, IDisposable
                 this.MainImage.MaxWidth = this.presenter.Configuration.MaximumSize;
                 this.RotateImageFrame();
             }
+
             this.LoadImage();
         }
         catch (Exception ex)

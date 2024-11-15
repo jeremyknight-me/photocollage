@@ -1,6 +1,5 @@
 ﻿using System.Collections.Concurrent;
 using PhotoCollage.Common.Photos;
-using PhotoCollage.Common.Settings;
 using PhotoCollageScreensaver.Collage.Imaging;
 using PhotoCollageScreensaver.Logging;
 
@@ -100,8 +99,10 @@ internal sealed class CollagePresenterFullscreen : CollagePresenter
             {
                 throw new Exception("AddImageToQueue retry count failed");
             }
+
             this.AddImageToQueue(retryCount++);
         }
+
         this.imageQueues[this.DisplayViewIndex].Enqueue(control);
         return control;
     }

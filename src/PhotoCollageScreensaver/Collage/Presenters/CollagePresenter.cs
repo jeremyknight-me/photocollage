@@ -1,7 +1,6 @@
 ﻿using System.Windows.Media;
 using System.Windows.Threading;
 using PhotoCollage.Common.Photos;
-using PhotoCollage.Common.Settings;
 using PhotoCollageScreensaver.Collage.Imaging;
 using PhotoCollageScreensaver.Logging;
 
@@ -24,7 +23,7 @@ public abstract class CollagePresenter
     }
 
     public CollageSettings Configuration => this.SettingsRepository.Current;
-    public  ILogger Logger { get; }
+    public ILogger Logger { get; }
 
     protected int DisplayViewIndex { get; set; } = -1;
     protected IPhotoPathRepository PhotoPathRepository { get; }

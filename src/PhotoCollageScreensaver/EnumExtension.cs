@@ -1,8 +1,4 @@
-﻿using System.Linq;
-
-namespace PhotoCollageScreensaver;
-
-using System.Collections.Generic;
+﻿namespace PhotoCollageScreensaver;
 
 public static class EnumExtension
 {

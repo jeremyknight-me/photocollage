@@ -1,5 +1,4 @@
 ﻿using System.Collections.Concurrent;
-using System.IO;
 using PhotoCollage.Common.Settings;
 
 namespace PhotoCollage.Common.Photos.InMemory;
