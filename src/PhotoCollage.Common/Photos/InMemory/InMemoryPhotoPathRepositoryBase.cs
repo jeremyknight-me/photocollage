@@ -14,20 +14,25 @@ public abstract class InMemoryPhotoPathRepositoryBase : IPhotoPathRepository
 
     public bool HasPhotos => !this.Paths.IsEmpty;
 
-    protected ConcurrentBag<string> DisplayedPaths { get; } = new();
-    protected ConcurrentQueue<string> Paths { get; } = new();
+    protected ConcurrentBag<string> DisplayedPaths { get; } = [];
+    protected ConcurrentQueue<string> Paths { get; } = [];
 
     public string GetNextPath()
     {
-        if (!this.Paths.TryDequeue(out var path))
+        string path, fullPath;
+        do
         {
-            this.LoadPaths(this.DisplayedPaths);
-            this.DisplayedPaths.Clear();
-            this.Paths.TryDequeue(out path);
-        }
+            path = this.GetNextPathIncludeReload();
+            if (string.IsNullOrWhiteSpace(path))
+            {
+                return string.Empty;
+            }
+
+            fullPath = Path.Combine(this.settingsRepo.Current.Directory, path);
+        } while (!File.Exists(fullPath));
 
         this.DisplayedPaths.Add(path);
-        return Path.Combine(this.settingsRepo.Current.Directory, path);
+        return fullPath;
     }
 
     public abstract void LoadPaths(IEnumerable<string> paths);
@@ -39,5 +44,19 @@ public abstract class InMemoryPhotoPathRepositoryBase : IPhotoPathRepository
         {
             this.Paths.Enqueue(path);
         }
+    }
+
+    private string GetNextPathIncludeReload()
+    {
+        if (this.Paths.TryDequeue(out var path))
+        {
+            return path;
+        }
+
+        this.LoadPaths(this.DisplayedPaths);
+        this.DisplayedPaths.Clear();
+        return this.Paths.IsEmpty
+            ? string.Empty
+            : this.GetNextPathIncludeReload();
     }
 }
