@@ -18,7 +18,7 @@
         <RepositoryUrl>https://github.com/jeremyknight-me/photocollage</RepositoryUrl>
         <PackageProjectUrl>https://github.com/jeremyknight-me/photocollage</PackageProjectUrl>
         <Copyright>Jeremy Knight</Copyright>
-        <Version>6.0.0</Version>
+        <Version>5.0.0</Version>
     </PropertyGroup>
 
     <ItemGroup>
