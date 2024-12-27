@@ -8,7 +8,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 ## Unreleased 
 
 ### Changed
- * Upgraded to .NET 7.
+ * Upgraded to .NET 9.
 
 ### Added
  * Added option for full-screen
