@@ -1,8 +1,8 @@
 ﻿using System.Windows.Media;
 using System.Windows.Threading;
-using PhotoCollage.Common.Photos;
 using PhotoCollageScreensaver.Collage.Imaging;
 using PhotoCollageScreensaver.Logging;
+using PhotoCollageScreensaver.Photos;
 
 namespace PhotoCollageScreensaver.Collage.Presenters;
 

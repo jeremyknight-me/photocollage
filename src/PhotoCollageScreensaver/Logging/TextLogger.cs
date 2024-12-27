@@ -1,6 +1,4 @@
-﻿using System.IO;
-
-namespace PhotoCollageScreensaver.Logging;
+﻿namespace PhotoCollageScreensaver.Logging;
 
 public class TextLogger : ILogger
 {

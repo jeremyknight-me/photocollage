@@ -1,7 +1,7 @@
 ﻿using System.Collections.Concurrent;
-using PhotoCollage.Common.Photos;
 using PhotoCollageScreensaver.Collage.Imaging;
 using PhotoCollageScreensaver.Logging;
+using PhotoCollageScreensaver.Photos;
 
 namespace PhotoCollageScreensaver.Collage.Presenters;
 
