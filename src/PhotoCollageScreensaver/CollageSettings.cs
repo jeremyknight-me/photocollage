@@ -1,4 +1,4 @@
-﻿namespace PhotoCollage.Common.Settings;
+﻿namespace PhotoCollageScreensaver;
 
 public sealed class CollageSettings
 {

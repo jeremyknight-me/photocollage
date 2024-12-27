@@ -1,10 +1,9 @@
-﻿using System.IO;
-using Microsoft.Extensions.DependencyInjection;
-using PhotoCollage.Common.Photos;
-using PhotoCollage.Common.Photos.FileSystem;
-using PhotoCollage.Common.Photos.InMemory;
+﻿using Microsoft.Extensions.DependencyInjection;
 using PhotoCollageScreensaver.Collage.Presenters;
 using PhotoCollageScreensaver.Logging;
+using PhotoCollageScreensaver.Photos;
+using PhotoCollageScreensaver.Photos.FileSystem;
+using PhotoCollageScreensaver.Photos.InMemory;
 using PhotoCollageScreensaver.Setup;
 using PhotoCollageScreensaver.Views;
 

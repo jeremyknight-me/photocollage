@@ -1,6 +1,4 @@
-﻿using PhotoCollage.Common.Settings;
-
-namespace PhotoCollage.Common.Photos.InMemory;
+﻿namespace PhotoCollageScreensaver.Photos.InMemory;
 
 public sealed class InMemoryOrderedPhotoPathRepository : InMemoryPhotoPathRepositoryBase
 {

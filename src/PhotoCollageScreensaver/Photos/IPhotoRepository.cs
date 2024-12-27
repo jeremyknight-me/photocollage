@@ -1,4 +1,4 @@
-﻿namespace PhotoCollage.Common.Photos;
+﻿namespace PhotoCollageScreensaver.Photos;
 
 public interface IPhotoRepository
 {

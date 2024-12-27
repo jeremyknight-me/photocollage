@@ -1,7 +1,6 @@
 ﻿using System.Collections.Concurrent;
-using PhotoCollage.Common.Settings;
 
-namespace PhotoCollage.Common.Photos.FileSystem;
+namespace PhotoCollageScreensaver.Photos.FileSystem;
 
 public sealed class FileSystemPhotoRepository : IPhotoRepository
 {
