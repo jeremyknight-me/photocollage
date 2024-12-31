@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 
 ### Changed
  * Upgraded to .NET 9.
+ * Optimized photo loading based on benchmark testing.
 
 ### Added
  * Added option for full-screen

@@ -1,6 +1,4 @@
-﻿using System.Collections.Concurrent;
-
-namespace PhotoCollageScreensaver.Photos.FileSystem;
+﻿namespace PhotoCollageScreensaver.Photos.FileSystem;
 
 public sealed class FileSystemPhotoRepository : IPhotoRepository
 {
@@ -17,36 +15,14 @@ public sealed class FileSystemPhotoRepository : IPhotoRepository
 
     public void LoadPhotoPaths()
     {
-        var files = Directory.EnumerateFiles(this.settingsRepo.Current.Directory, "*", SearchOption.AllDirectories);
-        var paths = this.GetPathsWithExtension(files);
-        this.photoPathRepo.LoadPaths(paths);
-    }
-
-    private IEnumerable<string> GetPathsWithExtension(IEnumerable<string> files)
-    {
-        var extensions = new HashSet<string> { ".jpg", ".jpeg", ".png" };
         var length = this.settingsRepo.Current.Directory.Length;
-        var paths = new ConcurrentQueue<string>();
-        var exceptions = new ConcurrentQueue<Exception>();
-        Parallel.ForEach(files, file =>
-        {
-            try
-            {
-                var fileExtension = Path.GetExtension(file);
-                if (extensions.Contains(fileExtension, StringComparer.OrdinalIgnoreCase))
-                {
-                    var path = file.Remove(0, length).TrimStart(new[] { '\\' });
-                    paths.Enqueue(path);
-                }
-            }
-            catch (Exception ex)
-            {
-                exceptions.Enqueue(ex);
-            }
-        });
-
-        return exceptions.IsEmpty
-            ? paths
-            : throw new AggregateException(exceptions);
+        var paths = Directory.EnumerateFiles(this.settingsRepo.Current.Directory, "*.*", SearchOption.AllDirectories)
+            .Where(f =>
+                f.EndsWith(".jpg", StringComparison.OrdinalIgnoreCase)
+                || f.EndsWith(".jpeg", StringComparison.OrdinalIgnoreCase)
+                || f.EndsWith(".png", StringComparison.OrdinalIgnoreCase))
+            .Select(f => f[length..].TrimStart(['\\']))
+            .ToArray();
+        this.photoPathRepo.LoadPaths(paths);
     }
 }
