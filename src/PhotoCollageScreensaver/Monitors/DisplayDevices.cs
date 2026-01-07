@@ -34,7 +34,7 @@ internal static class DisplayDevices
     internal class MONITORINFO
     {
 #pragma warning disable IDE1006 // Naming Styles
-        internal int cbSize = Marshal.SizeOf(typeof(MONITORINFO));
+        internal int cbSize = Marshal.SizeOf<MONITORINFO>();
         internal RECT rcMonitor = new();
         internal RECT rcWork = new();
         internal int dwFlags;

@@ -133,5 +133,6 @@ public partial class CollageImage : UserControl, IDisposable
         MainImage.Source = null;
         MainStackPanel = null;
         DataContext = null;
+        GC.SuppressFinalize(this);
     }
 }
