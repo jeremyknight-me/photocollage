@@ -7,7 +7,7 @@ namespace PhotoCollageScreensaver.Collage.Presenters;
 
 internal sealed class CollagePresenterCollage : CollagePresenter
 {
-    private readonly ConcurrentQueue<CollageImage> imageQueue = new();
+    private readonly ConcurrentQueue<CollageImage> _imageQueue = new();
 
     public CollagePresenterCollage(
         ILogger logger,
@@ -22,43 +22,43 @@ internal sealed class CollagePresenterCollage : CollagePresenter
     {
         try
         {
-            var path = this.PhotoPathRepository.GetNextPath();
-            var view = this.GetNextDisplayView();
-            var control = CollageImage.Create(path, this, this.Views[this.DisplayViewIndex]);
+            var path = PhotoPathRepository.GetNextPath();
+            ICollageView view = GetNextDisplayView();
+            var control = CollageImage.Create(path, this, Views[DisplayViewIndex]);
             view.ImageCanvas.Children.Add(control);
-            this.imageQueue.Enqueue(control);
+            _imageQueue.Enqueue(control);
 
-            if (this.imageQueue.Count > this.SettingsRepository.Current.NumberOfPhotos)
+            if (_imageQueue.Count > SettingsRepository.Current.NumberOfPhotos)
             {
-                this.RemoveImageFromPanel(control);
+                RemoveImageFromPanel(control);
             }
 
-            this.SetUserControlPosition(control, view);
+            SetUserControlPosition(control, view);
         }
         catch (Exception ex)
         {
-            this.Logger.Log(ex);
+            Logger.Log(ex);
             ShutdownHelper.Shutdown();
         }
     }
 
     private ICollageView GetNextDisplayView()
     {
-        var nextIndex = this.DisplayViewIndex + 1;
-        if (nextIndex >= this.Views.Count)
+        var nextIndex = DisplayViewIndex + 1;
+        if (nextIndex >= Views.Count)
         {
             nextIndex = 0;
         }
 
-        this.DisplayViewIndex = nextIndex;
-        return this.Views[nextIndex];
+        DisplayViewIndex = nextIndex;
+        return Views[nextIndex];
     }
 
     private void RemoveImageFromPanel(CollageImage control)
     {
         try
         {
-            foreach (var view in this.Views)
+            foreach (ICollageView view in Views)
             {
                 if (view.ImageCanvas.Children.Contains(control))
                 {
@@ -70,7 +70,7 @@ internal sealed class CollagePresenterCollage : CollagePresenter
         }
         catch (Exception ex)
         {
-            this.Logger.Log(ex);
+            Logger.Log(ex);
         }
     }
 

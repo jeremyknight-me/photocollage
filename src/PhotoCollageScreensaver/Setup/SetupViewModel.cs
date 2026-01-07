@@ -10,34 +10,34 @@ namespace PhotoCollageScreensaver.Setup;
 
 public class SetupViewModel : INotifyPropertyChanged
 {
-    private readonly CollagePresenter presenter;
-    private readonly ISettingsRepository settingsRepo;
-    private readonly IDictionary<BorderType, KeyValuePair<string, string>> borderTypePairs = BorderTypeHelper.MakeDictionary();
-    private readonly IDictionary<ScreensaverSpeed, string> speedPairs = ScreensaverSpeedHelper.MakeDictionary();
-    private readonly IDictionary<FullScreenMode, KeyValuePair<string, string>> fullscreenModePairs = FullScreenModeHelper.MakeDictionary();
+    private readonly CollagePresenter _presenter;
+    private readonly ISettingsRepository _settingsRepo;
+    private readonly IDictionary<BorderType, KeyValuePair<string, string>> _borderTypePairs = BorderTypeHelper.MakeDictionary();
+    private readonly IDictionary<ScreensaverSpeed, string> _speedPairs = ScreensaverSpeedHelper.MakeDictionary();
+    private readonly IDictionary<FullScreenMode, KeyValuePair<string, string>> _fullscreenModePairs = FullScreenModeHelper.MakeDictionary();
 
     public SetupViewModel(
         CollagePresenter collagePresenter,
         ISettingsRepository settingsRepository)
     {
-        this.presenter = collagePresenter;
-        this.settingsRepo = settingsRepository;
+        _presenter = collagePresenter;
+        _settingsRepo = settingsRepository;
 
-        this.BorderOptions = new ObservableCollection<KeyValuePair<string, string>>(this.borderTypePairs.Values);
-        this.SpeedOptions = new ObservableCollection<string>(this.speedPairs.Values);
-        this.FullScreenModeOptions = new ObservableCollection<KeyValuePair<string, string>>(this.fullscreenModePairs.Values);
+        BorderOptions = new ObservableCollection<KeyValuePair<string, string>>(_borderTypePairs.Values);
+        SpeedOptions = new ObservableCollection<string>(_speedPairs.Values);
+        FullScreenModeOptions = new ObservableCollection<KeyValuePair<string, string>>(_fullscreenModePairs.Values);
 
-        this.PreviewCommand = new RelayCommand((obj) => this.presenter.Start());
-        this.OkCommand = new RelayCommand(obj =>
+        PreviewCommand = new RelayCommand((obj) => _presenter.Start());
+        OkCommand = new RelayCommand(obj =>
         {
-            this.settingsRepo.Save();
+            _settingsRepo.Save();
             ShutdownHelper.Shutdown();
         });
-        this.SaveCommand = new RelayCommand(obj => this.settingsRepo.Save());
-        this.CancelCommand = new ShutdownCommand();
-        this.SelectDirectoryCommand = new RelayCommand(obj =>
+        SaveCommand = new RelayCommand(obj => _settingsRepo.Save());
+        CancelCommand = new ShutdownCommand();
+        SelectDirectoryCommand = new RelayCommand(obj =>
         {
-            this.RequestDirectoryFromUser();
+            RequestDirectoryFromUser();
         });
     }
 
@@ -55,90 +55,90 @@ public class SetupViewModel : INotifyPropertyChanged
 
     public KeyValuePair<string, string> SelectedBorderType
     {
-        get => this.borderTypePairs[this.Config.PhotoBorderType];
+        get => _borderTypePairs[Config.PhotoBorderType];
         set
         {
-            var pair = this.borderTypePairs.Single(x => x.Value.Key == value.Key);
-            this.Config.PhotoBorderType = pair.Key;
+            KeyValuePair<BorderType, KeyValuePair<string, string>> pair = _borderTypePairs.Single(x => x.Value.Key == value.Key);
+            Config.PhotoBorderType = pair.Key;
         }
     }
 
     public KeyValuePair<string, string> SelectedFullScreenMode
     {
-        get => this.fullscreenModePairs[this.Config.PhotoFullScreenMode];
+        get => _fullscreenModePairs[Config.PhotoFullScreenMode];
         set
         {
-            var pair = this.fullscreenModePairs.Single(x => x.Value.Key == value.Key);
-            this.Config.PhotoFullScreenMode = pair.Key;
+            KeyValuePair<FullScreenMode, KeyValuePair<string, string>> pair = _fullscreenModePairs.Single(x => x.Value.Key == value.Key);
+            Config.PhotoFullScreenMode = pair.Key;
         }
     }
 
     public string SelectedDirectory
     {
-        get => this.Config.Directory;
+        get => Config.Directory;
         set
         {
-            if (value != this.Config.Directory)
+            if (value != Config.Directory)
             {
-                this.Config.Directory = value;
-                this.NotifyPropertyChanged();
+                Config.Directory = value;
+                NotifyPropertyChanged();
             }
         }
     }
 
     public double SelectedOpacity
     {
-        get => this.Config.Opacity * 100.0;
+        get => Config.Opacity * 100.0;
         set
         {
-            this.Config.Opacity = value / 100.0;
-            this.NotifyPropertyChanged();
+            Config.Opacity = value / 100.0;
+            NotifyPropertyChanged();
         }
     }
 
     public string SelectedSpeed
     {
-        get => this.speedPairs[this.Config.Speed];
+        get => _speedPairs[Config.Speed];
         set
         {
-            var pair = this.speedPairs.Single(x => x.Value == value);
-            this.Config.Speed = pair.Key;
+            KeyValuePair<ScreensaverSpeed, string> pair = _speedPairs.Single(x => x.Value == value);
+            Config.Speed = pair.Key;
         }
     }
 
-    public bool NumberOfPhotosEnabled => !this.Config.IsFullScreen;
-    public bool MaximumPhotoSizeSliderEnabled => !this.Config.IsFullScreen;
+    public bool NumberOfPhotosEnabled => !Config.IsFullScreen;
+    public bool MaximumPhotoSizeSliderEnabled => !Config.IsFullScreen;
 
-    public bool FullScreenModeComboBoxEnabled => this.Config.IsFullScreen;
-    public bool RotateBasedOnEXIFEnabled => this.Config.IsFullScreen;
+    public bool FullScreenModeComboBoxEnabled => Config.IsFullScreen;
+    public bool RotateBasedOnEXIFEnabled => Config.IsFullScreen;
 
     public bool RotateBasedOnEXIFCheck
     {
-        get => this.Config.RotateBasedOnEXIF;
+        get => Config.RotateBasedOnEXIF;
         set
         {
-            this.Config.RotateBasedOnEXIF = value;
-            this.NotifyPropertyChanged();
+            Config.RotateBasedOnEXIF = value;
+            NotifyPropertyChanged();
         }
     }
 
     public bool FullScreenCheck
     {
-        get => this.Config.IsFullScreen;
+        get => Config.IsFullScreen;
         set
         {
-            this.Config.IsFullScreen = value;
-            this.RotateBasedOnEXIFCheck = false;
-            this.NotifyPropertyChanged();
-            this.NotifyPropertyChanged(nameof(this.NumberOfPhotosEnabled));
-            this.NotifyPropertyChanged(nameof(this.MaximumPhotoSizeSliderEnabled));
-            this.NotifyPropertyChanged(nameof(this.RotateBasedOnEXIFCheck));
-            this.NotifyPropertyChanged(nameof(this.RotateBasedOnEXIFEnabled));
-            this.NotifyPropertyChanged(nameof(this.FullScreenModeComboBoxEnabled));
+            Config.IsFullScreen = value;
+            RotateBasedOnEXIFCheck = false;
+            NotifyPropertyChanged();
+            NotifyPropertyChanged(nameof(NumberOfPhotosEnabled));
+            NotifyPropertyChanged(nameof(MaximumPhotoSizeSliderEnabled));
+            NotifyPropertyChanged(nameof(RotateBasedOnEXIFCheck));
+            NotifyPropertyChanged(nameof(RotateBasedOnEXIFEnabled));
+            NotifyPropertyChanged(nameof(FullScreenModeComboBoxEnabled));
         }
     }
 
-    protected CollageSettings Config => this.settingsRepo.Current;
+    protected CollageSettings Config => _settingsRepo.Current;
 
     private void RequestDirectoryFromUser()
     {
@@ -146,27 +146,27 @@ public class SetupViewModel : INotifyPropertyChanged
         {
             ShowNewFolderButton = false
         };
-        if (!string.IsNullOrWhiteSpace(this.Config.Directory))
+        if (!string.IsNullOrWhiteSpace(Config.Directory))
         {
-            dialog.SelectedPath = this.Config.Directory;
+            dialog.SelectedPath = Config.Directory;
         }
 
-        var result = dialog.ShowDialog();
+        DialogResult result = dialog.ShowDialog();
         if (result == DialogResult.OK)
         {
             var path = dialog.SelectedPath;
             if (!string.IsNullOrEmpty(path))
             {
-                this.SelectedDirectory = path;
+                SelectedDirectory = path;
             }
         }
         else if (result != DialogResult.Cancel)
         {
-            this.SelectedDirectory = string.Empty;
+            SelectedDirectory = string.Empty;
         }
     }
 
-    public void Save() => this.settingsRepo.Save();
+    public void Save() => _settingsRepo.Save();
 
     // This method is called by the Set accessor of each property.  
     // The CallerMemberName attribute that is applied to the optional propertyName  

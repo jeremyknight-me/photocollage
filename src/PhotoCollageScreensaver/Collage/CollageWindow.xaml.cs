@@ -5,17 +5,17 @@ namespace PhotoCollageScreensaver.Collage;
 
 public partial class CollageWindow : Window, ICollageView
 {
-    private Point? initialMousePosition;
+    private Point? _initialMousePosition;
 
     public CollageWindow()
     {
-        this.InitializeComponent();
+        InitializeComponent();
     }
 
-    public Canvas ImageCanvas => this.MainCanvas;
-    public double WindowActualHeight => this.ActualHeight;
-    public double WindowActualWidth => this.ActualWidth;
-    public bool IsPortrait => this.ActualHeight > this.ActualWidth;
+    public Canvas ImageCanvas => MainCanvas;
+    public double WindowActualHeight => ActualHeight;
+    public double WindowActualWidth => ActualWidth;
+    public bool IsPortrait => ActualHeight > ActualWidth;
 
     private void Window_KeyDown(object sender, KeyEventArgs e) => ShutdownHelper.Shutdown();
     private void Window_MouseDown(object sender, MouseButtonEventArgs e) => ShutdownHelper.Shutdown();
@@ -24,14 +24,14 @@ public partial class CollageWindow : Window, ICollageView
     private void Window_MouseMove(object sender, MouseEventArgs e)
     {
         // Shut down application when mouse has moved significantly
-        var position = e.GetPosition(this);
+        Point position = e.GetPosition(this);
 
-        if (!this.initialMousePosition.HasValue)
+        if (!_initialMousePosition.HasValue)
         {
-            this.initialMousePosition = position;
+            _initialMousePosition = position;
         }
-        else if (Math.Abs(this.initialMousePosition.Value.X - position.X) > 10
-            || Math.Abs(this.initialMousePosition.Value.Y - position.Y) > 10)
+        else if (Math.Abs(_initialMousePosition.Value.X - position.X) > 10
+            || Math.Abs(_initialMousePosition.Value.Y - position.Y) > 10)
         {
             ShutdownHelper.Shutdown();
         }

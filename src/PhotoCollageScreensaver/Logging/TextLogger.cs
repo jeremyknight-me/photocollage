@@ -2,32 +2,32 @@
 
 public class TextLogger : ILogger
 {
-    private readonly ISettingsRepository settingsRepo;
-    private readonly string directory;
+    private readonly ISettingsRepository _settingsRepo;
+    private readonly string _directory;
 
     public TextLogger(
         string localDataDirectory,
         ISettingsRepository settingsRepository)
     {
-        this.directory = Path.Combine(localDataDirectory, @"logs");
-        this.settingsRepo = settingsRepository;
+        _directory = Path.Combine(localDataDirectory, @"logs");
+        _settingsRepo = settingsRepository;
     }
 
     public void Log(Exception exception)
     {
-        var lines = new List<string> { $"\n{DateTime.Now}  ==>  {exception.Message}" };
-        if (this.settingsRepo.Current.UseVerboseLogging)
+        List<string> lines = [$"\n{DateTime.Now}  ==>  {exception.Message}"];
+        if (_settingsRepo.Current.UseVerboseLogging)
         {
             lines.Add("Stack Trace:");
             lines.Add(exception.StackTrace);
         }
 
-        if (!Directory.Exists(this.directory))
+        if (!Directory.Exists(_directory))
         {
-            Directory.CreateDirectory(this.directory);
+            Directory.CreateDirectory(_directory);
         }
 
-        var fullPath = Path.Combine(this.directory, $"log-{DateTime.Today:yyyy-MM-dd}.txt");
+        var fullPath = Path.Combine(_directory, $"log-{DateTime.Today:yyyy-MM-dd}.txt");
         File.AppendAllLines(fullPath, lines);
     }
 }

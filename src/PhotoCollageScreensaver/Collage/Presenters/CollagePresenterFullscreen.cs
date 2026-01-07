@@ -1,4 +1,5 @@
 ﻿using System.Collections.Concurrent;
+using System.Windows.Media.Imaging;
 using PhotoCollageScreensaver.Collage.Imaging;
 using PhotoCollageScreensaver.Logging;
 using PhotoCollageScreensaver.Photos;
@@ -7,9 +8,9 @@ namespace PhotoCollageScreensaver.Collage.Presenters;
 
 internal sealed class CollagePresenterFullscreen : CollagePresenter
 {
-    private readonly List<ConcurrentQueue<CollageImage>> imageQueues = new();
-    private readonly Queue<string> skippedPortraitImagePaths = new();
-    private readonly Queue<string> skippedLandscapeImagePaths = new();
+    private readonly List<ConcurrentQueue<CollageImage>> _imageQueues = [];
+    private readonly Queue<string> _skippedPortraitImagePaths = new();
+    private readonly Queue<string> _skippedLandscapeImagePaths = new();
 
     public CollagePresenterFullscreen(
         ILogger logger,
@@ -24,38 +25,38 @@ internal sealed class CollagePresenterFullscreen : CollagePresenter
     {
         try
         {
-            foreach (var (view, index) in this.Views.WithIndex())
+            foreach ((ICollageView view, var index) in Views.WithIndex())
             {
-                this.DisplayViewIndex = index;
-                this.RemoveImageFromQueue();
-                var control = this.AddImageToQueue();
-                this.SetUserControlPosition(control, view);
+                DisplayViewIndex = index;
+                RemoveImageFromQueue();
+                CollageImage control = AddImageToQueue();
+                SetUserControlPosition(control, view);
             }
         }
         catch (Exception ex)
         {
-            this.Logger.Log(ex);
+            Logger.Log(ex);
             ShutdownHelper.Shutdown();
         }
     }
 
     private CollageImage GetNextImageForView()
     {
-        var view = this.Views[this.DisplayViewIndex];
-        if (view.IsPortrait && this.skippedPortraitImagePaths.Count > 0)
+        ICollageView view = Views[DisplayViewIndex];
+        if (view.IsPortrait && _skippedPortraitImagePaths.Count > 0)
         {
-            return CollageImage.Create(this.skippedPortraitImagePaths.Dequeue(), this, view);
+            return CollageImage.Create(_skippedPortraitImagePaths.Dequeue(), this, view);
         }
-        else if (!view.IsPortrait && this.skippedLandscapeImagePaths.Count > 0)
+        else if (!view.IsPortrait && _skippedLandscapeImagePaths.Count > 0)
         {
-            return CollageImage.Create(this.skippedLandscapeImagePaths.Dequeue(), this, view);
+            return CollageImage.Create(_skippedLandscapeImagePaths.Dequeue(), this, view);
         }
 
         for (var i = 0; i < 10; i++) // Only go through this 10 iterations and if we don't get a perfect fit just return the next image after that
         {
-            var path = this.PhotoPathRepository.GetNextPath();
-            var processor = ImageProcessorFullscreen.Create(path, this.SettingsRepository.Current);
-            var image = processor.GetImage();
+            var path = PhotoPathRepository.GetNextPath();
+            var processor = ImageProcessorFullscreen.Create(path, SettingsRepository.Current);
+            BitmapSource image = processor.GetImage();
             var isImagePortait = image.Height > image.Width;
             isImagePortait = processor.ImageIsRotatedPlusMinusNinetyDegrees ? !isImagePortait : isImagePortait;
 
@@ -71,47 +72,47 @@ internal sealed class CollagePresenterFullscreen : CollagePresenter
             {
                 if (isImagePortait)
                 {
-                    this.skippedPortraitImagePaths.Enqueue(path);
+                    _skippedPortraitImagePaths.Enqueue(path);
                 }
                 else
                 {
-                    this.skippedLandscapeImagePaths.Enqueue(path);
+                    _skippedLandscapeImagePaths.Enqueue(path);
                 }
             }
         }
 
         // If we don't get one that fits the monitor alignment just return the next image
-        return CollageImage.Create(this.PhotoPathRepository.GetNextPath(), this, view);
+        return CollageImage.Create(PhotoPathRepository.GetNextPath(), this, view);
     }
 
     private CollageImage AddImageToQueue(int retryCount = 0)
     {
-        var view = this.Views[this.DisplayViewIndex];
-        var control = this.GetNextImageForView();
+        ICollageView view = Views[DisplayViewIndex];
+        CollageImage control = GetNextImageForView();
         try
         {
             view.ImageCanvas.Children.Add(control);
         }
         catch (Exception ex)
         {
-            this.Logger.Log(ex);
+            Logger.Log(ex);
             if (retryCount > 3)
             {
                 throw new Exception("AddImageToQueue retry count failed");
             }
 
-            this.AddImageToQueue(retryCount++);
+            AddImageToQueue(retryCount++);
         }
 
-        this.imageQueues[this.DisplayViewIndex].Enqueue(control);
+        _imageQueues[DisplayViewIndex].Enqueue(control);
         return control;
     }
 
     private void RemoveImageFromQueue()
     {
-        if (this.imageQueues[this.DisplayViewIndex].TryDequeue(out var control))
+        if (_imageQueues[DisplayViewIndex].TryDequeue(out CollageImage control))
         {
-            Action<CollageImage> action = this.RemoveImageFromPanelForView; // RemoveImageFromPanel
+            Action<CollageImage> action = RemoveImageFromPanelForView; // RemoveImageFromPanel
             control.FadeOutImage(action);
         }
     }
@@ -120,7 +121,7 @@ internal sealed class CollagePresenterFullscreen : CollagePresenter
     {
         try
         {
-            var view = this.Views[this.DisplayViewIndex];
+            ICollageView view = Views[DisplayViewIndex];
             if (view.ImageCanvas.Children.Contains(control))
             {
                 view.ImageCanvas.Children.Remove(control);
@@ -129,7 +130,7 @@ internal sealed class CollagePresenterFullscreen : CollagePresenter
         }
         catch (Exception ex)
         {
-            this.Logger.Log(ex);
+            Logger.Log(ex);
         }
     }
 

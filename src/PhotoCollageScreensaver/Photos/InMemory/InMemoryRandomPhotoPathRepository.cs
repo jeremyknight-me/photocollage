@@ -9,7 +9,7 @@ public sealed class InMemoryRandomPhotoPathRepository : InMemoryPhotoPathReposit
 
     public override void LoadPaths(IEnumerable<string> paths)
     {
-        var randomizedPaths = paths.OrderBy(item => Random.Shared.Next());
-        this.LoadPathsIntoQueue(randomizedPaths);
+        IOrderedEnumerable<string> randomizedPaths = paths.OrderBy(item => Random.Shared.Next());
+        LoadPathsIntoQueue(randomizedPaths);
     }
 }

@@ -13,13 +13,13 @@ public sealed class Screen
     /// <param name="height">The height of the display.</param>
     internal Screen(bool primary, int top, int right, int bottom, int left, int width, int height)
     {
-        this.IsPrimary = primary;
-        this.Right = right;
-        this.Left = left;
-        this.Top = top;
-        this.Bottom = bottom;
-        this.Width = width;
-        this.Height = height;
+        IsPrimary = primary;
+        Right = right;
+        Left = left;
+        Top = top;
+        Bottom = bottom;
+        Width = width;
+        Height = height;
     }
 
     /// <summary>Gets a value indicating whether the display device is the primary monitor.</summary>

@@ -24,7 +24,7 @@ internal static class DependencyInjectionHelper
 
         services.AddSingleton<ILogger, TextLogger>(provider =>
         {
-            var settingsRepo = provider.GetRequiredService<ISettingsRepository>();
+            ISettingsRepository settingsRepo = provider.GetRequiredService<ISettingsRepository>();
             return new TextLogger(localDataDirectory, settingsRepo);
         });
 
@@ -35,7 +35,7 @@ internal static class DependencyInjectionHelper
         services.AddSingleton<InMemoryOrderedPhotoPathRepository>();
         services.AddSingleton<IPhotoPathRepository>(provider =>
         {
-            var settingsRepo = provider.GetRequiredService<ISettingsRepository>();
+            ISettingsRepository settingsRepo = provider.GetRequiredService<ISettingsRepository>();
             return settingsRepo.Current.IsRandom
                 ? provider.GetRequiredService<InMemoryRandomPhotoPathRepository>()
                 : provider.GetRequiredService<InMemoryOrderedPhotoPathRepository>();
@@ -45,7 +45,7 @@ internal static class DependencyInjectionHelper
         services.AddTransient<CollagePresenterFullscreen>();
         services.AddTransient<CollagePresenter>(provider =>
         {
-            var settingsRepo = provider.GetRequiredService<ISettingsRepository>();
+            ISettingsRepository settingsRepo = provider.GetRequiredService<ISettingsRepository>();
             return settingsRepo.Current.IsFullScreen
                 ? provider.GetRequiredService<CollagePresenterFullscreen>()
                 : provider.GetRequiredService<CollagePresenterCollage>();
