@@ -8,7 +8,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 ## Unreleased 
 
 ### Changed
- * Upgraded to .NET 9.
+ * Upgraded to .NET 10.
  * Optimized photo loading based on benchmark testing.
 
 ### Added
