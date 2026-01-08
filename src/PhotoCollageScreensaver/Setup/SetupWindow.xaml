@@ -178,7 +178,7 @@
         <TextBlock x:Name="opacityTextBlock"
                    Grid.Row="5"
                    Grid.Column="2"
-                   Text="{Binding SelectedOpacity, StringFormat={}{0:###}}"
+                   Text="{Binding SelectedOpacity, StringFormat={}{0:##0}}"
                    ToolTip="Opacity of the background."
                    Foreground="White"
                    Padding="5, 5, 5, 5" />
@@ -204,7 +204,6 @@
                    Grid.Row="6"
                    Grid.Column="2"
                    Text="{Binding Config.NumberOfPhotos}"
-                   IsEnabled="{Binding NumberOfPhotosEnabled}"
                    ToolTip="Number of photos to display on each monitor."
                    Foreground="White"
                    HorizontalAlignment="Left" 
@@ -232,7 +231,6 @@
                    Grid.Row="7"
                    Grid.Column="2"
                    Text="{Binding Config.MaximumSize}"
-                   IsEnabled="{Binding MaximumPhotoSizeSliderEnabled}"
                    ToolTip="Maximum size of each photo."
                    Foreground="White"
                    Padding="5, 5, 5, 5" />

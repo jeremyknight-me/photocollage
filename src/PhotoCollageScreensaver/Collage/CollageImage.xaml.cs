@@ -144,13 +144,6 @@ public partial class CollageImage : UserControl, IDisposable
     {
         ImageProcessor processor = _presenter.CreateImageProcessor(_filePath);
         MainImage.Source = processor.GetImageSource(_view);
-
-        if (!_presenter.Configuration.IsFullScreen)
-        {
-            MainImage.MaxHeight = MainImage.Source.Height;
-            MainImage.MaxWidth = MainImage.Source.Width;
-        }
-
         IsPortrait = MainImage.Source.Height > MainImage.Source.Width;
     }
 
