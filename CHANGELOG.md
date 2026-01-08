@@ -10,27 +10,31 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 ### Changed
 * Upgraded to .NET 10.
 * Optimized photo loading based on benchmark testing.
+* Changed Settings UI to show all new settings (full-screen, etc.)
 
 ### Added
 * Added option for full-screen
 * Added extra options for transition speed
-* Added option to stretch or center full-screen display
 * Added option to fix rotation based on EXIF metadata for full-screen display
 
 ## [Version 4.0.0](../../releases/tag/v4) - 09 November 2021
+
 ### Changed
 * Upgraded to .NET 6. 
 
 ## [Version 3.0.0](../../releases/tag/v3.0.0) - 29 January 2021
+
 ### Added
 * Added option for background transparency slider.
 * Added option for maximum photo size.
 * Added option for maximum rotation (no UI). 
 * Added preview button to option screen to allow desktop viewing. 
+
 ### Changed
 * Upgraded to .NET 5. 
 * Changed configuration file to use JSON.
 * Changed maximum number of photos to 100 on slider.
+
 ### Removed
 * Removed stand alone desktop version. 
 
