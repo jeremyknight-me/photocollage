@@ -101,7 +101,7 @@ internal sealed class CollagePresenterFullscreen : CollagePresenter
                 throw new Exception("AddImageToQueue retry count failed");
             }
 
-            AddImageToQueue(retryCount++);
+            AddImageToQueue(retryCount + 1);
         }
 
         _imageQueues[DisplayViewIndex].Enqueue(control);

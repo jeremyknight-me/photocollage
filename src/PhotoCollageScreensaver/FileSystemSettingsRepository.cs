@@ -41,6 +41,12 @@ internal class FileSystemSettingsRepository : ISettingsRepository
     public void Load()
     {
         var contents = File.ReadAllText(_filePath);
+        if (string.IsNullOrWhiteSpace(contents))
+        {
+            Current = new CollageSettings();
+            return;
+        }
+
         Current = contents.Trim().StartsWith("<?xml")
             ? LoadFromXml(contents) // provides fallback for upgrades from older version
             : LoadFromJson(contents);

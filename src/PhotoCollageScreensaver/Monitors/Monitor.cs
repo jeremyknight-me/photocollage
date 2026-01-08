@@ -3,7 +3,7 @@
 /// <summary>This class deals with monitors.</summary>
 internal static partial class Monitor
 {
-    private static List<Screen> _screens = null;
+    private static List<Screen> _screens = [];
 
     internal static List<Screen> GetScreens()
     {

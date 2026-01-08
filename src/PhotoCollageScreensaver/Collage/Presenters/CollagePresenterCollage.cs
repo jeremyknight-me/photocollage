@@ -8,7 +8,6 @@ namespace PhotoCollageScreensaver.Collage.Presenters;
 internal sealed class CollagePresenterCollage : CollagePresenter
 {
     private readonly ConcurrentQueue<CollageImage> _imageQueue = new();
-    private readonly ConcurrentQueue<CollageImage> _imagesToRemoveQueue = new();
 
     public CollagePresenterCollage(
         ILogger logger,
