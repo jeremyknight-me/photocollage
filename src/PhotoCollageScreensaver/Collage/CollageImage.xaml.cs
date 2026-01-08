@@ -126,8 +126,8 @@ public partial class CollageImage : UserControl, IDisposable
         using FileStream fs = new(_filePath, FileMode.Open, FileAccess.Read, FileShare.Read);
         BitmapCreateOptions options = BitmapCreateOptions.DelayCreation | BitmapCreateOptions.IgnoreColorProfile | BitmapCreateOptions.IgnoreImageCache;
         BitmapSource image = BitmapFrame.Create(fs, options, BitmapCacheOption.None);
-        var metadata = (BitmapMetadata)image.Metadata;
-        return metadata.DateTaken is null
+        var metadata = image.Metadata as BitmapMetadata;
+        return metadata?.DateTaken is null
             ? File.GetLastWriteTime(_filePath).ToShortDateString()
             : Convert.ToDateTime(metadata.DateTaken).ToShortDateString();
     }

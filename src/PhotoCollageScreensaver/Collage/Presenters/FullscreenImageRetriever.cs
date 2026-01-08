@@ -1,5 +1,4 @@
-﻿using System.Collections.Concurrent;
-using PhotoCollageScreensaver.Photos;
+﻿using PhotoCollageScreensaver.Photos;
 
 namespace PhotoCollageScreensaver.Collage.Presenters;
 
@@ -23,8 +22,8 @@ internal sealed class CenteredImageRetriever(IPhotoPathRepository photoPathRepos
 internal sealed class MatchedImageRetriever(IPhotoPathRepository photoPathRepository)
     : FullscreenImageRetriever(photoPathRepository)
 {
-    private readonly ConcurrentQueue<string> _skippedPortraitPaths = new();
-    private readonly ConcurrentQueue<string> _skippedLandscapePaths = new();
+    private readonly Queue<string> _skippedPortraitPaths = new();
+    private readonly Queue<string> _skippedLandscapePaths = new();
 
     public override CollageImage GetNextImage(ICollageView view, CollagePresenter presenter)
     {

@@ -34,21 +34,20 @@ public class RelayCommand : ICommand
         }
     }
 
-    public bool CanExecute(object parameter) => _canExecute != null && _canExecute(parameter);
+    public bool CanExecute(object parameter) => _canExecute(parameter);
 
     public void Execute(object parameter) => _execute(parameter);
 
     public void OnCanExecuteChanged()
     {
         EventHandler handler = CanExecuteChangedInternal;
-        //DispatcherHelper.BeginInvokeOnUIThread(() => handler.Invoke(this, EventArgs.Empty));
         handler?.Invoke(this, EventArgs.Empty);
     }
 
     public void Destroy()
     {
         _canExecute = _ => false;
-        _execute = _ => { return; };
+        _execute = _ => {};
     }
 
     private static bool DefaultCanExecute(object parameter) => true;

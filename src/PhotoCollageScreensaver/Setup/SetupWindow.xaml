@@ -277,7 +277,7 @@
                   ToolTip="Fix rotation of photo based on EXIF photo metadata."
                   VerticalAlignment="Center" />
 
-        <Label Content="Display Match"
+        <Label Content="Display Match:"
                Target="{Binding ElementName=MatchOrientationCheckBox}"
                ToolTip="Full screen mode. Determine how the photos are displayed on the screen."
                Grid.Row="11" 

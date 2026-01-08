@@ -24,7 +24,7 @@ internal sealed class CollagePresenterCollage : CollagePresenter
         {
             var path = PhotoPathRepository.GetNextPath();
             ICollageView view = GetNextDisplayView();
-            var control = CollageImage.Create(path, this, Views[DisplayViewIndex]);
+            var control = CollageImage.Create(path, this, view);
             view.ImageCanvas.Children.Add(control);
             _imageQueue.Enqueue(control);
 

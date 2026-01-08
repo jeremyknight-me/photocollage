@@ -88,8 +88,6 @@ internal sealed class ImageProcessorFullscreen : ImageProcessor
         var scaledWidth = view.WindowActualWidth / original.Width;
 
         // center image
-        scaledHeight = view.WindowActualHeight / original.Height;
-        scaledWidth = view.WindowActualWidth / original.Width;
         scaledWidth = scaledHeight = scaledHeight > scaledWidth ? scaledWidth : scaledHeight;
 
         RenderOptions.SetBitmapScalingMode(original, BitmapScalingMode.HighQuality);
