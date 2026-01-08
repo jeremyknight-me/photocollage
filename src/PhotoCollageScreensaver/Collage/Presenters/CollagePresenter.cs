@@ -33,7 +33,8 @@ public abstract class CollagePresenter
 
     public void Start()
     {
-        foreach (Screen screen in Monitor.GetScreens())
+        List<Screen> screens = Monitor.GetScreens();
+        foreach (Screen screen in screens)
         {
             var collageWindow = new CollageWindow();
             SetupWindow(collageWindow, screen);
@@ -70,6 +71,26 @@ public abstract class CollagePresenter
 
     protected abstract void SetUserControlPosition(UIElement control, ICollageView view);
 
+    protected void RemoveImageFromPanel(CollageImage control)
+    {
+        try
+        {
+            foreach (ICollageView view in Views)
+            {
+                if (view.ImageCanvas.Children.Contains(control))
+                {
+                    view.ImageCanvas.Children.Remove(control);
+                    control.Dispose();
+                    break;
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.Log(ex);
+        }
+    }
+
     private void StartAnimation()
     {
         try
@@ -83,7 +104,7 @@ public abstract class CollagePresenter
             DisplayImageTimerTick(null, null);
 
             var seconds = (int)SettingsRepository.Current.Speed;
-            DispatcherTimer timer = new() { Interval = new TimeSpan(0, 0, seconds) };
+            DispatcherTimer timer = new() { Interval = TimeSpan.FromSeconds(seconds) };
             timer.Tick += DisplayImageTimerTick;
             timer.Start();
         }

@@ -27,13 +27,39 @@ public partial class CollageImage : UserControl, IDisposable
     public static CollageImage Create(string path, CollagePresenter presenterToUse, ICollageView view)
         => new(path, presenterToUse, view);
 
+    public void FadeInImage()
+    {
+        try
+        {
+            Storyboard storyboard = new();
+            DoubleAnimation animation = new()
+            {
+                From = 0.0,
+                To = 1.0,
+                Duration = new Duration(TimeSpan.FromMilliseconds(500))
+            };
+            Storyboard.SetTargetName(animation, MainStackPanel.Name);
+            Storyboard.SetTargetProperty(animation, new PropertyPath(OpacityProperty));
+            storyboard.Children.Add(animation);
+            storyboard.Begin(this);
+        }
+        catch (Exception ex)
+        {
+            _presenter.Logger.Log(ex);
+        }
+    }
+
     public void FadeOutImage(Action<CollageImage> onCompletedAction)
     {
         try
         {
-            var storyboard = new Storyboard();
-            var duration = new TimeSpan(0, 0, 1);
-            var animation = new DoubleAnimation { From = 1.0, To = 0.0, Duration = new Duration(duration) };
+            Storyboard storyboard = new();
+            DoubleAnimation animation = new()
+            {
+                From = 1.0,
+                To = 0.0,
+                Duration = new Duration(TimeSpan.FromSeconds(1))
+            };
             storyboard.Completed += delegate
             {
                 onCompletedAction(this);
@@ -54,7 +80,7 @@ public partial class CollageImage : UserControl, IDisposable
         try
         {
             BorderType borderType = _presenter.Configuration.PhotoBorderType;
-            if (borderType == BorderType.None)
+            if (borderType == BorderType.None || _presenter.Configuration.IsFullScreen)
             {
                 MainBorder.BorderThickness = new Thickness(0);
                 InnerBorder.BorderThickness = new Thickness(0);

@@ -15,22 +15,6 @@ internal sealed class ImagePositionerFullscreen : ImagePositioner
 
     public override void Position()
     {
-        if (Presenter.Configuration.IsFullScreen)
-        {
-            if (Presenter.Configuration.PhotoFullScreenMode == FullScreenMode.Stretched)
-            {
-                Canvas.SetLeft(Control, 0);
-                Canvas.SetTop(Control, 0);
-            }
-            else
-            {
-                SetCenteredPosition();
-            }
-        }
-    }
-
-    private void SetCenteredPosition()
-    {
         var centeredHorizontal = (ViewportWidth - ControlWidth) / 2;
         var centeredVertical = (ViewportHeight - ControlHeight) / 2;
         Canvas.SetLeft(Control, centeredHorizontal);

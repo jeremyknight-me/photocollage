@@ -49,9 +49,10 @@ internal sealed class ImageProcessorFullscreen : ImageProcessor
         // Save the image to the memory stream in a suitable format (e.g., PNG, JPEG)
         image.Save(memoryStream, ImageFormat.Png); // You can change the format if needed
 
-        if (image.PropertyIdList.Contains(0x0112)) // 0x0112 is the EXIF tag for orientation
+        const int exifOrientationTagId = 0x0112;
+        if (image.PropertyIdList.Contains(exifOrientationTagId))
         {
-            PropertyItem propertyItem = image.GetPropertyItem(0x0112);
+            PropertyItem propertyItem = image.GetPropertyItem(exifOrientationTagId);
             int rotationValue = BitConverter.ToUInt16(propertyItem.Value, 0);
 
             // EXIF rotation values (defined by the EXIF specification)
@@ -85,12 +86,11 @@ internal sealed class ImageProcessorFullscreen : ImageProcessor
     {
         var scaledHeight = view.WindowActualHeight / original.Height;
         var scaledWidth = view.WindowActualWidth / original.Width;
-        if (Configuration.PhotoFullScreenMode == FullScreenMode.Centered)
-        {
-            scaledHeight = view.WindowActualHeight / original.Height;
-            scaledWidth = view.WindowActualWidth / original.Width;
-            scaledWidth = scaledHeight = scaledHeight > scaledWidth ? scaledWidth : scaledHeight;
-        }
+
+        // center image
+        scaledHeight = view.WindowActualHeight / original.Height;
+        scaledWidth = view.WindowActualWidth / original.Width;
+        scaledWidth = scaledHeight = scaledHeight > scaledWidth ? scaledWidth : scaledHeight;
 
         RenderOptions.SetBitmapScalingMode(original, BitmapScalingMode.HighQuality);
         var transform = new ScaleTransform(scaledWidth, scaledHeight);

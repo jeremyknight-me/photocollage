@@ -16,7 +16,7 @@
             <Setter Property="Visibility" Value="Collapsed" />
         </Style>
     </UserControl.Resources>
-    <StackPanel x:Name="MainStackPanel" Background="{StaticResource BrushGrayEEE}">
+    <StackPanel x:Name="MainStackPanel" Background="{StaticResource BrushGrayEEE}" Opacity="0">
         <StackPanel.Effect>
             <DropShadowEffect ShadowDepth="0"
                               Opacity="1"

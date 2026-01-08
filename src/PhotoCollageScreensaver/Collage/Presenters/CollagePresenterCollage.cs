@@ -34,6 +34,7 @@ internal sealed class CollagePresenterCollage : CollagePresenter
             }
 
             SetUserControlPosition(control, view);
+            control.FadeInImage();
         }
         catch (Exception ex)
         {
@@ -60,26 +61,6 @@ internal sealed class CollagePresenterCollage : CollagePresenter
         {
             Action<CollageImage> action = RemoveImageFromPanel;
             control.FadeOutImage(action);
-        }
-    }
-
-    private void RemoveImageFromPanel(CollageImage control)
-    {
-        try
-        {
-            foreach (ICollageView view in Views)
-            {
-                if (view.ImageCanvas.Children.Contains(control))
-                {
-                    view.ImageCanvas.Children.Remove(control);
-                    control.Dispose();
-                    break;
-                }
-            }
-        }
-        catch (Exception ex)
-        {
-            Logger.Log(ex);
         }
     }
 

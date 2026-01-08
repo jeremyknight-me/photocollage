@@ -10,24 +10,20 @@ namespace PhotoCollageScreensaver.Setup;
 
 public class SetupViewModel : INotifyPropertyChanged
 {
-    private readonly CollagePresenter _presenter;
     private readonly ISettingsRepository _settingsRepo;
     private readonly IDictionary<BorderType, KeyValuePair<string, string>> _borderTypePairs = BorderTypeHelper.MakeDictionary();
     private readonly IDictionary<ScreensaverSpeed, string> _speedPairs = ScreensaverSpeedHelper.MakeDictionary();
-    private readonly IDictionary<FullScreenMode, KeyValuePair<string, string>> _fullscreenModePairs = FullScreenModeHelper.MakeDictionary();
 
     public SetupViewModel(
-        CollagePresenter collagePresenter,
+        CollagePresenterFactory collagePresenterFactory,
         ISettingsRepository settingsRepository)
     {
-        _presenter = collagePresenter;
         _settingsRepo = settingsRepository;
 
         BorderOptions = new ObservableCollection<KeyValuePair<string, string>>(_borderTypePairs.Values);
         SpeedOptions = new ObservableCollection<string>(_speedPairs.Values);
-        FullScreenModeOptions = new ObservableCollection<KeyValuePair<string, string>>(_fullscreenModePairs.Values);
 
-        PreviewCommand = new RelayCommand((obj) => _presenter.Start());
+        PreviewCommand = new RelayCommand((obj) => collagePresenterFactory.Create().Start());
         OkCommand = new RelayCommand(obj =>
         {
             _settingsRepo.Save();
@@ -60,16 +56,6 @@ public class SetupViewModel : INotifyPropertyChanged
         {
             KeyValuePair<BorderType, KeyValuePair<string, string>> pair = _borderTypePairs.Single(x => x.Value.Key == value.Key);
             Config.PhotoBorderType = pair.Key;
-        }
-    }
-
-    public KeyValuePair<string, string> SelectedFullScreenMode
-    {
-        get => _fullscreenModePairs[Config.PhotoFullScreenMode];
-        set
-        {
-            KeyValuePair<FullScreenMode, KeyValuePair<string, string>> pair = _fullscreenModePairs.Single(x => x.Value.Key == value.Key);
-            Config.PhotoFullScreenMode = pair.Key;
         }
     }
 
@@ -108,8 +94,9 @@ public class SetupViewModel : INotifyPropertyChanged
 
     public bool NumberOfPhotosEnabled => !Config.IsFullScreen;
     public bool MaximumPhotoSizeSliderEnabled => !Config.IsFullScreen;
+    public bool BorderEnabled => !Config.IsFullScreen;
 
-    public bool FullScreenModeComboBoxEnabled => Config.IsFullScreen;
+    public bool FullscreenMatchOrientationEnabled => Config.IsFullScreen;
     public bool RotateBasedOnEXIFEnabled => Config.IsFullScreen;
 
     public bool RotateBasedOnEXIFCheck
@@ -132,9 +119,10 @@ public class SetupViewModel : INotifyPropertyChanged
             NotifyPropertyChanged();
             NotifyPropertyChanged(nameof(NumberOfPhotosEnabled));
             NotifyPropertyChanged(nameof(MaximumPhotoSizeSliderEnabled));
+            NotifyPropertyChanged(nameof(BorderEnabled));
             NotifyPropertyChanged(nameof(RotateBasedOnEXIFCheck));
             NotifyPropertyChanged(nameof(RotateBasedOnEXIFEnabled));
-            NotifyPropertyChanged(nameof(FullScreenModeComboBoxEnabled));
+            NotifyPropertyChanged(nameof(FullscreenMatchOrientationEnabled));
         }
     }
 

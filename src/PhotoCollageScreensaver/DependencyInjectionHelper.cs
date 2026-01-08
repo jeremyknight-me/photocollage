@@ -43,12 +43,11 @@ internal static class DependencyInjectionHelper
 
         services.AddTransient<CollagePresenterCollage>();
         services.AddTransient<CollagePresenterFullscreen>();
+        services.AddSingleton<CollagePresenterFactory>();
         services.AddTransient<CollagePresenter>(provider =>
         {
-            ISettingsRepository settingsRepo = provider.GetRequiredService<ISettingsRepository>();
-            return settingsRepo.Current.IsFullScreen
-                ? provider.GetRequiredService<CollagePresenterFullscreen>()
-                : provider.GetRequiredService<CollagePresenterCollage>();
+            CollagePresenterFactory factory = provider.GetRequiredService<CollagePresenterFactory>();
+            return factory.Create();
         });
 
         services.AddTransient<SetupViewModel>();
