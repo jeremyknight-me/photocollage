@@ -56,3 +56,19 @@ Video of Configuring Photo Collage Screensaver: https://www.youtube.com/watch?v=
 ### Testimonials
 
 > This is a fantastic screensaver and the borders add an artistic touch that no other product comes close to. - Doug H.
+
+## Development 
+
+**Publishing**
+
+In the project folder, run the following command to create the `.scr`.
+
+```powershell
+dotnet publish
+```
+
+If you would like to manually include everything that we have set in the `csproj`, run the following:
+
+```powershell
+dotnet publish -c Release --no-self-contained -r win-x64 -p:PublishSingleFile=true
+```
