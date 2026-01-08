@@ -45,10 +45,6 @@ internal sealed class ImageProcessorFullscreen : ImageProcessor
 
     private void GetExifRotationData(Image image)
     {
-        using var memoryStream = new MemoryStream();
-        // Save the image to the memory stream in a suitable format (e.g., PNG, JPEG)
-        image.Save(memoryStream, ImageFormat.Png); // You can change the format if needed
-
         const int exifOrientationTagId = 0x0112;
         if (image.PropertyIdList.Contains(exifOrientationTagId))
         {
