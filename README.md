@@ -44,8 +44,9 @@ Once installed, you can configure the screensaver in Control Panel -> Personaliz
 
 _Photo Coming Soon_
 
-Microsoft Support Screensaver Guide: https://support.microsoft.com/en-us/windows/change-your-screen-saver-settings-a9dc2a0c-dc8e-9161-d270-aaccc252082a
-Video of Configuring Photo Collage Screensaver: https://www.youtube.com/watch?v=2Sb3hSy9ECE
+Additional Links: 
+* [Microsoft Support Screensaver Guide](https://support.microsoft.com/en-us/windows/change-your-screen-saver-settings-a9dc2a0c-dc8e-9161-d270-aaccc252082a)
+* [Video of Configuring Photo Collage Screensaver (Video)](https://www.youtube.com/watch?v=2Sb3hSy9ECE)
 
 ## What People Are Saying
 
