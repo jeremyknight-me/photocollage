@@ -8,6 +8,7 @@ namespace PhotoCollageScreensaver.Collage.Presenters;
 internal sealed class CollagePresenterCollage : CollagePresenter
 {
     private readonly ConcurrentQueue<CollageImage> _imageQueue = new();
+    private readonly ConcurrentQueue<CollageImage> _imagesToRemoveQueue = new();
 
     public CollagePresenterCollage(
         ILogger logger,
@@ -30,7 +31,7 @@ internal sealed class CollagePresenterCollage : CollagePresenter
 
             if (_imageQueue.Count > SettingsRepository.Current.NumberOfPhotos)
             {
-                RemoveImageFromPanel(control);
+                RemoveImageFromQueue();
             }
 
             SetUserControlPosition(control, view);
@@ -52,6 +53,15 @@ internal sealed class CollagePresenterCollage : CollagePresenter
 
         DisplayViewIndex = nextIndex;
         return Views[nextIndex];
+    }
+
+    private void RemoveImageFromQueue()
+    {
+        if (_imageQueue.TryDequeue(out CollageImage control))
+        {
+            Action<CollageImage> action = RemoveImageFromPanel;
+            control.FadeOutImage(action);
+        }
     }
 
     private void RemoveImageFromPanel(CollageImage control)

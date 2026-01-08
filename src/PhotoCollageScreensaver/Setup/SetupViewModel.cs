@@ -138,7 +138,7 @@ public class SetupViewModel : INotifyPropertyChanged
         }
     }
 
-    protected CollageSettings Config => _settingsRepo.Current;
+    public CollageSettings Config => _settingsRepo.Current;
 
     private void RequestDirectoryFromUser()
     {
