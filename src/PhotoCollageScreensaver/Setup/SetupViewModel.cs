@@ -47,7 +47,6 @@ public class SetupViewModel : INotifyPropertyChanged
 
     public ObservableCollection<KeyValuePair<string, string>> BorderOptions { get; set; }
     public ObservableCollection<string> SpeedOptions { get; set; }
-    public ObservableCollection<KeyValuePair<string, string>> FullScreenModeOptions { get; set; }
 
     public KeyValuePair<string, string> SelectedBorderType
     {
