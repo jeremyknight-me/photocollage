@@ -6,13 +6,13 @@ internal abstract class ImagePositioner
 {
     protected ImagePositioner(CollagePresenter presenterToUse, UIElement controlToPosition, ICollageView view)
     {
-        this.Presenter = presenterToUse;
-        this.Control = controlToPosition;
-        this.Control.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
-        this.ControlWidth = Convert.ToInt32(this.Control.DesiredSize.Width);
-        this.ControlHeight = Convert.ToInt32(this.Control.DesiredSize.Height);
-        this.ViewportHeight = Convert.ToInt32(view.WindowActualHeight);
-        this.ViewportWidth = Convert.ToInt32(view.WindowActualWidth);
+        Presenter = presenterToUse;
+        Control = controlToPosition;
+        Control.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+        ControlWidth = Convert.ToInt32(Control.DesiredSize.Width);
+        ControlHeight = Convert.ToInt32(Control.DesiredSize.Height);
+        ViewportHeight = Convert.ToInt32(view.WindowActualHeight);
+        ViewportWidth = Convert.ToInt32(view.WindowActualWidth);
     }
 
     protected CollagePresenter Presenter { get; }

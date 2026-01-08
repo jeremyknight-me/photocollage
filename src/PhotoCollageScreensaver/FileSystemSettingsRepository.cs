@@ -4,54 +4,63 @@ namespace PhotoCollageScreensaver;
 
 internal class FileSystemSettingsRepository : ISettingsRepository
 {
-    private readonly string directoryPath;
-    private readonly string filePath;
+    private static readonly JsonSerializerOptions _jsonSerializerOptions = new()
+    {
+        WriteIndented = true,
+        IndentSize = 2,
+        NumberHandling = System.Text.Json.Serialization.JsonNumberHandling.AllowReadingFromString,
+        PropertyNameCaseInsensitive = true,
+        ReadCommentHandling = JsonCommentHandling.Skip
+    };
 
-    private CollageSettings current = null;
+    private readonly string _directoryPath;
+    private readonly string _filePath;
 
     public FileSystemSettingsRepository(string configurationFolderPath)
     {
-        this.directoryPath = configurationFolderPath;
-        this.filePath = Path.Combine(this.directoryPath, @"photo-collage.config");
-        this.EnsureDirectoryExists();
-        this.EnsureFileExists();
+        _directoryPath = configurationFolderPath;
+        _filePath = Path.Combine(_directoryPath, @"photo-collage.config");
+        EnsureDirectoryExists();
+        EnsureFileExists();
     }
 
     public CollageSettings Current
     {
         get
         {
-            if (this.current is null)
+            if (field is null)
             {
-                this.Load();
+                Load();
             }
 
-            return this.current;
+            return field;
         }
-        private set => this.current = value;
+        private set => field = value;
     }
 
     public void Load()
     {
-        var contents = File.ReadAllText(this.filePath);
-        this.Current = contents.Trim().StartsWith("<?xml")
-            ? this.LoadFromXml(contents) // provides fallback for upgrades from older version
-            : this.LoadFromJson(contents);
+        var contents = File.ReadAllText(_filePath);
+        if (string.IsNullOrWhiteSpace(contents))
+        {
+            Current = new CollageSettings();
+            return;
+        }
+
+        Current = contents.Trim().StartsWith("<?xml")
+            ? LoadFromXml(contents) // provides fallback for upgrades from older version
+            : LoadFromJson(contents);
     }
 
     public void Save()
     {
-        var options = new JsonSerializerOptions
-        {
-            WriteIndented = true
-        };
-        var json = JsonSerializer.Serialize(this.Current, options);
-        File.WriteAllText(this.filePath, json);
+        var json = JsonSerializer.Serialize(Current, _jsonSerializerOptions);
+        File.WriteAllText(_filePath, json);
     }
 
-    private CollageSettings LoadFromJson(string contents) => JsonSerializer.Deserialize<CollageSettings>(contents);
+    private static CollageSettings LoadFromJson(string contents) => JsonSerializer.Deserialize<CollageSettings>(contents, _jsonSerializerOptions);
 
-    private CollageSettings LoadFromXml(string contents)
+    private static CollageSettings LoadFromXml(string contents)
     {
         contents = contents.Replace("ScreensaverConfiguration", "Configuration");
         var serializer = new System.Xml.Serialization.XmlSerializer(typeof(CollageSettings));
@@ -61,18 +70,18 @@ internal class FileSystemSettingsRepository : ISettingsRepository
 
     private void EnsureDirectoryExists()
     {
-        if (!Directory.Exists(this.directoryPath))
+        if (!Directory.Exists(_directoryPath))
         {
-            Directory.CreateDirectory(this.directoryPath);
+            Directory.CreateDirectory(_directoryPath);
         }
     }
 
     private void EnsureFileExists()
     {
-        if (!File.Exists(this.filePath))
+        if (!File.Exists(_filePath))
         {
-            File.CreateText(this.filePath).Close();
-            this.Save();
+            File.CreateText(_filePath).Close();
+            Save();
         }
     }
 }

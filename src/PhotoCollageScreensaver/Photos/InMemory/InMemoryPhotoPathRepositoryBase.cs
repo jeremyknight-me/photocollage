@@ -4,14 +4,14 @@ namespace PhotoCollageScreensaver.Photos.InMemory;
 
 public abstract class InMemoryPhotoPathRepositoryBase : IPhotoPathRepository
 {
-    private readonly ISettingsRepository settingsRepo;
+    private readonly ISettingsRepository _settingsRepo;
 
     protected InMemoryPhotoPathRepositoryBase(ISettingsRepository settingsRepository)
     {
-        this.settingsRepo = settingsRepository;
+        _settingsRepo = settingsRepository;
     }
 
-    public bool HasPhotos => !this.Paths.IsEmpty;
+    public bool HasPhotos => !Paths.IsEmpty;
 
     protected ConcurrentBag<string> DisplayedPaths { get; } = [];
     protected ConcurrentQueue<string> Paths { get; } = [];
@@ -21,16 +21,16 @@ public abstract class InMemoryPhotoPathRepositoryBase : IPhotoPathRepository
         string path, fullPath;
         do
         {
-            path = this.GetNextPathIncludeReload();
+            path = GetNextPathIncludeReload();
             if (string.IsNullOrWhiteSpace(path))
             {
                 return string.Empty;
             }
 
-            fullPath = Path.Combine(this.settingsRepo.Current.Directory, path);
+            fullPath = Path.Combine(_settingsRepo.Current.Directory, path);
         } while (!File.Exists(fullPath));
 
-        this.DisplayedPaths.Add(path);
+        DisplayedPaths.Add(path);
         return fullPath;
     }
 
@@ -38,24 +38,24 @@ public abstract class InMemoryPhotoPathRepositoryBase : IPhotoPathRepository
 
     protected void LoadPathsIntoQueue(IEnumerable<string> paths)
     {
-        this.Paths.Clear();
+        Paths.Clear();
         foreach (var path in paths)
         {
-            this.Paths.Enqueue(path);
+            Paths.Enqueue(path);
         }
     }
 
     private string GetNextPathIncludeReload()
     {
-        if (this.Paths.TryDequeue(out var path))
+        if (Paths.TryDequeue(out var path))
         {
             return path;
         }
 
-        this.LoadPaths(this.DisplayedPaths);
-        this.DisplayedPaths.Clear();
-        return this.Paths.IsEmpty
+        LoadPaths(DisplayedPaths);
+        DisplayedPaths.Clear();
+        return Paths.IsEmpty
             ? string.Empty
-            : this.GetNextPathIncludeReload();
+            : GetNextPathIncludeReload();
     }
 }

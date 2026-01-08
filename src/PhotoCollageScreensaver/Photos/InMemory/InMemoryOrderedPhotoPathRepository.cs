@@ -8,5 +8,5 @@ public sealed class InMemoryOrderedPhotoPathRepository : InMemoryPhotoPathReposi
     }
 
     public override void LoadPaths(IEnumerable<string> paths)
-        => this.LoadPathsIntoQueue(paths);
+        => LoadPathsIntoQueue(paths);
 }

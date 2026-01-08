@@ -7,7 +7,7 @@ namespace PhotoCollageScreensaver.Collage.Presenters;
 
 internal sealed class CollagePresenterCollage : CollagePresenter
 {
-    private readonly ConcurrentQueue<CollageImage> imageQueue = new();
+    private readonly ConcurrentQueue<CollageImage> _imageQueue = new();
 
     public CollagePresenterCollage(
         ILogger logger,
@@ -22,55 +22,45 @@ internal sealed class CollagePresenterCollage : CollagePresenter
     {
         try
         {
-            var path = this.PhotoPathRepository.GetNextPath();
-            var view = this.GetNextDisplayView();
-            var control = CollageImage.Create(path, this, this.Views[this.DisplayViewIndex]);
+            var path = PhotoPathRepository.GetNextPath();
+            ICollageView view = GetNextDisplayView();
+            var control = CollageImage.Create(path, this, view);
             view.ImageCanvas.Children.Add(control);
-            this.imageQueue.Enqueue(control);
+            _imageQueue.Enqueue(control);
 
-            if (this.imageQueue.Count > this.SettingsRepository.Current.NumberOfPhotos)
+            if (_imageQueue.Count > SettingsRepository.Current.NumberOfPhotos)
             {
-                this.RemoveImageFromPanel(control);
+                RemoveImageFromQueue();
             }
 
-            this.SetUserControlPosition(control, view);
+            SetUserControlPosition(control, view);
+            control.FadeInImage();
         }
         catch (Exception ex)
         {
-            this.Logger.Log(ex);
+            Logger.Log(ex);
             ShutdownHelper.Shutdown();
         }
     }
 
     private ICollageView GetNextDisplayView()
     {
-        var nextIndex = this.DisplayViewIndex + 1;
-        if (nextIndex >= this.Views.Count)
+        var nextIndex = DisplayViewIndex + 1;
+        if (nextIndex >= Views.Count)
         {
             nextIndex = 0;
         }
 
-        this.DisplayViewIndex = nextIndex;
-        return this.Views[nextIndex];
+        DisplayViewIndex = nextIndex;
+        return Views[nextIndex];
     }
 
-    private void RemoveImageFromPanel(CollageImage control)
+    private void RemoveImageFromQueue()
     {
-        try
+        if (_imageQueue.TryDequeue(out CollageImage control))
         {
-            foreach (var view in this.Views)
-            {
-                if (view.ImageCanvas.Children.Contains(control))
-                {
-                    view.ImageCanvas.Children.Remove(control);
-                    control.Dispose();
-                    break;
-                }
-            }
-        }
-        catch (Exception ex)
-        {
-            this.Logger.Log(ex);
+            Action<CollageImage> action = RemoveImageFromPanel;
+            control.FadeOutImage(action);
         }
     }
 

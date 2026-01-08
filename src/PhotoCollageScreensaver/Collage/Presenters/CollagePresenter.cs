@@ -2,13 +2,14 @@
 using System.Windows.Threading;
 using PhotoCollageScreensaver.Collage.Imaging;
 using PhotoCollageScreensaver.Logging;
+using PhotoCollageScreensaver.Monitors;
 using PhotoCollageScreensaver.Photos;
 
 namespace PhotoCollageScreensaver.Collage.Presenters;
 
 public abstract class CollagePresenter
 {
-    private readonly IPhotoRepository photoRepo;
+    private readonly IPhotoRepository _photoRepo;
 
     protected CollagePresenter(
         ILogger logger,
@@ -16,39 +17,40 @@ public abstract class CollagePresenter
         IPhotoRepository photoRepository,
         IPhotoPathRepository photoPathRepository)
     {
-        this.Logger = logger;
-        this.SettingsRepository = settingsRepository;
-        this.photoRepo = photoRepository;
-        this.PhotoPathRepository = photoPathRepository;
+        Logger = logger;
+        SettingsRepository = settingsRepository;
+        _photoRepo = photoRepository;
+        PhotoPathRepository = photoPathRepository;
     }
 
-    public CollageSettings Configuration => this.SettingsRepository.Current;
+    public CollageSettings Configuration => SettingsRepository.Current;
     public ILogger Logger { get; }
 
     protected int DisplayViewIndex { get; set; } = -1;
     protected IPhotoPathRepository PhotoPathRepository { get; }
     protected ISettingsRepository SettingsRepository { get; }
-    protected List<ICollageView> Views { get; } = new();
+    protected List<ICollageView> Views { get; } = [];
 
     public void Start()
     {
-        foreach (var screen in Monitors.Monitor.GetScreens())
+        List<Screen> screens = Monitor.GetScreens();
+        foreach (Screen screen in screens)
         {
             var collageWindow = new CollageWindow();
-            this.SetupWindow(collageWindow, screen);
+            SetupWindow(collageWindow, screen);
         }
 
-        this.photoRepo.LoadPhotoPaths();
-        this.StartAnimation();
+        _photoRepo.LoadPhotoPaths();
+        StartAnimation();
     }
 
-    public int GetRandomNumber(int min, int max) => Random.Shared.Next(min, max);
+    public static int GetRandomNumber(int min, int max) => Random.Shared.Next(min, max);
 
-    public void SetupWindow<T>(T window, Monitors.Screen screen) where T : Window, ICollageView
+    public void SetupWindow<T>(T window, Screen screen) where T : Window, ICollageView
     {
         var backgroundBrush = new SolidColorBrush
         {
-            Opacity = this.SettingsRepository.Current.Opacity,
+            Opacity = SettingsRepository.Current.Opacity,
             Color = Colors.Black
         };
         window.Background = backgroundBrush;
@@ -57,38 +59,58 @@ public abstract class CollagePresenter
         window.Width = screen.Width;
         window.Height = screen.Height;
         window.Show();
-        this.Views.Add(window);
+        Views.Add(window);
     }
 
     internal ImageProcessor CreateImageProcessor(string filePath)
-        => this.Configuration.IsFullScreen
-            ? ImageProcessorFullscreen.Create(filePath, this.Configuration)
-            : new ImageProcessorCollage(filePath, this.Configuration);
+        => Configuration.IsFullScreen
+            ? ImageProcessorFullscreen.Create(filePath, Configuration)
+            : new ImageProcessorCollage(filePath, Configuration);
 
     protected abstract void DisplayImageTimerTick(object sender, EventArgs e);
 
     protected abstract void SetUserControlPosition(UIElement control, ICollageView view);
 
+    protected void RemoveImageFromPanel(CollageImage control)
+    {
+        try
+        {
+            foreach (ICollageView view in Views)
+            {
+                if (view.ImageCanvas.Children.Contains(control))
+                {
+                    view.ImageCanvas.Children.Remove(control);
+                    control.Dispose();
+                    break;
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.Log(ex);
+        }
+    }
+
     private void StartAnimation()
     {
         try
         {
-            if (!this.PhotoPathRepository.HasPhotos)
+            if (!PhotoPathRepository.HasPhotos)
             {
                 MessageBoxHelper.DisplayError("Folder does not contain any supported photos.");
                 ShutdownHelper.Shutdown();
             }
 
-            this.DisplayImageTimerTick(null, null);
+            DisplayImageTimerTick(null, null);
 
-            var seconds = (int)this.SettingsRepository.Current.Speed;
-            var timer = new DispatcherTimer { Interval = new TimeSpan(0, 0, seconds) };
-            timer.Tick += this.DisplayImageTimerTick;
+            var seconds = (int)SettingsRepository.Current.Speed;
+            DispatcherTimer timer = new() { Interval = TimeSpan.FromSeconds(seconds) };
+            timer.Tick += DisplayImageTimerTick;
             timer.Start();
         }
         catch (Exception ex)
         {
-            this.Logger.Log(ex);
+            Logger.Log(ex);
         }
     }
 }

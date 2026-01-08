@@ -15,33 +15,33 @@ internal sealed class ImagePositionerCollage : ImagePositioner
 
     public override void Position()
     {
-        this.SetHorizontalPosition();
-        this.SetVerticalPosition();
+        SetHorizontalPosition();
+        SetVerticalPosition();
     }
 
     private void SetHorizontalPosition()
     {
-        var position = this.Presenter.GetRandomNumber(0, this.ViewportWidth);
-        var max = this.ViewportWidth - this.ControlWidth;
+        var position = CollagePresenter.GetRandomNumber(0, ViewportWidth);
+        var max = ViewportWidth - ControlWidth;
 
         if (position > max)
         {
             position = max;
         }
 
-        Canvas.SetLeft(this.Control, position);
+        Canvas.SetLeft(Control, position);
     }
 
     private void SetVerticalPosition()
     {
-        var position = this.Presenter.GetRandomNumber(0, this.ViewportHeight);
-        var max = this.ViewportHeight - this.ControlHeight;
+        var position = CollagePresenter.GetRandomNumber(0, ViewportHeight);
+        var max = ViewportHeight - ControlHeight;
 
         if (position > max)
         {
             position = max;
         }
 
-        Canvas.SetTop(this.Control, position);
+        Canvas.SetTop(Control, position);
     }
 }

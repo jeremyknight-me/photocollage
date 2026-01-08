@@ -2,23 +2,24 @@
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
+using PhotoCollageScreensaver.Collage.Imaging;
 using PhotoCollageScreensaver.Collage.Presenters;
 
 namespace PhotoCollageScreensaver.Collage;
 
 public partial class CollageImage : UserControl, IDisposable
 {
-    private readonly string filePath;
-    private readonly CollagePresenter presenter;
-    private readonly ICollageView view;
+    private readonly string _filePath;
+    private readonly CollagePresenter _presenter;
+    private readonly ICollageView _view;
 
     private CollageImage(string path, CollagePresenter presenterToUse, ICollageView view)
     {
-        this.filePath = path;
-        this.presenter = presenterToUse;
-        this.view = view;
-        this.InitializeComponent();
-        this.Uid = Guid.NewGuid().ToString();
+        _filePath = path;
+        _presenter = presenterToUse;
+        _view = view;
+        InitializeComponent();
+        Uid = Guid.NewGuid().ToString();
     }
 
     public bool IsPortrait { get; private set; }
@@ -26,25 +27,51 @@ public partial class CollageImage : UserControl, IDisposable
     public static CollageImage Create(string path, CollagePresenter presenterToUse, ICollageView view)
         => new(path, presenterToUse, view);
 
-    public void FadeOutImage(Action<CollageImage> onCompletedAction)
+    public void FadeInImage()
     {
         try
         {
-            var storyboard = new Storyboard();
-            var duration = new TimeSpan(0, 0, 1);
-            var animation = new DoubleAnimation { From = 1.0, To = 0.0, Duration = new Duration(duration) };
-            storyboard.Completed += delegate
+            Storyboard storyboard = new();
+            DoubleAnimation animation = new()
             {
-                onCompletedAction(this);
+                From = 0.0,
+                To = 1.0,
+                Duration = new Duration(TimeSpan.FromMilliseconds(500))
             };
-            Storyboard.SetTargetName(animation, this.MainStackPanel.Name);
+            Storyboard.SetTargetName(animation, MainStackPanel.Name);
             Storyboard.SetTargetProperty(animation, new PropertyPath(OpacityProperty));
             storyboard.Children.Add(animation);
             storyboard.Begin(this);
         }
         catch (Exception ex)
         {
-            this.presenter.Logger.Log(ex);
+            _presenter.Logger.Log(ex);
+        }
+    }
+
+    public void FadeOutImage(Action<CollageImage> onCompletedAction)
+    {
+        try
+        {
+            Storyboard storyboard = new();
+            DoubleAnimation animation = new()
+            {
+                From = 1.0,
+                To = 0.0,
+                Duration = new Duration(TimeSpan.FromSeconds(1))
+            };
+            storyboard.Completed += delegate
+            {
+                onCompletedAction(this);
+            };
+            Storyboard.SetTargetName(animation, MainStackPanel.Name);
+            Storyboard.SetTargetProperty(animation, new PropertyPath(OpacityProperty));
+            storyboard.Children.Add(animation);
+            storyboard.Begin(this);
+        }
+        catch (Exception ex)
+        {
+            _presenter.Logger.Log(ex);
         }
     }
 
@@ -52,85 +79,78 @@ public partial class CollageImage : UserControl, IDisposable
     {
         try
         {
-            var borderType = this.presenter.Configuration.PhotoBorderType;
-            if (borderType == BorderType.None)
+            BorderType borderType = _presenter.Configuration.PhotoBorderType;
+            if (borderType == BorderType.None || _presenter.Configuration.IsFullScreen)
             {
-                this.MainBorder.BorderThickness = new Thickness(0);
-                this.InnerBorder.BorderThickness = new Thickness(0);
+                MainBorder.BorderThickness = new Thickness(0);
+                InnerBorder.BorderThickness = new Thickness(0);
             }
             else
             {
-                this.MainBorder.BorderThickness = new Thickness(10);
-                this.InnerBorder.BorderThickness = new Thickness(1);
+                MainBorder.BorderThickness = new Thickness(10);
+                InnerBorder.BorderThickness = new Thickness(1);
 
                 if (borderType == BorderType.BorderHeader)
                 {
-                    this.LoadBorderData(this.HeaderTextBlock);
+                    LoadBorderData(HeaderTextBlock);
                 }
                 else if (borderType == BorderType.BorderFooter)
                 {
-                    this.LoadBorderData(this.FooterTextBlock);
+                    LoadBorderData(FooterTextBlock);
                 }
             }
 
-            if (!this.presenter.Configuration.IsFullScreen)
+            if (!_presenter.Configuration.IsFullScreen)
             {
-                this.MainImage.MaxHeight = this.presenter.Configuration.MaximumSize;
-                this.MainImage.MaxWidth = this.presenter.Configuration.MaximumSize;
-                this.RotateImageFrame();
+                MainImage.MaxHeight = _presenter.Configuration.MaximumSize;
+                MainImage.MaxWidth = _presenter.Configuration.MaximumSize;
+                RotateImageFrame();
             }
 
-            this.LoadImage();
+            LoadImage();
         }
         catch (Exception ex)
         {
-            this.presenter.Logger.Log(ex);
+            _presenter.Logger.Log(ex);
         }
     }
 
     private void LoadBorderData(TextBlock textBlock)
     {
-        textBlock.Text = this.GetDate();
+        textBlock.Text = GetDate();
         textBlock.Visibility = Visibility.Visible;
     }
 
     private string GetDate()
     {
-        using var fs = new FileStream(this.filePath, FileMode.Open, FileAccess.Read, FileShare.Read);
-        var options = BitmapCreateOptions.DelayCreation | BitmapCreateOptions.IgnoreColorProfile | BitmapCreateOptions.IgnoreImageCache;
+        using FileStream fs = new(_filePath, FileMode.Open, FileAccess.Read, FileShare.Read);
+        BitmapCreateOptions options = BitmapCreateOptions.DelayCreation | BitmapCreateOptions.IgnoreColorProfile | BitmapCreateOptions.IgnoreImageCache;
         BitmapSource image = BitmapFrame.Create(fs, options, BitmapCacheOption.None);
-        var metadata = (BitmapMetadata)image.Metadata;
-        return metadata.DateTaken is null
-            ? File.GetLastWriteTime(this.filePath).ToShortDateString()
+        var metadata = image.Metadata as BitmapMetadata;
+        return metadata?.DateTaken is null
+            ? File.GetLastWriteTime(_filePath).ToShortDateString()
             : Convert.ToDateTime(metadata.DateTaken).ToShortDateString();
     }
 
     private void RotateImageFrame()
     {
-        var maximumAngle = this.presenter.Configuration.MaximumRotation;
-        var angle = this.presenter.GetRandomNumber(-maximumAngle, maximumAngle);
+        var maximumAngle = _presenter.Configuration.MaximumRotation;
+        var angle = CollagePresenter.GetRandomNumber(-maximumAngle, maximumAngle);
         var transform = new RotateTransform(angle);
-        this.MainStackPanel.RenderTransform = transform;
+        MainStackPanel.RenderTransform = transform;
     }
 
     private void LoadImage()
     {
-        var processor = this.presenter.CreateImageProcessor(this.filePath);
-        this.MainImage.Source = processor.GetImageSource(this.view);
-
-        if (!this.presenter.Configuration.IsFullScreen)
-        {
-            this.MainImage.MaxHeight = this.MainImage.Source.Height;
-            this.MainImage.MaxWidth = this.MainImage.Source.Width;
-        }
-
-        this.IsPortrait = this.MainImage.Source.Height > this.MainImage.Source.Width;
+        ImageProcessor processor = _presenter.CreateImageProcessor(_filePath);
+        MainImage.Source = processor.GetImageSource(_view);
+        IsPortrait = MainImage.Source.Height > MainImage.Source.Width;
     }
 
     public void Dispose()
     {
-        this.MainImage.Source = null;
-        this.MainStackPanel = null;
-        this.DataContext = null;
+        MainImage.Source = null;
+        DataContext = null;
+        GC.SuppressFinalize(this);
     }
 }

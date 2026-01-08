@@ -7,7 +7,7 @@ namespace PhotoCollageScreensaver.Collage.Imaging;
 
 internal sealed class ImageProcessorFullscreen : ImageProcessor
 {
-    private int rotationAngle;
+    private int _rotationAngle;
 
     private ImageProcessorFullscreen(string imagePathToUse, CollageSettings collageSettings)
         : base(imagePathToUse, collageSettings)
@@ -21,23 +21,23 @@ internal sealed class ImageProcessorFullscreen : ImageProcessor
 
     public override ImageSource GetImageSource(ICollageView view, BitmapSource sourceImage = null)
     {
-        sourceImage ??= this.GetBitmapImage();
-        if (this.Configuration.RotateBasedOnEXIF && this.rotationAngle != 0)
+        sourceImage ??= GetBitmapImage();
+        if (Configuration.RotateBasedOnEXIF && _rotationAngle != 0)
         {
-            var correctlyRotatedImage = this.GetRotateTransformedImage(sourceImage);
-            return this.GetFullScreenScaledImage(correctlyRotatedImage, view);
+            TransformedBitmap correctlyRotatedImage = GetRotateTransformedImage(sourceImage);
+            return GetFullScreenScaledImage(correctlyRotatedImage, view);
         }
 
-        return this.GetFullScreenScaledImage(sourceImage, view);
+        return GetFullScreenScaledImage(sourceImage, view);
     }
 
     public BitmapSource GetImage()
     {
-        var sourceImage = this.GetBitmapImage();
-        if (this.Configuration.RotateBasedOnEXIF)
+        BitmapSource sourceImage = GetBitmapImage();
+        if (Configuration.RotateBasedOnEXIF)
         {
-            using var image = Image.FromFile(this.ImagePath);
-            this.GetExifRotationData(image);
+            using var image = Image.FromFile(ImagePath);
+            GetExifRotationData(image);
         }
 
         return sourceImage;
@@ -45,30 +45,27 @@ internal sealed class ImageProcessorFullscreen : ImageProcessor
 
     private void GetExifRotationData(Image image)
     {
-        using var memoryStream = new MemoryStream();
-        // Save the image to the memory stream in a suitable format (e.g., PNG, JPEG)
-        image.Save(memoryStream, ImageFormat.Png); // You can change the format if needed
-
-        if (image.PropertyIdList.Contains(0x0112)) // 0x0112 is the EXIF tag for orientation
+        const int exifOrientationTagId = 0x0112;
+        if (image.PropertyIdList.Contains(exifOrientationTagId))
         {
-            var propertyItem = image.GetPropertyItem(0x0112);
+            PropertyItem propertyItem = image.GetPropertyItem(exifOrientationTagId);
             int rotationValue = BitConverter.ToUInt16(propertyItem.Value, 0);
 
             // EXIF rotation values (defined by the EXIF specification)
-            this.rotationAngle = 0;
-            this.ImageIsRotatedPlusMinusNinetyDegrees = false;
+            _rotationAngle = 0;
+            ImageIsRotatedPlusMinusNinetyDegrees = false;
             switch (rotationValue)
             {
                 case 3:
-                    this.rotationAngle = 180;
+                    _rotationAngle = 180;
                     break;
                 case 6:
-                    this.rotationAngle = 90;
-                    this.ImageIsRotatedPlusMinusNinetyDegrees = true;
+                    _rotationAngle = 90;
+                    ImageIsRotatedPlusMinusNinetyDegrees = true;
                     break;
                 case 8:
-                    this.rotationAngle = 270;
-                    this.ImageIsRotatedPlusMinusNinetyDegrees = true;
+                    _rotationAngle = 270;
+                    ImageIsRotatedPlusMinusNinetyDegrees = true;
                     break;
             }
         }
@@ -77,7 +74,7 @@ internal sealed class ImageProcessorFullscreen : ImageProcessor
     private TransformedBitmap GetRotateTransformedImage(BitmapSource original)
     {
         RenderOptions.SetBitmapScalingMode(original, BitmapScalingMode.HighQuality);
-        var transform = new RotateTransform(this.rotationAngle);
+        var transform = new RotateTransform(_rotationAngle);
         return new TransformedBitmap(original, transform);
     }
 
@@ -85,12 +82,9 @@ internal sealed class ImageProcessorFullscreen : ImageProcessor
     {
         var scaledHeight = view.WindowActualHeight / original.Height;
         var scaledWidth = view.WindowActualWidth / original.Width;
-        if (this.Configuration.PhotoFullScreenMode == FullScreenMode.Centered)
-        {
-            scaledHeight = view.WindowActualHeight / original.Height;
-            scaledWidth = view.WindowActualWidth / original.Width;
-            scaledWidth = scaledHeight = scaledHeight > scaledWidth ? scaledWidth : scaledHeight;
-        }
+
+        // center image
+        scaledWidth = scaledHeight = scaledHeight > scaledWidth ? scaledWidth : scaledHeight;
 
         RenderOptions.SetBitmapScalingMode(original, BitmapScalingMode.HighQuality);
         var transform = new ScaleTransform(scaledWidth, scaledHeight);

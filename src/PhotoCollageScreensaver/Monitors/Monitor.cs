@@ -3,14 +3,14 @@
 /// <summary>This class deals with monitors.</summary>
 internal static partial class Monitor
 {
-    private static List<Screen> screens = null;
+    private static List<Screen> _screens = [];
 
     internal static List<Screen> GetScreens()
     {
-        screens = new List<Screen>();
+        _screens = [];
         var handler = new DisplayDevices.EnumMonitorsDelegate(MonitorEnumProc);
         DisplayDevices.EnumDisplayMonitors(IntPtr.Zero, IntPtr.Zero, handler, IntPtr.Zero); // should be sequential
-        return screens;
+        return _screens;
     }
 
     private static bool MonitorEnumProc(IntPtr hMonitor, IntPtr hdcMonitor, DisplayDevices.RECT rect, IntPtr dwData)
@@ -30,7 +30,7 @@ internal static partial class Monitor
                 width,
                 height
             );
-            screens.Add(screen);
+            _screens.Add(screen);
         }
 
         return true;
