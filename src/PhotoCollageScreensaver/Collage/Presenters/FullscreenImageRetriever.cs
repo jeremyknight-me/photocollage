@@ -28,12 +28,14 @@ internal sealed class MatchedImageRetriever(IPhotoPathRepository photoPathReposi
 
     public override CollageImage GetNextImage(ICollageView view, CollagePresenter presenter)
     {
+        int count = 0;
         while(true)
         {
             var path = GetPathByOrientation(view);
             var control = CollageImage.Create(path, presenter, view);
 
-            if (control.IsPortrait == view.IsPortrait)
+            count++;
+            if (control.IsPortrait == view.IsPortrait || count > 20)
             {
                 return control;
             }
