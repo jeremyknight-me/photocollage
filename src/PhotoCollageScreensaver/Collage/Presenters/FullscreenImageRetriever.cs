@@ -48,6 +48,8 @@ internal sealed class MatchedImageRetriever(IPhotoPathRepository photoPathReposi
             {
                 _skippedLandscapePaths.Enqueue(path);
             }
+
+            control.Dispose();
         }
     }
 
