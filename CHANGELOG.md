@@ -5,7 +5,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 
 ---
 
-## Unreleased 
+## [Version 5.0.0](../../releases/tag/v5.0.0) - 16 January 2026
 
 ### Changed
 * Upgraded to .NET 10.
