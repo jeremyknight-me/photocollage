@@ -9,6 +9,7 @@ _This project was formally maintained by [@digital-lagniappe](https://github.com
 
 | Version | Installer | Requirements |
 |---|---|---|
+| [v5.0.0](https://github.com/jeremyknight-me/photocollage/releases/tag/v5.0.0) | NA | .NET 10.0+ |
 | [v4.0.0](https://github.com/jeremyknight-me/photocollage/releases/tag/v4) | NA | .NET 6.0+ |
 | [v3.0.0](https://github.com/jeremyknight-me/photocollage/releases/tag/v3.0.0) | NA | .NET 5.0+ |
 | [v2.0.0](https://github.com/jeremyknight-me/photocollage/releases/tag/v2.0) | Available | .NET Framework 4.5+ |
