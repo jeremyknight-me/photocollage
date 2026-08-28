@@ -33,6 +33,18 @@ public abstract class CollagePresenter
 
     public void Start()
     {
+        try
+        {
+            _photoRepo.LoadPhotoPaths();
+        }
+        catch (Exception exception) when (exception is IOException or UnauthorizedAccessException)
+        {
+            Logger.Log(exception);
+            MessageBoxHelper.DisplayError("Unable to read the selected photo folder. Check that it exists and that you have permission to access it.");
+            ShutdownHelper.Shutdown();
+            return;
+        }
+
         List<Screen> screens = Monitor.GetScreens();
         foreach (Screen screen in screens)
         {
@@ -40,7 +52,6 @@ public abstract class CollagePresenter
             SetupWindow(collageWindow, screen);
         }
 
-        _photoRepo.LoadPhotoPaths();
         StartAnimation();
     }
 
@@ -99,6 +110,7 @@ public abstract class CollagePresenter
             {
                 MessageBoxHelper.DisplayError("Folder does not contain any supported photos.");
                 ShutdownHelper.Shutdown();
+                return;
             }
 
             DisplayImageTimerTick(null, null);

@@ -15,13 +15,25 @@ public sealed class FileSystemPhotoRepository : IPhotoRepository
 
     public void LoadPhotoPaths()
     {
-        var length = _settingsRepo.Current.Directory.Length;
-        var paths = Directory.EnumerateFiles(_settingsRepo.Current.Directory, "*.*", SearchOption.AllDirectories)
+        var directory = _settingsRepo.Current.Directory;
+        if (!Directory.Exists(directory))
+        {
+            throw new DirectoryNotFoundException($"The photo directory '{directory}' does not exist or cannot be accessed.");
+        }
+
+        var paths = Directory.EnumerateFiles(
+            directory,
+            "*.*",
+            new EnumerationOptions
+            {
+                RecurseSubdirectories = true,
+                IgnoreInaccessible = true
+            })
             .Where(f =>
                 f.EndsWith(".jpg", StringComparison.OrdinalIgnoreCase)
                 || f.EndsWith(".jpeg", StringComparison.OrdinalIgnoreCase)
                 || f.EndsWith(".png", StringComparison.OrdinalIgnoreCase))
-            .Select(f => f[length..].TrimStart(['\\']))
+            .Select(f => Path.GetRelativePath(directory, f))
             .ToArray();
         _photoPathRepo.LoadPaths(paths);
     }
