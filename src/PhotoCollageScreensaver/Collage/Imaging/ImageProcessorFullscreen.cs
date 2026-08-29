@@ -1,6 +1,4 @@
-﻿using System.Drawing;
-using System.Drawing.Imaging;
-using System.Windows.Media;
+﻿using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace PhotoCollageScreensaver.Collage.Imaging;
@@ -22,7 +20,8 @@ internal sealed class ImageProcessorFullscreen : ImageProcessor
     public override ImageSource GetImageSource(ICollageView view, BitmapSource sourceImage = null)
     {
         sourceImage ??= GetBitmapImage();
-        if (Configuration.RotateBasedOnEXIF && _rotationAngle != 0)
+        GetExifRotationData(sourceImage);
+        if (_rotationAngle != 0)
         {
             TransformedBitmap correctlyRotatedImage = GetRotateTransformedImage(sourceImage);
             return GetFullScreenScaledImage(correctlyRotatedImage, view);
@@ -31,43 +30,31 @@ internal sealed class ImageProcessorFullscreen : ImageProcessor
         return GetFullScreenScaledImage(sourceImage, view);
     }
 
-    public BitmapSource GetImage()
+    private void GetExifRotationData(BitmapSource sourceImage)
     {
-        BitmapSource sourceImage = GetBitmapImage();
-        if (Configuration.RotateBasedOnEXIF)
+        _rotationAngle = 0;
+        ImageIsRotatedPlusMinusNinetyDegrees = false;
+
+        if (!Configuration.RotateBasedOnEXIF
+            || sourceImage.Metadata is not BitmapMetadata metadata
+            || metadata.GetQuery("/app1/ifd/{ushort=274}") is not ushort rotationValue)
         {
-            using var image = Image.FromFile(ImagePath);
-            GetExifRotationData(image);
+            return;
         }
 
-        return sourceImage;
-    }
-
-    private void GetExifRotationData(Image image)
-    {
-        const int exifOrientationTagId = 0x0112;
-        if (image.PropertyIdList.Contains(exifOrientationTagId))
+        switch (rotationValue)
         {
-            PropertyItem propertyItem = image.GetPropertyItem(exifOrientationTagId);
-            int rotationValue = BitConverter.ToUInt16(propertyItem.Value, 0);
-
-            // EXIF rotation values (defined by the EXIF specification)
-            _rotationAngle = 0;
-            ImageIsRotatedPlusMinusNinetyDegrees = false;
-            switch (rotationValue)
-            {
-                case 3:
-                    _rotationAngle = 180;
-                    break;
-                case 6:
-                    _rotationAngle = 90;
-                    ImageIsRotatedPlusMinusNinetyDegrees = true;
-                    break;
-                case 8:
-                    _rotationAngle = 270;
-                    ImageIsRotatedPlusMinusNinetyDegrees = true;
-                    break;
-            }
+            case 3:
+                _rotationAngle = 180;
+                break;
+            case 6:
+                _rotationAngle = 90;
+                ImageIsRotatedPlusMinusNinetyDegrees = true;
+                break;
+            case 8:
+                _rotationAngle = 270;
+                ImageIsRotatedPlusMinusNinetyDegrees = true;
+                break;
         }
     }
 
