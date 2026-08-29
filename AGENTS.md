@@ -64,9 +64,9 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 
 ### Project Context
 
-- Utility library: extension methods, new classes, and improvements to existing classes.
-- `/src` contains all source code including unit tests.
-- Target frameworks: .NET 10, 9, and 8; Entity Framework Core.
+- Windows screensaver that builds photo collages from photos on the user's computer.
+- `/src` contains the application source code and unit tests.
+- Target frameworks: .NET 10
 - Always use the latest C# language version.
 
 ### C# Coding Standards

@@ -148,7 +148,7 @@ internal class FileSystemSettingsRepository : ISettingsRepository
         {
             var backupFilePath = Path.Combine(
                 _directoryPath,
-                $"{Path.GetFileName(_filePath)}.invalid-{DateTime.UtcNow:yyyyMMddHHmmssfff}");
+                $"{Path.GetFileName(_filePath)}.invalid-{DateTime.UtcNow:yyyyMMddHHmmssfff}-{Guid.NewGuid():N}");
             File.Move(_filePath, backupFilePath);
         }
     }
