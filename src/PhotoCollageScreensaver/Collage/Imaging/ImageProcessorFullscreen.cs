@@ -20,7 +20,7 @@ internal sealed class ImageProcessorFullscreen : ImageProcessor
     public override ImageSource GetImageSource(ICollageView view, BitmapSource sourceImage = null)
     {
         sourceImage ??= GetBitmapImage();
-        GetExifRotationData(sourceImage);
+        GetExifRotationData();
         if (_rotationAngle != 0)
         {
             TransformedBitmap correctlyRotatedImage = GetRotateTransformedImage(sourceImage);
@@ -30,19 +30,17 @@ internal sealed class ImageProcessorFullscreen : ImageProcessor
         return GetFullScreenScaledImage(sourceImage, view);
     }
 
-    private void GetExifRotationData(BitmapSource sourceImage)
+    private void GetExifRotationData()
     {
         _rotationAngle = 0;
         ImageIsRotatedPlusMinusNinetyDegrees = false;
 
-        if (!Configuration.RotateBasedOnEXIF
-            || sourceImage.Metadata is not BitmapMetadata metadata
-            || metadata.GetQuery("/app1/ifd/{ushort=274}") is not ushort rotationValue)
+        if (!Configuration.RotateBasedOnEXIF)
         {
             return;
         }
 
-        switch (rotationValue)
+        switch (ReadExifOrientation())
         {
             case 3:
                 _rotationAngle = 180;
@@ -55,6 +53,24 @@ internal sealed class ImageProcessorFullscreen : ImageProcessor
                 _rotationAngle = 270;
                 ImageIsRotatedPlusMinusNinetyDegrees = true;
                 break;
+        }
+    }
+
+    // BitmapImage throws when asked for metadata, so read the orientation from a frame decoded straight from the file.
+    private ushort ReadExifOrientation()
+    {
+        try
+        {
+            using FileStream stream = new(ImagePath, FileMode.Open, FileAccess.Read, FileShare.Read);
+            BitmapCreateOptions options = BitmapCreateOptions.DelayCreation | BitmapCreateOptions.IgnoreColorProfile | BitmapCreateOptions.IgnoreImageCache;
+            BitmapFrame frame = BitmapFrame.Create(stream, options, BitmapCacheOption.None);
+            return frame.Metadata is BitmapMetadata metadata && metadata.GetQuery("System.Photo.Orientation") is ushort orientation
+                ? orientation
+                : (ushort)0;
+        }
+        catch (Exception exception) when (exception is NotSupportedException or InvalidOperationException or ArgumentException or IOException)
+        {
+            return 0;
         }
     }
 
