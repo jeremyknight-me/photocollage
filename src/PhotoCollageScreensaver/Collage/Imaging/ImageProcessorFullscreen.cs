@@ -68,7 +68,7 @@ internal sealed class ImageProcessorFullscreen : ImageProcessor
                 ? orientation
                 : (ushort)0;
         }
-        catch (Exception exception) when (exception is NotSupportedException or ArgumentException or IOException)
+        catch (Exception exception) when (exception is NotSupportedException or InvalidOperationException or ArgumentException or IOException)
         {
             return 0;
         }
