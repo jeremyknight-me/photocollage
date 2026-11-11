@@ -7,6 +7,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 
 ## Unreleased
 
+## Added
+
+* Added support for multiple photo folders, with the option to skip subfolders.
+
 ## Changed
 
 * Fixed EXIF rotation for full-screen images.

@@ -1,7 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Windows.Forms;
 using System.Windows.Input;
 using PhotoCollageScreensaver.Collage.Presenters;
 using PhotoCollageScreensaver.Commands;
@@ -31,10 +30,7 @@ public class SetupViewModel : INotifyPropertyChanged
         });
         SaveCommand = new RelayCommand(obj => _settingsRepo.Save());
         CancelCommand = new ShutdownCommand();
-        SelectDirectoryCommand = new RelayCommand(obj =>
-        {
-            RequestDirectoryFromUser();
-        });
+        EditFoldersCommand = new RelayCommand(obj => EditFolders());
     }
 
     public event PropertyChangedEventHandler PropertyChanged;
@@ -43,7 +39,7 @@ public class SetupViewModel : INotifyPropertyChanged
     public ICommand OkCommand { get; private set; }
     public ICommand SaveCommand { get; private set; }
     public ICommand CancelCommand { get; private set; }
-    public ICommand SelectDirectoryCommand { get; private set; }
+    public ICommand EditFoldersCommand { get; private set; }
 
     public ObservableCollection<KeyValuePair<string, string>> BorderOptions { get; set; }
     public ObservableCollection<string> SpeedOptions { get; set; }
@@ -58,16 +54,13 @@ public class SetupViewModel : INotifyPropertyChanged
         }
     }
 
-    public string SelectedDirectory
+    public string FoldersSummary
     {
-        get => Config.Directory;
-        set
+        get
         {
-            if (value != Config.Directory)
-            {
-                Config.Directory = value;
-                NotifyPropertyChanged();
-            }
+            var names = string.Join(", ", Config.Directories.Select(d => Path.GetFileName(Path.TrimEndingDirectorySeparator(d)) is { Length: > 0 } name ? name : d));
+            var excludedCount = Config.ExcludedDirectories.Count;
+            return excludedCount == 0 ? names : $"{names} · {excludedCount} excluded";
         }
     }
 
@@ -127,29 +120,15 @@ public class SetupViewModel : INotifyPropertyChanged
 
     public CollageSettings Config => _settingsRepo.Current;
 
-    private void RequestDirectoryFromUser()
+    private void EditFolders()
     {
-        var dialog = new FolderBrowserDialog
+        var viewModel = new FoldersViewModel(Config.Directories, Config.ExcludedDirectories);
+        var window = new FoldersWindow(viewModel) { Owner = System.Windows.Application.Current.MainWindow };
+        if (window.ShowDialog() == true)
         {
-            ShowNewFolderButton = false
-        };
-        if (!string.IsNullOrWhiteSpace(Config.Directory))
-        {
-            dialog.SelectedPath = Config.Directory;
-        }
-
-        DialogResult result = dialog.ShowDialog();
-        if (result == DialogResult.OK)
-        {
-            var path = dialog.SelectedPath;
-            if (!string.IsNullOrEmpty(path))
-            {
-                SelectedDirectory = path;
-            }
-        }
-        else if (result != DialogResult.Cancel)
-        {
-            SelectedDirectory = string.Empty;
+            Config.Directories = viewModel.GetDirectories();
+            Config.ExcludedDirectories = viewModel.GetExcludedDirectories();
+            NotifyPropertyChanged(nameof(FoldersSummary));
         }
     }
 
