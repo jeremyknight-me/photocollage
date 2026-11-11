@@ -98,26 +98,26 @@
                        Foreground="White" />
         </Canvas>
 
-        <Label Content="Directory:"
+        <Label Content="Folders:"
                Grid.Row="1"
-               Target="{Binding ElementName=DirectoryTextBox}" 
-               ToolTip="Directory to find photos."
-               HorizontalAlignment="Right" 
+               Target="{Binding ElementName=FoldersTextBox}"
+               ToolTip="Folders to find photos in."
+               HorizontalAlignment="Right"
                VerticalAlignment="Center"/>
-        <TextBox x:Name="DirectoryTextBox"
+        <TextBox x:Name="FoldersTextBox"
                  Grid.Row="1"
                  Grid.Column="1"
                  Foreground="Black"
                  IsReadOnly="True"
-               ToolTip="Directory to find photos."
-                 Text="{Binding SelectedDirectory}" />
-        <Button x:Name="DirectorySelectButton"
-                Content="Select"
+               ToolTip="Folders to find photos in."
+                 Text="{Binding FoldersSummary, Mode=OneWay}" />
+        <Button x:Name="FoldersEditButton"
+                Content="Edit..."
                 Grid.Row="1"
                 Grid.Column="2"
                 Padding="3,3,3,3"
-                ToolTip="Select directory to find photos."
-                Command="{Binding SelectDirectoryCommand}" />
+                ToolTip="Choose folders to include and subfolders to skip."
+                Command="{Binding EditFoldersCommand}" />
 
         <Label Content="Random:"
                Target="{Binding ElementName=IsRandomCheckBox}"

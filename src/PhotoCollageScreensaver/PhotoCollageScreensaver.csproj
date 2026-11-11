@@ -25,6 +25,10 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <InternalsVisibleTo Include="PhotoCollageScreensaver.Tests" />
+  </ItemGroup>
+
   <Target Name="RenamePublishedFile" AfterTargets="Publish">
     <ItemGroup>
       <PublishedFile Include="$(PublishDir)PhotoCollageScreensaver.exe" />

@@ -1,8 +1,15 @@
-﻿namespace PhotoCollageScreensaver;
+﻿using System.Text.Json.Serialization;
+
+namespace PhotoCollageScreensaver;
 
 public sealed class CollageSettings
 {
-    public string Directory { get; set; } = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
+    // Single folder from older settings files; moved into Directories on load and no longer written.
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string Directory { get; set; }
+
+    public List<string> Directories { get; set; } = [];
+    public List<string> ExcludedDirectories { get; set; } = [];
     public bool IsGrayscale { get; set; } = false;
     public bool IsRandom { get; set; } = true;
     public int MaximumRotation { get; set; } = 15;
@@ -15,4 +22,18 @@ public sealed class CollageSettings
     public BorderType PhotoBorderType { get; set; } = BorderType.Border;
     public ScreensaverSpeed Speed { get; set; } = ScreensaverSpeed.Medium;
     public bool UseVerboseLogging { get; set; } = false;
+
+    internal void MigrateLegacyDirectory()
+    {
+        Directories ??= [];
+        ExcludedDirectories ??= [];
+        if (Directories.Count == 0)
+        {
+            Directories.Add(string.IsNullOrWhiteSpace(Directory)
+                ? Environment.GetFolderPath(Environment.SpecialFolder.MyPictures)
+                : Directory);
+        }
+
+        Directory = null;
+    }
 }
