@@ -106,6 +106,19 @@ public sealed class FoldersViewModelTests : IDisposable
     }
 
     [Fact]
+    public void RemoveFolderCommand_NestedRoot_KeepsExclusionsStillInsideAnotherRoot()
+    {
+        var screenshots = _temp.Combine(@"Photos\Screenshots");
+        var viewModel = new FoldersViewModel([_photos, screenshots], [_temp.Combine(@"Photos\Screenshots\Old")]);
+        viewModel.SelectedNode = viewModel.Roots[1];
+
+        viewModel.RemoveFolderCommand.Execute(null);
+
+        Assert.Equal([_photos], viewModel.GetDirectories());
+        Assert.Equal([_temp.Combine(@"Photos\Screenshots\Old")], viewModel.GetExcludedDirectories());
+    }
+
+    [Fact]
     public void RemoveFolderCommand_SubfolderSelected_CannotExecute()
     {
         var viewModel = new FoldersViewModel([_photos], []);

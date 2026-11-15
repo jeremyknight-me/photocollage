@@ -84,7 +84,8 @@ public sealed class FoldersViewModel
     {
         FolderNode root = SelectedNode;
         Roots.Remove(root);
-        _excluded.RemoveWhere(excluded => string.Equals(excluded, root.Path, StringComparison.OrdinalIgnoreCase) || IsUnder(excluded, root.Path));
+        // An exclusion can sit under a nested root and its parent root at once; keep it while any root still covers it.
+        _excluded.RemoveWhere(excluded => !Roots.Any(r => string.Equals(excluded, r.Path, StringComparison.OrdinalIgnoreCase) || IsUnder(excluded, r.Path)));
         SelectedNode = null;
     }
 
