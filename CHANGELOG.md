@@ -12,6 +12,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 * Fixed EXIF rotation for full-screen images.
 * Fixed settings failing to recover from a corrupt or missing configuration file.
 * Fixed the screensaver showing black windows instead of an error when the photo folder is unavailable.
+* Fixed the full-screen screensaver showing only a black screen when EXIF Rotate is on.
 
 ## [Version 5.0.0](../../releases/tag/v5.0.0) - 16 January 2026
 
