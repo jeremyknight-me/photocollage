@@ -4,13 +4,6 @@ namespace PhotoCollageScreensaver.Photos.InMemory;
 
 public abstract class InMemoryPhotoPathRepositoryBase : IPhotoPathRepository
 {
-    private readonly ISettingsRepository _settingsRepo;
-
-    protected InMemoryPhotoPathRepositoryBase(ISettingsRepository settingsRepository)
-    {
-        _settingsRepo = settingsRepository;
-    }
-
     public bool HasPhotos => !Paths.IsEmpty;
 
     protected ConcurrentBag<string> DisplayedPaths { get; } = [];
@@ -18,7 +11,7 @@ public abstract class InMemoryPhotoPathRepositoryBase : IPhotoPathRepository
 
     public string GetNextPath()
     {
-        string path, fullPath;
+        string path;
         do
         {
             path = GetNextPathIncludeReload();
@@ -26,12 +19,10 @@ public abstract class InMemoryPhotoPathRepositoryBase : IPhotoPathRepository
             {
                 return string.Empty;
             }
-
-            fullPath = Path.Combine(_settingsRepo.Current.Directory, path);
-        } while (!File.Exists(fullPath));
+        } while (!File.Exists(path));
 
         DisplayedPaths.Add(path);
-        return fullPath;
+        return path;
     }
 
     public abstract void LoadPaths(IEnumerable<string> paths);
