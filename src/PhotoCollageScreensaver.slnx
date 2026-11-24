@@ -3,4 +3,5 @@
     <File Path=".editorconfig" />
   </Folder>
   <Project Path="PhotoCollageScreensaver/PhotoCollageScreensaver.csproj" />
+  <Project Path="PhotoCollageScreensaver.Tests/PhotoCollageScreensaver.Tests.csproj" />
 </Solution>

@@ -36,7 +36,11 @@ internal class FileSystemSettingsRepository : ISettingsRepository
 
             return field;
         }
-        private set => field = value;
+        private set
+        {
+            value.MigrateLegacyDirectory();
+            field = value;
+        }
     }
 
     public void Load()
