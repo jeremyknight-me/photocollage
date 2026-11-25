@@ -3,13 +3,9 @@ name: CI
 on:
   workflow_dispatch:
   push:
-    branches: [ "master" ]
-    paths:
-      - 'src/**'
+    branches: [ "main" ]
   pull_request:
-    branches: [ "master" ]
-    paths:
-      - 'src/**'
+    branches: [ "main" ]
 
 permissions:
   contents: read
