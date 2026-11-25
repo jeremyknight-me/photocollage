@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ "master" ]
+    paths:
+      - 'src/**'
+  pull_request:
+    branches: [ "master" ]
+    paths:
+      - 'src/**'
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  ci:
+    name: CI gate
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: '11.x'
+
+      - name: Restore
+        run: dotnet restore src/PhotoCollageScreensaver.slnx
+
+      - name: Build
+        run: dotnet build src/PhotoCollageScreensaver.slnx --configuration Release --no-restore --warnaserror -p:EnforceCodeStyleInBuild=true
+
+      - name: Lint
+        run: dotnet format src/PhotoCollageScreensaver.slnx --no-restore --verify-no-changes --severity error
+
+      - name: Test
+        run: dotnet test --solution src/PhotoCollageScreensaver.slnx --configuration Release --no-build --no-restore
