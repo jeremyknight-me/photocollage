@@ -47,7 +47,7 @@ public class RelayCommand : ICommand
     public void Destroy()
     {
         _canExecute = _ => false;
-        _execute = _ => {};
+        _execute = _ => { };
     }
 
     private static bool DefaultCanExecute(object parameter) => true;

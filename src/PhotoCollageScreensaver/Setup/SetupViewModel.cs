@@ -19,8 +19,8 @@ public class SetupViewModel : INotifyPropertyChanged
     {
         _settingsRepo = settingsRepository;
 
-        BorderOptions = new ObservableCollection<KeyValuePair<string, string>>(_borderTypePairs.Values);
-        SpeedOptions = new ObservableCollection<string>(_speedPairs.Values);
+        BorderOptions = [with(_borderTypePairs.Values)];
+        SpeedOptions = [with(_speedPairs.Values)];
 
         PreviewCommand = new RelayCommand((obj) => collagePresenterFactory.Create().Start());
         OkCommand = new RelayCommand(obj =>
@@ -122,8 +122,8 @@ public class SetupViewModel : INotifyPropertyChanged
 
     private void EditFolders()
     {
-        var viewModel = new FoldersViewModel(Config.Directories, Config.ExcludedDirectories);
-        var window = new FoldersWindow(viewModel) { Owner = System.Windows.Application.Current.MainWindow };
+        FoldersViewModel viewModel = new(Config.Directories, Config.ExcludedDirectories);
+        FoldersWindow window = new(viewModel) { Owner = Application.Current.MainWindow };
         if (window.ShowDialog() == true)
         {
             Config.Directories = viewModel.GetDirectories();

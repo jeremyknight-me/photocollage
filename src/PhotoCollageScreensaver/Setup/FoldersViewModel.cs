@@ -33,7 +33,7 @@ public sealed class FoldersViewModel
 
     public List<string> GetExcludedDirectories()
     {
-        var directories = GetDirectories();
+        List<string> directories = GetDirectories();
         return _excluded
             .Where(excluded => directories.Any(directory => IsUnder(excluded, directory)))
             .Order(StringComparer.OrdinalIgnoreCase)
@@ -91,7 +91,7 @@ public sealed class FoldersViewModel
 
     private void RequestFolderFromUser()
     {
-        var dialog = new FolderBrowserDialog
+        FolderBrowserDialog dialog = new()
         {
             ShowNewFolderButton = false
         };

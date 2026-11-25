@@ -2,7 +2,7 @@
 
 public sealed class FileSystemSettingsRepositoryTests : IDisposable
 {
-    private const string SettingsFileName = "photo-collage.config";
+    private const string settingsFileName = "photo-collage.config";
     private readonly TempDirectory _temp = new();
 
     public void Dispose() => _temp.Dispose();
@@ -10,7 +10,7 @@ public sealed class FileSystemSettingsRepositoryTests : IDisposable
     [Fact]
     public void Current_LegacyDirectorySetting_MovesIntoDirectories()
     {
-        File.WriteAllText(_temp.Combine(SettingsFileName), """
+        File.WriteAllText(_temp.Combine(settingsFileName), """
             {
               "Directory": "C:\\Users\\someone\\Pictures",
               "IsFullScreen": true,
@@ -32,13 +32,13 @@ public sealed class FileSystemSettingsRepositoryTests : IDisposable
     [Fact]
     public void Save_AfterLegacyLoad_WritesDirectoriesAndDropsDirectory()
     {
-        File.WriteAllText(_temp.Combine(SettingsFileName), """{ "Directory": "C:\\Photos" }""");
+        File.WriteAllText(_temp.Combine(settingsFileName), """{ "Directory": "C:\\Photos" }""");
         var repository = new FileSystemSettingsRepository(_temp.Path);
         _ = repository.Current;
 
         repository.Save();
 
-        var json = File.ReadAllText(_temp.Combine(SettingsFileName));
+        var json = File.ReadAllText(_temp.Combine(settingsFileName));
         Assert.Contains("\"Directories\"", json);
         Assert.DoesNotContain("\"Directory\"", json);
         Assert.Equal([@"C:\Photos"], new FileSystemSettingsRepository(_temp.Path).Current.Directories);
