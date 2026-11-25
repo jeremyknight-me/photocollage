@@ -29,7 +29,7 @@ public sealed class FileSystemPhotoRepository : IPhotoRepository
         }
 
         HashSet<string> excluded = new(settings.ExcludedDirectories.Select(NormalizePath), StringComparer.OrdinalIgnoreCase);
-        HashSet<string> seen = new(StringComparer.OrdinalIgnoreCase); // overlapping folders must not show a photo twice
+        HashSet<string> seen = [with(StringComparer.OrdinalIgnoreCase)]; // overlapping folders must not show a photo twice
         var paths = directories
             .SelectMany(directory => EnumeratePhotos(directory, excluded))
             .Where(seen.Add)

@@ -27,7 +27,7 @@ internal sealed class MatchedImageRetriever(IPhotoPathRepository photoPathReposi
 
     public override CollageImage GetNextImage(ICollageView view, CollagePresenter presenter)
     {
-        int count = 0;
+        var count = 0;
         while (true)
         {
             var path = GetPathByOrientation(view);
